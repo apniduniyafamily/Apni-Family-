@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Our Soch | Apni Duniya</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --dark:#0b1220;
+  --primary:#1d4ed8;
+  --accent:#38bdf8;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#334155;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Mukta','Noto Sans Devanagari',sans-serif}
+body{background:var(--bg);color:var(--text)}
+
+/* HEADER */
+header{
+  position:fixed;top:0;left:0;width:100%;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 18px;z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.logo{font-size:21px;font-weight:800;color:var(--dark)}
+.back-btn{font-size:15px;cursor:pointer;color:var(--primary);font-weight:700}
+
+/* HERO */
+.hero{
+  padding:110px 20px 60px;
+  text-align:center;
+  background:radial-gradient(circle at top,#1e3a8a,#020617);
+  color:#fff;
+}
+.hero h1{font-size:32px;font-weight:800}
+.hero p{margin-top:12px;font-size:17px;max-width:780px;margin:auto;opacity:.95}
+
+/* SECTION */
+.section{
+  padding:55px 20px;
+  text-align:center;
+}
+.section h2{font-size:28px;font-weight:800;color:var(--dark)}
+.section p{
+  max-width:820px;
+  margin:12px auto 0;
+  font-size:16.5px;
+  line-height:1.65;
+}
+
+/* CARDS */
+.cards{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:22px;
+}
+.card{
+  background:var(--card);
+  padding:28px 22px;
+  border-radius:20px;
+  box-shadow:0 12px 28px rgba(0,0,0,.08);
+  transition:.35s;
+}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 24px 46px rgba(0,0,0,.18);
+}
+.card i{font-size:30px;color:var(--primary);margin-bottom:12px}
+.card h3{margin-bottom:8px;color:var(--primary)}
+.card p{font-size:15.5px}
+
+/* MORE LINK */
+.more-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  font-size:15px;
+  font-weight:700;
+  color:var(--primary);
+  cursor:pointer;
+}
+.more-link i{transition:.25s}
+.more-link:hover i{transform:translateX(4px)}
+
+/* POPUP */
+.popup{
+  position:fixed;inset:0;
+  background:rgba(2,6,23,.65);
+  backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;
+  z-index:3000;
+}
+.popup-box{
+  background:#fff;
+  max-width:560px;width:90%;
+  padding:26px;border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+  animation:pop .35s ease;
+}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-box h3{margin-bottom:10px;color:var(--primary)}
+.popup-box p{font-size:16px;line-height:1.65}
+.close-btn{
+  margin-top:18px;display:inline-block;
+  padding:8px 22px;border-radius:20px;
+  background:var(--primary);color:#fff;
+  font-weight:700;cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+  background:#020617;color:#cbd5f5;
+  text-align:center;padding:16px;font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Apni Duniya</div>
+  <div class="back-btn" onclick="goBack()">
+    <i class="fa-solid fa-arrow-left"></i> Home
+  </div>
+</header>
+
+<section class="hero">
+  <h1>हमारी सोच</h1>
+  <p>
+    Apni Duniya की सोच का आधार है —  
+    सम्मान, संवाद और समान अवसर।
+  </p>
+</section>
+
+<section class="section">
+  <h2>हमारी मूल विचारधारा</h2>
+  <p>
+    हम मानते हैं कि हर व्यक्ति की सोच महत्वपूर्ण है।  
+    मतभेद हो सकते हैं, लेकिन सम्मान अनिवार्य है।
+  </p>
+  <div class="more-link" onclick="openPopup('core')">
+    और जानें <i class="fa-solid fa-arrow-right"></i>
+  </div>
+</section>
+
+<section class="section">
+  <h2>हम किन मूल्यों पर चलते हैं</h2>
+
+  <div class="cards">
+    <div class="card">
+      <i class="fa-solid fa-brain"></i>
+      <h3>स्वतंत्र सोच</h3>
+      <p>अपनी बात कहने की आज़ादी, बिना डर के।</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-scale-balanced"></i>
+      <h3>समानता</h3>
+      <p>हर सदस्य के लिए बराबर सम्मान और अवसर।</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-comments"></i>
+      <h3>संवाद</h3>
+      <p>शांत, सकारात्मक और समाधान-मुखी चर्चा।</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-handshake"></i>
+      <h3>सहयोग</h3>
+      <p>एक-दूसरे की मदद और सामूहिक प्रगति।</p>
+    </div>
+  </div>
+
+  <div class="more-link" onclick="openPopup('values')">
+    और जानें <i class="fa-solid fa-arrow-right"></i>
+  </div>
+</section>
+
+<section class="section">
+  <h2>हम क्या नहीं चाहते</h2>
+  <p>
+    नफरत, अपमान, और असहिष्णुता  
+    Apni Duniya की सोच का हिस्सा नहीं हैं।
+  </p>
+  <div class="more-link" onclick="openPopup('no')">
+    और जानें <i class="fa-solid fa-arrow-right"></i>
+  </div>
+</section>
+
+<footer>
+  © 2026 Apni Duniya | सबकी अपनी सोच
+</footer>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h3 id="popTitle"></h3>
+    <p id="popText"></p>
+    <div class="close-btn" onclick="closePopup()">Close</div>
+  </div>
+</div>
+
+<script>
+function goBack(){
+  window.location.href="index.html";
+}
+function openPopup(type){
+  const t=document.getElementById("popTitle");
+  const p=document.getElementById("popText");
+
+  if(type==="core"){
+    t.innerText="मूल विचारधारा";
+    p.innerText="Apni Duniya का मानना है कि सोच अलग हो सकती है, लेकिन सम्मान और इंसानियत साझा होनी चाहिए। यही हमारी बुनियाद है।";
+  }
+  if(type==="values"){
+    t.innerText="हमारे मूल्य";
+    p.innerText="स्वतंत्र सोच, समानता, संवाद और सहयोग — ये चार स्तंभ Apni Duniya को मजबूत बनाते हैं और समुदाय को जोड़ते हैं।";
+  }
+  if(type==="no"){
+    t.innerText="हम क्या नहीं चाहते";
+    p.innerText="हम किसी भी प्रकार की नफरत, भेदभाव, या अपमानजनक व्यवहार को स्वीकार नहीं करते।";
+  }
+  document.getElementById("popup").style.display="flex";
+}
+function closePopup(){
+  document.getElementById("popup").style.display="none";
+}
+</script>
+
+</body>
+</html>

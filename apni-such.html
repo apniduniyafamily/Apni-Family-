@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Apni Soch | Apni Duniya</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===== RESET & BASE STYLES ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #2d3748;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* ===== HEADER STYLES ===== */
+.header {
+    background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.left, .right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.left i {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.left b {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.right i {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.post-btn {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(66, 153, 225, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ===== FEED CONTAINER ===== */
+.feed {
+    max-width: 500px;
+    margin: 15px auto;
+    padding: 0 12px;
+    min-height: 400px;
+}
+
+/* Loading Animation */
+.loading-container {
+    text-align: center;
+    padding: 40px 15px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin: 10px 0;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.loading-dots div {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4299e1;
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+.loading-dots div:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots div:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.empty-feed {
+    text-align: center;
+    padding: 50px 20px;
+    color: #718096;
+    font-size: 0.9rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-top: 15px;
+    border: 1px dashed #e2e8f0;
+}
+
+.empty-feed i {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #cbd5e0;
+}
+
+.empty-feed h3 {
+    color: #4a5568;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.empty-feed p {
+    color: #a0aec0;
+    font-size: 0.85rem;
+}
+
+/* ===== CARD STYLES ===== */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #edf2f7;
+}
+
+/* ===== USER INFO ===== */
+.user {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4299e1, #667eea);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(66, 153, 225, 0.3);
+    border: 2px solid white;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.username {
+    font-size: 0.95rem;
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-time {
+    color: #a0aec0;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.card-content {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    padding: 0 4px;
+    word-wrap: break-word;
+}
+
+/* ===== ACTIONS ===== */
+.actions {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    user-select: none;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    color: #718096;
+    font-family: inherit;
+}
+
+.action-btn:hover {
+    background: #f7fafc;
+    color: #4299e1;
+}
+
+.action-btn i {
+    font-size: 0.9rem;
+}
+
+.action-btn.liked {
+    color: #e53e3e;
+}
+
+.action-btn.liked i {
+    color: #e53e3e;
+}
+
+/* Like Animation */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.like-animation {
+    animation: heartBeat 0.6s ease;
+}
+
+/* ===== REPLY BOX ===== */
+.reply-box {
+    display: none;
+    margin-top: 12px;
+    gap: 8px;
+    align-items: flex-start;
+    background: #f7fafc;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.reply-input {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    font-size: 12px;
+    background: #fff;
+    resize: none;
+    min-height: 36px;
+    max-height: 60px;
+    font-family: inherit;
+}
+
+.reply-send-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 36px;
+    min-width: 70px;
+}
+
+.reply-send-btn i {
+    font-size: 11px;
+}
+
+/* ===== REPLIES ===== */
+.replies {
+    margin-top: 12px;
+    padding-left: 12px;
+    border-left: 1px solid #e2e8f0;
+}
+
+.reply-item {
+    background: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    border: 1px solid #e2e8f0;
+}
+
+.reply-user {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.reply-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.reply-username {
+    font-weight: 600;
+    color: #48bb78;
+    font-size: 0.8rem;
+}
+
+.reply-text {
+    color: #4a5568;
+    line-height: 1.4;
+    padding-left: 26px;
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.reply-time {
+    color: #a0aec0;
+    font-size: 0.65rem;
+    text-align: right;
+    margin-top: 3px;
+}
+
+/* ===== MODAL STYLES ===== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 320px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-box h3 {
+    color: #2d3748;
+    margin-bottom: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.modal-box h3 i {
+    color: #4299e1;
+}
+
+.modal-box input,
+.modal-box textarea {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 13px;
+    background: #f8fafc;
+    color: #2d3748;
+    font-family: inherit;
+}
+
+.modal-box textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* Updated modal actions - buttons side by side */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.modal-actions button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.submit {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    order: 2;
+}
+
+.cancel {
+    background: #fff;
+    color: #718096;
+    border: 1px solid #e2e8f0;
+    order: 1;
+}
+
+/* ===== AVATAR GRID ===== */
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 18px 0;
+}
+
+.avatar-option {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.3rem;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.avatar-option.selected {
+    border-color: #4299e1;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+/* ===== NOTIFICATION TOAST ===== */
+.toast {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #2d3748;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1001;
+    animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+    max-width: 280px;
+    font-size: 13px;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.toast-success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+
+.toast-info {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+}
+
+.toast-error {
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+}
+
+.toast i {
+    font-size: 1rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 360px) {
+    .feed {
+        padding: 0 10px;
+    }
+    
+    .header {
+        padding: 10px 12px;
+    }
+    
+    .post-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }
+    
+    .username {
+        font-size: 0.9rem;
+    }
+    
+    .actions {
+        gap: 15px;
+        font-size: 12px;
+    }
+    
+    .modal-box {
+        padding: 16px;
+    }
+    
+    .avatar-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+    
+    .avatar-option {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+    }
+    
+    .reply-input {
+        font-size: 11px;
+        padding: 6px 8px;
+    }
+    
+    .reply-send-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        min-width: 60px;
+    }
+    
+    .reply-item {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+    
+    .reply-avatar {
+        width: 18px;
+        height: 18px;
+        font-size: 0.75rem;
+    }
+    
+    .reply-username {
+        font-size: 0.75rem;
+    }
+    
+    .reply-text {
+        font-size: 0.75rem;
+        padding-left: 24px;
+    }
+}
+
+/* Tablet and Desktop View */
+@media (min-width: 768px) {
+    .feed {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
+    
+    .header {
+        padding: 15px 30px;
+    }
+    
+    .left b {
+        font-size: 1.4rem;
+    }
+    
+    .post-btn {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+    
+    .modal-box {
+        max-width: 400px;
+        padding: 24px;
+    }
+    
+    .modal-box h3 {
+        font-size: 1.3rem;
+    }
+    
+    .modal-actions button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<div class="left">
+<i class="fa-solid fa-arrow-left" onclick="location.href='index.html'"></i>
+<b>Apni Duniya</b>
+</div>
+
+<div class="right">
+<i class="fa-solid fa-user" onclick="openProfile()" title="Profile"></i>
+<i class="fa-solid fa-user-shield" onclick="location.href='final-admin.html'" title="Admin"></i>
+<button class="post-btn" onclick="openPost()">
+    <i class="fa-solid fa-pen-to-square"></i> Post
+</button>
+</div>
+</div>
+
+<div class="feed" id="feed">
+<div class="loading-container" id="loading">
+    <div class="loading-dots">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <p>Loading posts...</p>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div class="modal" id="loginModal">
+<div class="modal-box">
+<h3><i class="fa-solid fa-sign-in-alt"></i> Login</h3>
+<input id="loginName" placeholder="Username">
+<input id="loginMobile" placeholder="Mobile Number" type="tel">
+<div class="modal-actions">
+<button class="cancel" onclick="loginModal.style.display='none'">Cancel</button>
+<button class="submit" onclick="login()">Login</button>
+</div>
+</div>
+</div>
+
+<!-- PROFILE -->
+<div class="modal" id="profileModal">
+<div class="modal-box">
+<h3><i class="fa-solid fa-user-circle"></i> Profile</h3>
+<input id="pName" readonly placeholder="Username">
+<input id="pMobile" readonly placeholder="Mobile Number">
+
+<div class="avatar-grid" id="avatarGrid"></div>
+
+<div class="modal-actions">
+<button class="cancel" onclick="closeProfile()">Close</button>
+</div>
+</div>
+</div>
+
+<!-- POST -->
+<div class="modal" id="postModal">
+<div class="modal-box">
+<h3><i class="fa-solid fa-feather"></i> Share Your Thought</h3>
+<textarea id="thought" placeholder="What's on your mind?"></textarea>
+<div class="modal-actions">
+<button class="cancel" onclick="closePost()">Cancel</button>
+<button class="submit" onclick="post()">Post</button>
+</div>
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, get, child, push, onValue, update, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAHAQjn4sTuR9FiGF3ljRrFEMZQjsx-SHg",
+authDomain:"apni-duniya-b53d7.firebaseapp.com",
+databaseURL:"https://apni-duniya-b53d7-default-rtdb.firebaseio.com",
+projectId:"apni-duniya-b53d7",
+storageBucket:"apni-duniya-b53d7.firebasestorage.app",
+messagingSenderId:"178853058918",
+appId:"1:178853058918:web:91dfaa5c5e41446da290a7"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
+/* UPDATED AVATARS - Emoji based human avatars */
+const avatars=[
+{t:"👨",c:"#4299e1",name:"Man"},
+{t:"👩",c:"#e53e3e",name:"Woman"},
+{t:"👦",c:"#38a169",name:"Boy"},
+{t:"👧",c:"#9f7aea",name:"Girl"},
+{t:"🧔",c:"#ed8936",name:"Man with Beard"},
+{t:"👨‍💼",c:"#3182ce",name:"Business Man"},
+{t:"👩‍💼",c:"#d69e2e",name:"Business Woman"},
+{t:"👨‍🔧",c:"#4a5568",name:"Mechanic"},
+{t:"👩‍🍳",c:"#e53e3e",name:"Chef"},
+{t:"👨‍🌾",c:"#38a169",name:"Farmer"}
+];
+
+// Store current user avatar
+let currentUserAvatar = null;
+
+/* NOTIFICATION FUNCTION */
+function showNotification(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+window.onload=()=>{
+if(!localStorage.getItem("user")) {
+    loginModal.style.display="flex";
+} else {
+    // Load user avatar on page load
+    loadUserAvatar();
+}
+};
+
+function currentUser(){return localStorage.getItem("user");}
+
+/* LOAD USER AVATAR */
+function loadUserAvatar() {
+    get(child(ref(db),"normalUsers/" + currentUser())).then(snap => {
+        if(snap.exists() && snap.val().avatar) {
+            currentUserAvatar = snap.val().avatar;
+        } else {
+            // Default avatar if not set
+            currentUserAvatar = avatars[0];
+        }
+    });
+}
+
+/* LOGIN */
+window.login=()=>{
+let n=loginName.value.trim();
+let m=loginMobile.value.trim();
+
+if(!n || !m) {
+    showNotification("Please enter both username and mobile number", "error");
+    return;
+}
+
+get(child(ref(db),"normalUsers")).then(s=>{
+let found = false;
+s.forEach(x=>{
+if(x.val().username==n && x.val().mobile==m){
+localStorage.setItem("user",n);
+localStorage.setItem("mobile",m);
+loginModal.style.display="none";
+found = true;
+loadUserAvatar();
+showNotification("Login successful!", "success");
+}
+});
+if(!found) {
+    showNotification("Invalid username or mobile number", "error");
+}
+});
+};
+
+/* PROFILE */
+window.openProfile=()=>{
+pName.value=currentUser();
+pMobile.value=localStorage.getItem("mobile") || "Not available";
+profileModal.style.display="flex";
+
+// Load current user avatar if exists
+get(child(ref(db),"normalUsers/" + currentUser())).then(snap => {
+    let currentAvatar = null;
+    if(snap.exists() && snap.val().avatar) {
+        currentAvatar = snap.val().avatar;
+    }
+    
+    avatarGrid.innerHTML="";
+    avatars.forEach((a,i)=>{
+        const isSelected = currentAvatar && currentAvatar.t === a.t && currentAvatar.c === a.c;
+        avatarGrid.innerHTML+=`<div class="avatar-option ${isSelected ? 'selected' : ''}" style="background:${a.c}" onclick="setAvatar(${i})" title="${a.name}">${a.t}</div>`;
+    });
+});
+}
+
+window.setAvatar=async (i)=>{
+const selectedAvatar = avatars[i];
+// Update user's avatar
+await update(ref(db,"normalUsers/"+currentUser()),{
+    avatar: selectedAvatar
+});
+
+// Update all existing posts with new avatar
+const postsSnapshot = await get(ref(db, "posts"));
+const updatePromises = [];
+
+if(postsSnapshot.exists()) {
+    postsSnapshot.forEach(post => {
+        const postData = post.val();
+        if(postData.user === currentUser()) {
+            updatePromises.push(
+                update(ref(db, "posts/" + post.key + "/avatar"), selectedAvatar)
+            );
+        }
+    });
+}
+
+// Update all existing replies with new avatar
+const repliesSnapshot = await get(ref(db, "replies"));
+if(repliesSnapshot.exists()) {
+    repliesSnapshot.forEach(postReplies => {
+        postReplies.forEach(reply => {
+            const replyData = reply.val();
+            if(replyData.user === currentUser()) {
+                updatePromises.push(
+                    update(ref(db, "replies/" + postReplies.key + "/" + reply.key + "/avatar"), selectedAvatar)
+                );
+            }
+        });
+    });
+}
+
+// Wait for all updates to complete
+await Promise.all(updatePromises);
+
+currentUserAvatar = selectedAvatar;
+showNotification("Avatar updated successfully! All your posts and replies have been updated.", "success");
+profileModal.style.display="none";
+}
+
+window.closeProfile=()=>profileModal.style.display="none";
+
+/* POST */
+window.openPost=()=>postModal.style.display="flex";
+window.closePost=()=>postModal.style.display="none";
+
+window.post=()=>{
+const thoughtText = thought.value.trim();
+if(!thoughtText) {
+    showNotification("Please write something to post", "error");
+    return;
+}
+
+// Use current avatar or default first avatar
+const avatarToUse = currentUserAvatar || avatars[0];
+
+push(ref(db,"posts"),{
+user:currentUser(),
+text:thoughtText,
+likes:0,
+time:Date.now(),
+avatar: avatarToUse
+});
+thought.value="";
+closePost();
+showNotification("Post published successfully!", "success");
+};
+
+/* LOAD POSTS */
+let isLoadingPosts = true;
+onValue(ref(db,"posts"),snap=>{
+const loadingElement = document.getElementById('loading');
+if(loadingElement) loadingElement.style.display = 'none';
+
+feed.innerHTML="";
+
+if(isLoadingPosts) {
+    setTimeout(() => {
+        isLoadingPosts = false;
+    }, 500);
+}
+
+if(!snap.exists()) {
+    feed.innerHTML = `
+        <div class="empty-feed">
+            <i class="fa-solid fa-comment-dots"></i>
+            <h3>No Posts Yet</h3>
+            <p>Be the first to share your thoughts!</p>
+        </div>
+    `;
+    return;
+}
+
+snap.forEach(s=>{
+let d=s.val(); 
+let id=s.key;
+
+let card=document.createElement("div");
+card.className="card";
+
+const postTime = new Date(d.time).toLocaleString('en-IN', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+});
+
+card.innerHTML=`
+<div class="user">
+<div class="avatar" style="background: ${d.avatar ? d.avatar.c : '#4299e1'}">${d.avatar ? d.avatar.t : '👤'}</div>
+<div class="user-info">
+    <div class="username">
+        ${d.user}
+        <span class="post-time">${postTime}</span>
+    </div>
+</div>
+</div>
+<div class="card-content">${d.text}</div>
+
+<div class="actions">
+<button class="action-btn" onclick="likePost('${id}',${d.likes||0}, this)">
+    <i class="fa-regular fa-heart"></i> 
+    <span>Like (${d.likes||0})</span>
+</button>
+<button class="action-btn" onclick="openReply(this)">
+    <i class="fa-regular fa-comment"></i> Reply
+</button>
+<button class="action-btn" onclick="reportPost('${id}')">
+    <i class="fa-regular fa-flag"></i> Report
+</button>
+</div>
+
+<div class="reply-box">
+<textarea class="reply-input" placeholder="Write your reply..."></textarea>
+<button class="reply-send-btn" onclick="sendReply(this,'${id}')">
+    <i class="fa-solid fa-paper-plane"></i> Send
+</button>
+</div>
+
+<div class="replies" id="r-${id}"></div>
+`;
+
+feed.prepend(card);
+
+// Load replies for this post
+onValue(ref(db, "replies/" + id), replySnap => {
+    const repliesContainer = document.getElementById(`r-${id}`);
+    if(repliesContainer) {
+        repliesContainer.innerHTML = '';
+        
+        if(replySnap.exists()) {
+            replySnap.forEach(reply => {
+                const replyData = reply.val();
+                const replyTime = new Date(replyData.time || Date.now()).toLocaleString('en-IN', {
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true
+                });
+                const replyAvatar = replyData.avatar || avatars[0];
+                
+                const replyElement = document.createElement('div');
+                replyElement.className = 'reply-item';
+                replyElement.innerHTML = `
+                    <div class="reply-user">
+                        <div class="reply-avatar" style="background: ${replyAvatar.c}">${replyAvatar.t}</div>
+                        <div class="reply-username">${replyData.user}</div>
+                    </div>
+                    <div class="reply-text">${replyData.text}</div>
+                    <div class="reply-time">${replyTime}</div>
+                `;
+                repliesContainer.appendChild(replyElement);
+            });
+        }
+    }
+});
+});
+});
+
+/* LIKE with Animation - NO NOTIFICATION */
+window.likePost=(id,c,btn)=>{
+update(ref(db,"posts/"+id),{likes:c+1});
+
+// Animation effect
+const heartIcon = btn.querySelector('i');
+heartIcon.classList.remove('fa-regular');
+heartIcon.classList.add('fa-solid', 'like-animation');
+btn.classList.add('liked');
+
+// Update count
+const span = btn.querySelector('span');
+span.textContent = `Like (${c+1})`;
+
+// Reset animation class after animation completes
+setTimeout(() => {
+    heartIcon.classList.remove('like-animation');
+}, 600);
+};
+
+/* REPLY */
+window.openReply=(btn)=>{
+const replyBox = btn.closest('.card').querySelector('.reply-box');
+replyBox.style.display="flex";
+replyBox.querySelector('.reply-input').focus();
+};
+
+window.sendReply=(btn,id)=>{
+const replyBox = btn.closest('.reply-box');
+const replyInput = replyBox.querySelector('.reply-input');
+const replyText = replyInput.value.trim();
+
+if(!replyText) {
+    showNotification("Please write a reply", "error");
+    return;
+}
+
+// Use current avatar or default avatar for replies
+const replyAvatar = currentUserAvatar || avatars[0];
+
+push(ref(db,"replies/"+id),{
+user:currentUser(),
+text:replyText,
+time:Date.now(),
+avatar: replyAvatar
+});
+replyInput.value="";
+replyBox.style.display="none";
+};
+
+/* REPORT */
+window.reportPost=id=>{
+push(ref(db,"reports"),{
+    post:id,
+    user:currentUser(),
+    time:Date.now()
+});
+showNotification("Post reported. Thank you for keeping the community safe.", "success");
+};
+
+</script>
+
+</body>
+</html>

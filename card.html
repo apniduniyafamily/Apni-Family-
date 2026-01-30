@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Apni Duniya – ID Card</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Mukta', sans-serif;
+  background:#e5e7eb;
+  padding:20px;
+}
+.container{
+  max-width:520px;
+  margin:auto;
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+h2{text-align:center}
+
+/* FORM */
+label{font-size:13px;font-weight:600}
+input,select{
+  width:100%;
+  padding:7px;
+  margin:6px 0 10px;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#111827;
+  color:#fff;
+  border:none;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+/* CARD */
+.card{
+  width:86mm;
+  height:56mm;
+  border:1px solid #000;
+  border-radius:6px;
+  position:relative;
+  overflow:hidden;
+  margin:15px auto;
+  box-sizing:border-box;
+}
+.top{height:3mm;background:#f4a261}
+
+/* HEADER */
+.header{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:2mm 3mm;
+  font-weight:800;
+}
+.logo{
+  background:#111827;
+  color:#fff;
+  padding:1mm 2mm;
+  font-size:8pt;
+  border-radius:3px;
+}
+.header-text{
+  font-size:8.5pt;
+  letter-spacing:.3px;
+}
+
+/* LINE */
+.line{border-top:1.5px solid #2a9d8f}
+
+/* FRONT */
+.front-body{
+  display:flex;
+  gap:3mm;
+  padding:2.5mm;
+}
+.photo{
+  width:18mm;
+  height:24mm;
+  border:1px solid #000;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.info{
+  font-size:8.2pt;
+  line-height:1.35;
+}
+.info .name{
+  font-size:9pt;
+  font-weight:800;
+}
+.idbox{
+  text-align:center;
+  font-size:8pt;
+  font-weight:700;
+  border-top:1px solid #000;
+  padding:.8mm;
+}
+
+/* BOTTOM */
+.bottom-wrap{
+  position:absolute;
+  bottom:1.2mm;
+  left:0;
+  right:0;
+}
+.center-line{
+  border-top:1.5px solid #1d4ed8;
+}
+.center-text{
+  text-align:center;
+  font-size:8pt;
+  font-weight:700;
+  color:#1d4ed8;
+  margin-top:.5mm;
+}
+
+/* BACK */
+.back-body{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:3mm;
+  padding:2.5mm;
+}
+
+/* 🔧 FIXED RULES SIZE */
+.rules{
+  font-size:7pt;        /* छोटा किया */
+  line-height:1.2;      /* compact */
+  max-height:30mm;      /* card ke andar */
+  overflow:hidden;      /* niche nahi jayega */
+}
+.rules b{
+  font-size:7.2pt;
+}
+.rules ul{
+  padding-left:4mm;
+  margin:.5mm 0 0;
+}
+.rules li{
+  margin-bottom:0.6mm; /* spacing kam */
+}
+
+.qr{
+  width:22mm;
+  height:22mm;
+  border:1px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* PRINT */
+@media print{
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  h2,label,input,select,button{display:none}
+  body{background:#fff;padding:0}
+  .container{box-shadow:none;padding:0}
+  .card{page-break-after:always;margin:0 auto}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>APNI DUNIYA – ID CARD</h2>
+
+<label>Your Name</label>
+<input id="name">
+
+<label>Your Role</label>
+<select id="role">
+  <option value="GM">General Member (GM)</option>
+  <option value="EM">Executive Member (EM)</option>
+  <option value="TL">Team Leader (TL)</option>
+  <option value="DH">Department Head (DH)</option>
+  <option value="CC">Chief Coordinator (CC)</option>
+  <option value="FSL">Founder & Supreme Leader (FSL)</option>
+</select>
+
+<label>Upload Photo (Max 200KB, 300×400px)</label>
+<input type="file" id="photo" accept="image/*">
+
+<button onclick="generate()">Generate Card</button>
+<button onclick="window.print()">🖨️ Print</button>
+
+<!-- FRONT -->
+<div class="card" id="front" style="display:none">
+  <div class="top"></div>
+  <div class="header">
+    <div class="logo">AD</div>
+    <div class="header-text">APNI DUNIYA</div>
+  </div>
+  <div class="line"></div>
+
+  <div class="front-body">
+    <div class="photo"><img id="img"></div>
+    <div class="info">
+      <b>Name:</b> <span class="name" id="fname"></span><br>
+      <b>Role:</b> <span id="frole"></span><br>
+      <b>Date:</b> <span id="fdate"></span>
+    </div>
+  </div>
+
+  <div class="idbox" id="fid"></div>
+
+  <div class="bottom-wrap">
+    <div class="center-line"></div>
+    <div class="center-text">अपनी सोच के साथ, सबके साथ</div>
+  </div>
+</div>
+
+<!-- BACK -->
+<div class="card" id="back" style="display:none">
+  <div class="top"></div>
+  <div class="header">
+    <div class="header-text">
+      Unique Identification Authority of Apni Duniya
+    </div>
+  </div>
+  <div class="line"></div>
+
+  <div class="back-body">
+    <div class="rules">
+      <b>नियम एवं दायित्व</b>
+      <ul id="rules"></ul>
+    </div>
+    <div class="qr" id="qrcode"></div>
+  </div>
+
+  <div class="bottom-wrap">
+    <div class="center-line"></div>
+    <div class="center-text">सबकी अपनी सोच</div>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+<script>
+let count = 1;
+
+/* PHOTO VALIDATION */
+function validatePhoto(file, callback){
+  if(file.size > 200*1024){
+    alert("Photo 200KB से ज्यादा नहीं होनी चाहिए");
+    return;
+  }
+  const imgTemp = new Image();
+  imgTemp.onload = ()=>{
+    if(imgTemp.width > 300 || imgTemp.height > 400){
+      alert("Photo 300x400px से बड़ी नहीं होनी चाहिए");
+      return;
+    }
+    callback();
+  };
+  imgTemp.src = URL.createObjectURL(file);
+}
+
+/* ROLE-WISE DETAILED RULES (HINDI) */
+const roleRules = {
+  GM:[
+    "संगठन के सभी नियमों एवं दिशानिर्देशों का पालन करना अनिवार्य है।",
+    "अनुशासन एवं मर्यादा बनाए रखना प्रत्येक सदस्य का कर्तव्य है।",
+    "वरिष्ठ सदस्यों द्वारा दिए गए निर्देशों का सम्मानपूर्वक पालन करें।",
+    "संगठन की छवि को नुकसान पहुँचाने वाला कोई कार्य न करें।",
+    "संगठन के हित को व्यक्तिगत हित से ऊपर रखें।"
+  ],
+  EM:[
+    "सौंपे गए कार्यों का समयबद्ध एवं ईमानदारी से निष्पादन करें।",
+    "कार्य से संबंधित गोपनीय जानकारी सुरक्षित रखें।",
+    "अपने अधिकारों का दुरुपयोग न करें।",
+    "वरिष्ठों को नियमित रिपोर्ट प्रस्तुत करें।",
+    "संगठन की नीति एवं अनुशासन का पालन अनिवार्य है।"
+  ],
+  TL:[
+    "टीम का प्रभावी नेतृत्व एवं मार्गदर्शन करना आपकी जिम्मेदारी है।",
+    "टीम के सभी सदस्यों में अनुशासन सुनिश्चित करें।",
+    "टीम के कार्यों की नियमित समीक्षा करें।",
+    "समस्या उत्पन्न होने पर उच्च स्तर को अवगत कराएँ।",
+    "संगठन की नीतियों को टीम तक स्पष्ट रूप से पहुँचाएँ।"
+  ],
+  DH:[
+    "अपने विभाग के संपूर्ण संचालन की जिम्मेदारी निभाएँ।",
+    "विभागीय कार्यों में पारदर्शिता एवं अनुशासन बनाए रखें।",
+    "केंद्रीय निर्देशों को विभाग में प्रभावी रूप से लागू करें।",
+    "विभागीय प्रदर्शन की रिपोर्ट नियमित रूप से प्रस्तुत करें।",
+    "संगठन के उद्देश्यों के अनुरूप कार्य सुनिश्चित करें।"
+  ],
+  CC:[
+    "सभी विभागों के बीच समन्वय स्थापित करना मुख्य दायित्व है।",
+    "संगठन के निर्णयों को सभी स्तरों पर लागू कराएँ।",
+    "कार्य प्रणाली में एकरूपता एवं अनुशासन बनाए रखें।",
+    "विवाद की स्थिति में समाधान हेतु पहल करें।",
+    "संगठन की संरचना एवं नीति की रक्षा करें।"
+  ],
+  FSL:[
+    "संगठन की सर्वोच्च नीति एवं दिशा निर्धारित करना।",
+    "सभी स्तरों पर अनुशासन एवं नियंत्रण सुनिश्चित करना।",
+    "महत्वपूर्ण निर्णय संगठन के हित में लेना।",
+    "संगठन की दीर्घकालिक योजना एवं दृष्टि तय करना।",
+    "संगठन की एकता, अखंडता एवं गरिमा बनाए रखना।"
+  ]
+};
+
+function generate(){
+  const name = document.getElementById("name").value.trim();
+  if(!name){
+    alert("Name required");
+    return;
+  }
+
+  const role = document.getElementById("role").value;
+  const id = "AD-"+role+"-"+String(count).padStart(4,"0");
+  const date = new Date().toLocaleDateString();
+
+  fname.innerText = name;
+  frole.innerText = role;
+  fdate.innerText = date;
+  fid.innerText = "MEMBER ID - " + id;
+
+  const file = photo.files[0];
+  if(file){
+    validatePhoto(file, ()=>{
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  rules.innerHTML = "";
+  roleRules[role].forEach(r=>{
+    const li = document.createElement("li");
+    li.innerText = r;
+    rules.appendChild(li);
+  });
+
+  qrcode.innerHTML = "";
+  new QRCode(qrcode,{
+    text:"verify.html?id="+id,
+    width:70,
+    height:70
+  });
+
+  front.style.display = "block";
+  back.style.display = "block";
+  count++;
+}
+</script>
+
+</body>
+</html>

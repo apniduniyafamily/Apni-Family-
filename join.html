@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Join Community | Apni Duniya</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f3f5f8 0%, #e8ebf3 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+}
+
+/* HEADER - Professional Gradient */
+.header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title i {
+    color: #4fc3f7;
+}
+
+.home-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h2 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.hero p {
+    opacity: 0.9;
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.hero-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* MAIN CONTENT */
+.section {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* FORM CARD */
+.form-card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    border-top: 5px solid #667eea;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-label i {
+    color: #667eea;
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #e0e6ef;
+    font-size: 1rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    background: #f9fafc;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+}
+
+.form-select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #e0e6ef;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #f9fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23667eea' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat right 16px center;
+    background-size: 12px;
+    appearance: none;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #e0e6ef;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: #f9fafc;
+    resize: none;
+    min-height: 120px;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* JOIN BUTTON */
+.join-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.join-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
+.join-btn:active {
+    transform: translateY(-1px);
+}
+
+.join-btn i {
+    font-size: 1.2rem;
+}
+
+/* RULES SECTION */
+.rules-card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #2ecc71;
+    animation: slideUp 0.8s ease-out;
+}
+
+.rules-title {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rules-title i {
+    color: #2ecc71;
+}
+
+.rules-list {
+    list-style: none;
+    padding: 0;
+}
+
+.rules-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f2f6;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: #5d6d7e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.rules-list li:last-child {
+    border-bottom: none;
+}
+
+.rules-list i {
+    color: #2ecc71;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.rules-note {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 20px;
+    border-left: 4px solid #667eea;
+    font-size: 0.95rem;
+    color: #5d6d7e;
+    line-height: 1.5;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    color: #95a5a6;
+    margin: 35px 0 20px;
+    font-size: 0.9rem;
+    padding: 0 20px;
+}
+
+.footer-logo {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* SUCCESS MESSAGE (Hidden by default) */
+.success-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.success-box {
+    background: white;
+    width: 90%;
+    max-width: 380px;
+    padding: 35px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.success-icon {
+    font-size: 4.5rem;
+    color: #2ecc71;
+    margin-bottom: 20px;
+    animation: successPulse 1.5s infinite;
+}
+
+@keyframes successPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.success-box h3 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.success-box p {
+    color: #5d6d7e;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+.success-btn {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+    font-size: 1rem;
+}
+
+.success-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    .header {
+        padding: 18px 20px;
+    }
+    
+    .hero {
+        padding: 35px 16px;
+    }
+    
+    .hero h2 {
+        font-size: 1.6rem;
+    }
+    
+    .section {
+        padding: 0 16px;
+    }
+    
+    .form-card, .rules-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h2 {
+        font-size: 1.4rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+    }
+    
+    .form-input, .form-select, .form-textarea {
+        padding: 13px 14px;
+    }
+    
+    .join-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
+    .success-box {
+        padding: 28px 22px;
+    }
+}
+
+/* TOUCH-FRIENDLY */
+.form-input:active,
+.form-select:active,
+.form-textarea:active {
+    border-color: #667eea;
+}
+
+.join-btn:active,
+.home-btn:active,
+.success-btn:active {
+    transform: scale(0.98);
+}
+
+/* FORM VALIDATION STYLES */
+.input-error {
+    border-color: #e74c3c !important;
+    background: #fff5f5 !important;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">
+        <i class="fas fa-user-plus"></i>
+        Join Apni Duniya
+    </div>
+    <button class="home-btn" onclick="location.href='index.html'">
+        <i class="fas fa-home"></i> होम
+    </button>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h2>समुदाय से जुड़ें</h2>
+        <p>अपनी जानकारी भरें और WhatsApp के माध्यम से सीधे हमसे जुड़ें</p>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="section">
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+        <div class="form-group">
+            <label class="form-label" for="name">
+                <i class="fas fa-user"></i> पूरा नाम
+            </label>
+            <input type="text" id="name" class="form-input" placeholder="अपना पूरा नाम दर्ज करें">
+            <div class="error-message" id="name-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="mobile">
+                <i class="fas fa-phone"></i> मोबाइल नंबर
+            </label>
+            <input type="tel" id="mobile" class="form-input" placeholder="10 अंकों का मोबाइल नंबर">
+            <div class="error-message" id="mobile-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="role">
+                <i class="fas fa-user-tag"></i> भूमिका चुनें
+            </label>
+            <select id="role" class="form-select">
+                <option value="">-- अपनी भूमिका चुनें --</option>
+                <option value="Active Member">Active Member</option>
+                <option value="Community Supporter">Community Supporter</option>
+                <option value="Content Contributor">Content Contributor</option>
+                <option value="Event Volunteer">Event Volunteer</option>
+                <option value="General Member">General Member</option>
+            </select>
+            <div class="error-message" id="role-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="about">
+                <i class="fas fa-info-circle"></i> अपने बारे में
+            </label>
+            <textarea id="about" class="form-textarea" placeholder="अपने बारे में संक्षेप में बताएं..."></textarea>
+            <div class="error-message" id="about-error"></div>
+        </div>
+
+        <button class="join-btn" onclick="validateAndJoin()">
+            <i class="fab fa-whatsapp"></i> WhatsApp पर Join करें
+        </button>
+    </div>
+
+    <!-- COMMUNITY RULES -->
+    <div class="rules-card">
+        <div class="rules-title">
+            <i class="fas fa-shield-alt"></i>
+            समुदाय नियम एवं दिशा-निर्देश
+        </div>
+        
+        <ul class="rules-list">
+            <li>
+                <i class="fas fa-check-circle"></i>
+                <span>सभी सदस्यों का सम्मान करें और सकारात्मक वातावरण बनाए रखें</span>
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                <span>किसी भी प्रकार की आपत्तिजनक, गलत या भ्रामक सामग्री साझा न करें</span>
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                <span>नकली या अवैध जानकारी साझा करने से बचें</span>
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                <span>प्रशासन और समुदाय के निर्णयों का सम्मान करें</span>
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                <span>सहयोग और सहायता की भावना से कार्य करें</span>
+            </li>
+        </ul>
+        
+        <div class="rules-note">
+            <i class="fas fa-info-circle" style="color:#667eea;"></i>
+            <strong>Apni Duniya</strong> एक सुरक्षित, सहयोगी और सकारात्मक समुदाय है जहाँ सभी सदस्यों को समान अवसर मिलते हैं।
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-logo">Apni Duniya Community</div>
+    <div>Building Connections • Fostering Growth • Creating Impact</div>
+    <div style="margin-top: 10px; font-size: 0.8rem;">© 2023 All Rights Reserved</div>
+</div>
+
+<!-- SUCCESS MESSAGE (Initially Hidden) -->
+<div class="success-message" id="successMessage">
+    <div class="success-box">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>आवेदन सफलतापूर्वक प्रस्तुत!</h3>
+        <p>आपकी जानकारी सफलतापूर्वक सबमिट कर दी गई है। अब आपको WhatsApp पर redirect किया जा रहा है।</p>
+        <p style="font-size: 0.9rem; color: #7f8c8d;">
+            <i class="fas fa-external-link-alt"></i>
+            WhatsApp खुलने में कुछ सेकंड लग सकते हैं...
+        </p>
+        <button class="success-btn" onclick="closeSuccess()">
+            <i class="fas fa-check"></i> ठीक है
+        </button>
+    </div>
+</div>
+
+<script>
+function validateAndJoin() {
+    // Clear previous errors
+    clearErrors();
+    
+    // Get form values
+    const name = document.getElementById("name").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const role = document.getElementById("role").value;
+    const about = document.getElementById("about").value.trim();
+    
+    let isValid = true;
+    
+    // Validate Name
+    if (!name) {
+        showError("name", "कृपया अपना पूरा नाम दर्ज करें");
+        isValid = false;
+    } else if (name.length < 2) {
+        showError("name", "नाम कम से कम 2 अक्षरों का होना चाहिए");
+        isValid = false;
+    }
+    
+    // Validate Mobile
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobile) {
+        showError("mobile", "कृपया मोबाइल नंबर दर्ज करें");
+        isValid = false;
+    } else if (!mobileRegex.test(mobile)) {
+        showError("mobile", "कृपया वैध 10 अंकों का मोबाइल नंबर दर्ज करें");
+        isValid = false;
+    }
+    
+    // Validate Role
+    if (!role) {
+        showError("role", "कृपया एक भूमिका चुनें");
+        isValid = false;
+    }
+    
+    // Validate About
+    if (!about) {
+        showError("about", "कृपया अपने बारे में कुछ लिखें");
+        isValid = false;
+    } else if (about.length < 10) {
+        showError("about", "कृपया कम से कम 10 अक्षर लिखें");
+        isValid = false;
+    }
+    
+    // If all validations pass
+    if (isValid) {
+        showSuccessAndRedirect(name, mobile, role, about);
+    }
+}
+
+function showError(fieldId, message) {
+    const input = document.getElementById(fieldId);
+    const errorElement = document.getElementById(`${fieldId}-error`);
+    
+    input.classList.add("input-error");
+    errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+}
+
+function clearErrors() {
+    // Clear all error messages and styles
+    const errorFields = ["name", "mobile", "role", "about"];
+    
+    errorFields.forEach(field => {
+        const input = document.getElementById(field);
+        const errorElement = document.getElementById(`${field}-error`);
+        
+        input.classList.remove("input-error");
+        errorElement.innerHTML = "";
+    });
+}
+
+function showSuccessAndRedirect(name, mobile, role, about) {
+    // Show success message
+    const successMessage = document.getElementById("successMessage");
+    successMessage.style.display = "flex";
+    
+    // Create WhatsApp message
+    const message = 
+`नया Join Request - Apni Duniya
+
+नाम: ${name}
+मोबाइल: ${mobile}
+भूमिका: ${role}
+
+अपने बारे में:
+${about}
+
+--- 
+Apni Duniya Community
+ज्वाइनिंग की तिथि: ${new Date().toLocaleDateString('hi-IN')}`;
+    
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // WhatsApp number (change this to your actual number)
+    const whatsappNumber = "918084873902";
+    
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Redirect after a short delay (for better UX)
+    setTimeout(() => {
+        window.open(whatsappURL, "_blank");
+    }, 800);
+}
+
+function closeSuccess() {
+    const successMessage = document.getElementById("successMessage");
+    successMessage.style.display = "none";
+}
+
+// Add keyboard support and touch feedback
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Enter key support for form
+    const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+    inputs.forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                validateAndJoin();
+            }
+        });
+        
+        // Touch feedback
+        input.addEventListener('touchstart', function() {
+            this.style.borderColor = "#667eea";
+        });
+    });
+    
+    // Touch feedback for buttons
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+            this.style.opacity = "0.8";
+        });
+        
+        button.addEventListener('touchend', function() {
+            this.style.opacity = "1";
+        });
+    });
+});
+
+// Auto-close success message when clicking outside
+document.getElementById('successMessage').addEventListener('click', function(e) {
+    if(e.target === this) closeSuccess();
+});
+</script>
+</body>
+</html>

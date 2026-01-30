@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel | Apni Duniya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <style>
+    /* ===== RESET & BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.5;
+      font-size: 14px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+      color: white;
+      padding: 14px 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .refresh-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* ===== CONTAINER ===== */
+    .container {
+      padding: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    /* ===== SECTION TITLES ===== */
+    .section-title {
+      margin: 18px 0 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2d3748;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-title i {
+      color: #4299e1;
+      font-size: 0.9rem;
+    }
+    
+    /* ===== CARDS ===== */
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+    
+    /* ===== POST INFO ===== */
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    
+    .user {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4299e1, #667eea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+    
+    .post-time {
+      color: #a0aec0;
+      font-size: 0.75rem;
+      margin-top: 2px;
+    }
+    
+    .post-content {
+      color: #4a5568;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 12px 0;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 6px;
+      border-left: 2px solid #4299e1;
+    }
+    
+    .post-stats {
+      display: flex;
+      gap: 15px;
+      margin: 12px 0;
+      font-size: 0.85rem;
+      color: #718096;
+    }
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    /* ===== BUTTONS ===== */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .btn-delete {
+      background: #e53e3e;
+      color: white;
+    }
+    
+    .btn-edit {
+      background: #ed8936;
+      color: white;
+    }
+    
+    /* ===== REPLIES ===== */
+    .replies-container {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .reply {
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .reply-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    
+    .reply-user {
+      font-weight: 600;
+      color: #48bb78;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .reply-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+    
+    .reply-content {
+      color: #4a5568;
+      line-height: 1.4;
+      margin: 8px 0;
+      font-size: 0.85rem;
+    }
+    
+    .reply-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    
+    .reply-btn {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+    }
+    
+    /* ===== USER CARDS ===== */
+    .user-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .user-avatar-large {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #9f7aea, #805ad5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    
+    .user-details h4 {
+      color: #2d3748;
+      margin-bottom: 3px;
+      font-size: 0.95rem;
+    }
+    
+    .user-details p {
+      color: #718096;
+      font-size: 0.8rem;
+    }
+    
+    /* ===== MODAL STYLES ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+    }
+    
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 320px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .modal-title {
+      color: #2d3748;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf2f7;
+    }
+    
+    .modal-content {
+      color: #4a5568;
+      line-height: 1.5;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .btn-cancel {
+      background: #fff;
+      color: #718096;
+      border: 1px solid #e2e8f0;
+      padding: 8px 16px;
+    }
+    
+    .btn-confirm {
+      background: #e53e3e;
+      color: white;
+      padding: 8px 20px;
+    }
+    
+    /* ===== EDIT MODAL ===== */
+    .edit-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.9rem;
+      margin: 12px 0;
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+      background: #f8fafc;
+    }
+    
+    .btn-save {
+      background: #48bb78;
+      color: white;
+      padding: 8px 20px;
+    }
+    
+    /* ===== TOAST NOTIFICATION ===== */
+    .toast {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #2d3748;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1001;
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+      max-width: 280px;
+      font-size: 0.85rem;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    
+    .toast-success {
+      background: #48bb78;
+    }
+    
+    .toast-error {
+      background: #e53e3e;
+    }
+    
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #718096;
+      background: #fff;
+      border-radius: 10px;
+      border: 1px dashed #e2e8f0;
+      font-size: 0.9rem;
+    }
+    
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      color: #cbd5e0;
+    }
+    
+    .empty-state h3 {
+      color: #4a5568;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  
+  <div class="header">
+    <span><i class="fas fa-user-shield"></i> Admin Panel</span>
+    <button class="refresh-btn" onclick="location.reload()">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+  </div>
+  
+  <div class="container">
+    
+    <div class="section-title">
+      <i class="fas fa-newspaper"></i> All Posts
+    </div>
+    <div id="posts"></div>
+    
+    <div class="section-title">
+      <i class="fas fa-users"></i> Users
+    </div>
+    <div id="users"></div>
+    
+  </div>
+  
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div class="modal" id="deleteModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fas fa-exclamation-triangle"></i> Confirm Delete
+      </div>
+      <div class="modal-content" id="deleteMessage"></div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-confirm" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- EDIT POST MODAL -->
+  <div class="modal" id="editPostModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fas fa-edit"></i> Edit Post
+      </div>
+      <textarea class="edit-input" id="editPostText"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-save" onclick="savePost()">Save</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- EDIT REPLY MODAL -->
+  <div class="modal" id="editReplyModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fas fa-edit"></i> Edit Reply
+      </div>
+      <textarea class="edit-input" id="editReplyText"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-save" onclick="saveReply()">Save</button>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHAQjn4sTuR9FiGF3ljRrFEMZQjsx-SHg",
+      authDomain: "apni-duniya-b53d7.firebaseapp.com",
+      databaseURL: "https://apni-duniya-b53d7-default-rtdb.firebaseio.com",
+      projectId: "apni-duniya-b53d7",
+      storageBucket: "apni-duniya-b53d7.firebasestorage.app",
+      messagingSenderId: "178853058918",
+      appId: "1:178853058918:web:91dfaa5c5e41446da290a7"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    
+    /* SIMPLE NOTIFICATION */
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+    
+    /* DELETE MODAL VARIABLES */
+    let deleteType = '';
+    let deleteId = '';
+    let deletePostId = '';
+    let deleteReplyId = '';
+    
+    /* OPEN DELETE MODAL */
+    function showDeleteModal(type, id, postId = '', replyId = '') {
+      deleteType = type;
+      deleteId = id;
+      deletePostId = postId;
+      deleteReplyId = replyId;
+      
+      let message = '';
+      if (type === 'post') message = 'Delete this post and all its replies?';
+      else if (type === 'reply') message = 'Delete this reply?';
+      else if (type === 'user') message = 'Delete this user?';
+      
+      document.getElementById('deleteMessage').textContent = message;
+      document.getElementById('deleteModal').style.display = 'flex';
+    }
+    
+    /* CLOSE ANY MODAL */
+    function closeModal() {
+      document.getElementById('deleteModal').style.display = 'none';
+      document.getElementById('editPostModal').style.display = 'none';
+      document.getElementById('editReplyModal').style.display = 'none';
+    }
+    
+    /* CONFIRM DELETE */
+    function confirmDelete() {
+      if (deleteType === 'post') {
+        remove(ref(db, "posts/" + deleteId));
+        remove(ref(db, "replies/" + deleteId));
+        showToast('Post deleted');
+      } else if (deleteType === 'reply') {
+        remove(ref(db, `replies/${deletePostId}/${deleteReplyId}`));
+        showToast('Reply deleted');
+      } else if (deleteType === 'user') {
+        remove(ref(db, "users/" + deleteId));
+        showToast('User deleted');
+      }
+      closeModal();
+    }
+    
+    /* EDIT POST MODAL VARIABLES */
+    let editPostId = '';
+    let editReplyPostId = '';
+    let editReplyId = '';
+    
+    /* SHOW EDIT POST MODAL */
+    function showEditPostModal(postId, text) {
+      editPostId = postId;
+      document.getElementById('editPostText').value = text;
+      document.getElementById('editPostModal').style.display = 'flex';
+    }
+    
+    /* SAVE POST EDIT */
+    function savePost() {
+      const newText = document.getElementById('editPostText').value.trim();
+      if (newText) {
+        update(ref(db, "posts/" + editPostId), {
+          text: newText,
+          edited: true,
+          editTime: Date.now()
+        });
+        showToast('Post updated');
+        closeModal();
+      }
+    }
+    
+    /* SHOW EDIT REPLY MODAL */
+    function showEditReplyModal(postId, replyId, text) {
+      editReplyPostId = postId;
+      editReplyId = replyId;
+      document.getElementById('editReplyText').value = text;
+      document.getElementById('editReplyModal').style.display = 'flex';
+    }
+    
+    /* SAVE REPLY EDIT */
+    function saveReply() {
+      const newText = document.getElementById('editReplyText').value.trim();
+      if (newText) {
+        update(ref(db, `replies/${editReplyPostId}/${editReplyId}`), {
+          text: newText,
+          edited: true,
+          editTime: Date.now()
+        });
+        showToast('Reply updated');
+        closeModal();
+      }
+    }
+    
+    /* LOAD POSTS */
+    onValue(ref(db, "posts"), snap => {
+      const postsDiv = document.getElementById('posts');
+      postsDiv.innerHTML = "";
+      
+      if (!snap.exists()) {
+        postsDiv.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-newspaper"></i>
+            <h3>No Posts</h3>
+            <p>No posts available</p>
+          </div>
+        `;
+        return;
+      }
+      
+      snap.forEach(s => {
+        let d = s.val();
+        let id = s.key;
+        
+        let postTime = new Date(d.time).toLocaleString('en-IN', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true
+        });
+        
+        let div = document.createElement("div");
+        div.className = "card";
+        
+        div.innerHTML = `
+          <div class="post-header">
+            <div>
+              <div class="user">
+                <div class="user-avatar">${d.user ? d.user[0] : 'U'}</div>
+                ${d.user || 'Unknown'}
+              </div>
+              <div class="post-time">${postTime}</div>
+            </div>
+          </div>
+          
+          <div class="post-content">${d.text || ''}</div>
+          
+          <div class="post-stats">
+            <div class="stat-item">
+              <i class="fas fa-heart" style="color: #e53e3e;"></i>
+              <span>${d.likes || 0} Likes</span>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-edit" onclick="showEditPostModal('${id}', \`${(d.text || '').replace(/`/g, '\\`')}\`)">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn btn-delete" onclick="showDeleteModal('post', '${id}')">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+          
+          <div class="replies-container">
+            <div id="r-${id}"></div>
+          </div>
+        `;
+        
+        postsDiv.appendChild(div);
+        
+        // Load replies
+        onValue(ref(db, "replies/" + id), r => {
+          let box = document.getElementById("r-" + id);
+          if (!box) return;
+          box.innerHTML = '';
+          
+          if (!r.exists()) {
+            box.innerHTML = `<div style="color: #718096; font-size: 0.85rem; text-align: center; padding: 10px;">No replies</div>`;
+            return;
+          }
+          
+          r.forEach(x => {
+            let replyId = x.key;
+            let replyData = x.val();
+            
+            let replyTime = new Date(replyData.time || Date.now()).toLocaleString('en-IN', {
+              day: 'numeric',
+              month: 'numeric',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true
+            });
+            
+            box.innerHTML += `
+              <div class="reply">
+                <div class="reply-header">
+                  <div class="reply-user">
+                    <div class="reply-avatar">${replyData.user ? replyData.user[0] : 'U'}</div>
+                    ${replyData.user || 'Unknown'}
+                  </div>
+                  <div style="color: #a0aec0; font-size: 0.75rem;">${replyTime}</div>
+                </div>
+                <div class="reply-content">${replyData.text || ''}</div>
+                <div class="reply-actions">
+                  <button class="btn btn-edit reply-btn" onclick="showEditReplyModal('${id}', '${replyId}', \`${(replyData.text || '').replace(/`/g, '\\`')}\`)">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="btn btn-delete reply-btn" onclick="showDeleteModal('reply', '', '${id}', '${replyId}')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+        });
+      });
+    });
+    
+    /* LOAD USERS */
+    onValue(ref(db, "users"), snap => {
+      const usersDiv = document.getElementById('users');
+      usersDiv.innerHTML = "";
+      
+      if (!snap.exists()) {
+        usersDiv.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <h3>No Users</h3>
+            <p>No users found</p>
+          </div>
+        `;
+        return;
+      }
+      
+      snap.forEach(s => {
+        let userId = s.key;
+        let d = s.val();
+        
+        let userCard = document.createElement("div");
+        userCard.className = "card user-card";
+        
+        userCard.innerHTML = `
+          <div class="user-info">
+            <div class="user-avatar-large">${d.username ? d.username[0] : 'U'}</div>
+            <div class="user-details">
+              <h4>${d.username || 'Unknown'}</h4>
+              <p>Mobile: ${d.mobile || 'Not provided'}</p>
+            </div>
+          </div>
+          <button class="btn btn-delete" onclick="showDeleteModal('user', '${userId}')">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        `;
+        
+        usersDiv.appendChild(userCard);
+      });
+    });
+    
+    /* MAKE FUNCTIONS GLOBAL */
+    window.showDeleteModal = showDeleteModal;
+    window.showEditPostModal = showEditPostModal;
+    window.showEditReplyModal = showEditReplyModal;
+    window.closeModal = closeModal;
+    window.confirmDelete = confirmDelete;
+    window.savePost = savePost;
+    window.saveReply = saveReply;
+    
+  </script>
+  
+</body>
+
+</html>

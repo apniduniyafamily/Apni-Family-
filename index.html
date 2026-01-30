@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Apni Duniya | सबकी अपनी सोच</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#2563eb">
+    
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ADDITIONAL FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&family=Lora:wght@400;500;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS FILES -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Professional popup loader (not full screen) */
+        .popup-loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 300px;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .popup-loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .popup-loader-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .popup-loader-logo {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .popup-loader-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            animation: loaderLine 2s ease-in-out infinite;
+        }
+        
+        @keyframes loaderLine {
+            0%, 100% { width: 0; opacity: 0; }
+            50% { width: 80px; opacity: 1; }
+        }
+        
+        .popup-loader-text {
+            font-size: 16px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            animation: pulseText 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .popup-loader-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .popup-loader-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 30%;
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+            animation: progressMove 1.5s ease-in-out infinite;
+            border-radius: 2px;
+        }
+        
+        @keyframes progressMove {
+            0% { left: -30%; }
+            100% { left: 100%; }
+        }
+        
+        .popup-loader-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .popup-loader-icon {
+            font-size: 20px;
+            color: rgba(56, 189, 248, 0.7);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        
+        .popup-loader-icon:nth-child(1) { animation-delay: 0s; }
+        .popup-loader-icon:nth-child(2) { animation-delay: 0.5s; }
+        .popup-loader-icon:nth-child(3) { animation-delay: 1s; }
+        
+        @keyframes iconFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-8px) scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        /* Hero icons in single line */
+        .hero-icons-row {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: nowrap;
+            animation: fadeUp 0.8s ease 0.6s both;
+        }
+        
+        .hero-icon-item {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 0 0 auto;
+        }
+        
+        .hero-icon-item i {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .hero-icon-item:hover i {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+        
+        .hero-icon-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .hero-icon-item:hover .hero-icon-label {
+            color: white;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Professional popup design */
+        .signup-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .signup-popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .signup-popup-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.98));
+            border-radius: 24px;
+            padding: 0;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .signup-popup-overlay.active .signup-popup-box {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .popup-header {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .popup-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: popupShine 6s infinite linear;
+        }
+        
+        @keyframes popupShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .popup-header h3 {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup-header p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .popup-body {
+            padding: 40px;
+        }
+        
+        .popup-body p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .popup-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .popup-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #64748b;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-step.active {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+        }
+        
+        .popup-step-line {
+            flex: 1;
+            height: 2px;
+            background: #e2e8f0;
+            position: relative;
+            top: 2px;
+        }
+        
+        /* Popup buttons side by side */
+        .popup-actions-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .popup-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            min-height: 52px;
+        }
+        
+        .popup-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .popup-btn:active::after {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .popup-signup-btn {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+        }
+        
+        .popup-signup-btn:hover {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .popup-enter-btn {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: white;
+        }
+        
+        .popup-enter-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .popup-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .popup-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        /* Dark theme support */
+        body.dark-theme .signup-popup-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+        }
+        
+        body.dark-theme .popup-body p {
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme .popup-step {
+            background: #334155;
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme .popup-step-line {
+            background: #334155;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-icons-row {
+                gap: 30px;
+            }
+            
+            .hero-icon-item i {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+            }
+            
+            .signup-popup-box {
+                width: 95%;
+            }
+            
+            .popup-header {
+                padding: 25px 20px;
+            }
+            
+            .popup-header h3 {
+                font-size: 28px;
+            }
+            
+            .popup-body {
+                padding: 30px 20px;
+            }
+            
+            .popup-actions-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .popup-btn {
+                width: 100%;
+            }
+            
+            .popup-loader {
+                min-width: 280px;
+                padding: 30px 25px;
+            }
+            
+            .popup-loader-logo {
+                font-size: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-icons-row {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-icon-item {
+                flex: 0 0 auto;
+            }
+            
+            .hero-icon-item i {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+            
+            .hero-icon-label {
+                font-size: 13px;
+            }
+            
+            .popup-step {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+            
+            .popup-loader {
+                min-width: 250px;
+                padding: 25px 20px;
+            }
+            
+            .popup-loader-logo {
+                font-size: 28px;
+            }
+        }
+        
+        /* Hide old loader */
+        .page-loader,
+        .loader-overlay {
+            display: none !important;
+        }
+        
+        /* Smooth page animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        body {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Enhanced card animations */
+        .cards .card {
+            animation: cardFadeIn 0.6s ease both;
+            animation-delay: calc(var(--card-index) * 0.1s + 0.3s);
+        }
+        
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Remove text selection */
+        .logo, .menu-box a, .card, .hero-icon-item, .earn-btn,
+        .search-toggle, .menu-btn, .keyboard-btn, .voice-search-btn {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        /* Enhanced hero section */
+        .hero {
+            padding: 150px 20px 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #020617 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+        
+        .hero span {
+            color: var(--accent);
+            display: inline-block;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            max-width: 700px;
+            margin: 20px auto;
+            line-height: 1.6;
+            opacity: 0.9;
+            animation: fadeUp 0.8s ease 0.4s both;
+        }
+        
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-mukta">
+
+<!-- TOAST NOTIFICATIONS -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- POPUP LOADER (Not full screen) -->
+<div class="popup-loader" id="popupLoader">
+    <div class="popup-loader-content">
+        <div class="popup-loader-logo">अपनी दुनिया</div>
+        <div class="popup-loader-text" id="popupLoaderText">Loading...</div>
+        
+        <div class="popup-loader-progress"></div>
+        
+        <div class="popup-loader-icons">
+            <div class="popup-loader-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="popup-loader-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="popup-loader-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SETTINGS POPUP -->
+<div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-box" onclick="event.stopPropagation()">
+        <div class="settings-header">
+            <h2 id="settingsTitle"><i class="fas fa-cog"></i> सेटिंग्स</h2>
+            <div class="settings-close" onclick="closeSettings()">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <!-- Theme Section -->
+        <div class="settings-option">
+            <div class="settings-title">
+                <i class="fas fa-palette"></i>
+                <h3 id="themeTitle">थीम</h3>
+            </div>
+            <div class="settings-buttons">
+                <button class="theme-btn active" onclick="changeTheme('original')" id="themeOriginal">मूल</button>
+                <button class="theme-btn" onclick="changeTheme('dark')" id="themeDark">डार्क</button>
+                <button class="theme-btn" onclick="toggleCustomColors()" id="themeCustom">कस्टम</button>
+            </div>
+            
+            <!-- Custom Color Picker -->
+            <div class="color-picker-container" id="customColors">
+                <div class="color-picker-header">
+                    <div class="color-picker-tabs">
+                        <button class="color-tab active" onclick="showColorTab('spectrum')">स्पेक्ट्रम</button>
+                        <button class="color-tab" onclick="showColorTab('swatches')">स्वैचेस</button>
+                    </div>
+                </div>
+                
+                <div class="color-sliders" id="spectrumTab">
+                    <div class="color-slider">
+                        <div class="slider-label">
+                            <span>लाल (Red)</span>
+                            <span id="redValue">233</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="255" value="233" class="slider" id="redSlider" oninput="updateColorFromSliders()">
+                        </div>
+                    </div>
+                    <div class="color-slider">
+                        <div class="slider-label">
+                            <span>हरा (Green)</span>
+                            <span id="greenValue">233</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="255" value="233" class="slider" id="greenSlider" oninput="updateColorFromSliders()">
+                        </div>
+                    </div>
+                    <div class="color-slider">
+                        <div class="slider-label">
+                            <span>नीला (Blue)</span>
+                            <span id="blueValue">233</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="0" max="255" value="233" class="slider" id="blueSlider" oninput="updateColorFromSliders()">
+                        </div>
+                    </div>
+                    
+                    <div class="color-preview-box" id="colorPreviewBox"></div>
+                    <div class="hex-value" id="hexValue">#E9E9E9</div>
+                </div>
+                
+                <div class="color-options" id="swatchesTab" style="display:none">
+                    <div class="color-option" style="background:#1d4ed8" onclick="selectSwatchColor('#1d4ed8')"></div>
+                    <div class="color-option" style="background:#dc2626" onclick="selectSwatchColor('#dc2626')"></div>
+                    <div class="color-option" style="background:#059669" onclick="selectSwatchColor('#059669')"></div>
+                    <div class="color-option" style="background:#d97706" onclick="selectSwatchColor('#d97706')"></div>
+                    <div class="color-option" style="background:#7c3aed" onclick="selectSwatchColor('#7c3aed')"></div>
+                    <div class="color-option" style="background:#db2777" onclick="selectSwatchColor('#db2777')"></div>
+                    <div class="color-option" style="background:#0891b2" onclick="selectSwatchColor('#0891b2')"></div>
+                    <div class="color-option" style="background:#475569" onclick="selectSwatchColor('#475569')"></div>
+                    <div class="color-option" style="background:#000000" onclick="selectSwatchColor('#000000')"></div>
+                    <div class="color-option" style="background:#ffffff;border:2px solid #cbd5e1" onclick="selectSwatchColor('#ffffff')"></div>
+                    <div class="color-option" style="background:#f59e0b" onclick="selectSwatchColor('#f59e0b')"></div>
+                    <div class="color-option" style="background:#10b981" onclick="selectSwatchColor('#10b981')"></div>
+                </div>
+                
+                <button class="theme-btn" onclick="applyCustomColor()" style="width:100%;margin-top:20px" id="applyColorBtn">
+                    रंग लागू करें
+                </button>
+            </div>
+        </div>
+        
+        <!-- Language Section -->
+        <div class="settings-option">
+            <div class="settings-title">
+                <i class="fas fa-language"></i>
+                <h3 id="languageTitle">भाषा</h3>
+            </div>
+            <div class="settings-buttons">
+                <button class="lang-btn active" onclick="changeLanguage('hi')" id="langHi">हिंदी</button>
+                <button class="lang-btn" onclick="changeLanguage('en')" id="langEn">English</button>
+            </div>
+        </div>
+        
+        <!-- Font Section -->
+        <div class="settings-option">
+            <div class="settings-title">
+                <i class="fas fa-font"></i>
+                <h3 id="fontTitle">फ़ॉन्ट</h3>
+            </div>
+            <div class="settings-buttons">
+                <button class="font-btn" onclick="toggleFontColors()" id="fontColorBtn">फ़ॉन्ट रंग</button>
+                <button class="font-btn" onclick="toggleFontStyles()" id="fontStyleBtn">फ़ॉन्ट स्टाइल</button>
+            </div>
+            
+            <!-- Font Colors -->
+            <div class="font-colors-container" id="fontColors">
+                <p id="fontColorDesc">पाठ का रंग बदलें</p>
+                <div class="color-options">
+                    <div class="color-option active" style="background:#334155" onclick="changeFontColor('#334155')"></div>
+                    <div class="color-option" style="background:#000000" onclick="changeFontColor('#000000')"></div>
+                    <div class="color-option" style="background:#1e3a8a" onclick="changeFontColor('#1e3a8a')"></div>
+                    <div class="color-option" style="background:#065f46" onclick="changeFontColor('#065f46')"></div>
+                    <div class="color-option" style="background:#7c3aed" onclick="changeFontColor('#7c3aed')"></div>
+                    <div class="color-option" style="background:#9d174d" onclick="changeFontColor('#9d174d')"></div>
+                    <div class="color-option" style="background:#854d0e" onclick="changeFontColor('#854d0e')"></div>
+                    <div class="color-option" style="background:#0f766e" onclick="changeFontColor('#0f766e')"></div>
+                    <div class="color-option" style="background:#701a75" onclick="changeFontColor('#701a75')"></div>
+                    <div class="color-option" style="background:#831843" onclick="changeFontColor('#831843')"></div>
+                    <div class="color-option" style="background:#1e40af" onclick="changeFontColor('#1e40af')"></div>
+                    <div class="color-option" style="background:#6b21a8" onclick="changeFontColor('#6b21a8')"></div>
+                </div>
+            </div>
+            
+            <!-- Font Styles -->
+            <div class="font-styles-container" id="fontStyles">
+                <p id="fontStyleDesc">फ़ॉन्ट स्टाइल चुनें</p>
+                <div class="font-grid">
+                    <div class="font-item active" onclick="changeFontStyle('mukta')">
+                        <div class="font-preview font-mukta">Apni Duniya</div>
+                        <div class="font-name">Mukta</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('noto')">
+                        <div class="font-preview font-noto">अपनी दुनिया</div>
+                        <div class="font-name">Noto Devanagari</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('poppins')">
+                        <div class="font-preview font-poppins">Apni Duniya</div>
+                        <div class="font-name">Poppins</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('inter')">
+                        <div class="font-preview font-inter">Apni Duniya</div>
+                        <div class="font-name">Inter</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('montserrat')">
+                        <div class="font-preview font-montserrat">Apni Duniya</div>
+                        <div class="font-name">Montserrat</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('raleway')">
+                        <div class="font-preview font-raleway">Apni Duniya</div>
+                        <div class="font-name">Raleway</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('opensans')">
+                        <div class="font-preview font-opensans">Apni Duniya</div>
+                        <div class="font-name">Open Sans</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('roboto')">
+                        <div class="font-preview font-roboto">Apni Duniya</div>
+                        <div class="font-name">Roboto</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('playfair')">
+                        <div class="font-preview font-playfair">Apni Duniya</div>
+                        <div class="font-name">Playfair</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('lora')">
+                        <div class="font-preview font-lora">Apni Duniya</div>
+                        <div class="font-name">Lora</div>
+                    </div>
+                    <div class="font-item" onclick="changeFontStyle('merriweather')">
+                        <div class="font-preview font-merriweather">Apni Duniya</div>
+                        <div class="font-name">Merriweather</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo" id="logoText">Apni Duniya</div>
+    
+    <!-- Search Bar -->
+    <div class="search-container" id="searchContainer">
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="कुछ भी खोजें या बोलकर खोजें..."
+                autocomplete="off"
+            >
+            
+            <!-- Search Icons -->
+            <div class="search-icons">
+                <!-- Virtual Keyboard Button -->
+                <div class="keyboard-btn" id="keyboardBtn" title="वर्चुअल कीबोर्ड">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                
+                <!-- Voice Search Button -->
+                <div class="voice-search-btn" id="voiceSearchBtn" title="बोलकर खोजें">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                
+                <!-- Close Search Button -->
+                <button class="close-search" id="closeSearchBtn" title="बंद करें">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Virtual Keyboard -->
+        <div class="virtual-keyboard" id="virtualKeyboard">
+            <div class="keyboard-header">
+                <h4><i class="fas fa-keyboard"></i> वर्चुअल कीबोर्ड</h4>
+                <div class="keyboard-lang-toggle">
+                    <span class="lang-key active" onclick="switchKeyboardLayout('english')">EN</span>
+                    <span class="lang-key" onclick="switchKeyboardLayout('hindi')">हिं</span>
+                </div>
+                <button class="keyboard-close" id="keyboardCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="keyboard-body">
+                <!-- Keys will be generated by JavaScript -->
+            </div>
+            <div class="keyboard-footer">
+                <button class="key-action" id="keyboardSpace">Space</button>
+                <button class="key-action" id="keyboardBackspace">
+                    <i class="fas fa-backspace"></i> Backspace
+                </button>
+                <button class="key-action" id="keyboardEnter">Enter</button>
+            </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div class="search-results" id="searchResults"></div>
+    </div>
+    
+    <!-- Header Icons -->
+    <div class="header-icons">
+        <div class="search-toggle" onclick="toggleSearch()" title="खोजें">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="menu-btn" onclick="openMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+
+<!-- MENU OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeMenu()">
+    <div class="menu-box" onclick="event.stopPropagation()">
+        <a onclick="go('index.html')" id="menuHome"><i class="fa-solid fa-house"></i> Home</a>
+        <a onclick="go('about.html')" id="menuAbout"><i class="fa-solid fa-circle-info"></i> About</a>
+        <a onclick="go('soch.html')" id="menuSoch"><i class="fa-solid fa-brain"></i> Our Soch</a>
+        <a onclick="go('community.html')" id="menuCommunity"><i class="fa-solid fa-users"></i> Community</a>
+        <a onclick="go('join.html')" id="menuJoin"><i class="fa-solid fa-handshake"></i> Join</a>
+        <a onclick="go('Contact.html')" id="menuContact"><i class="fa-solid fa-envelope"></i> Contact</a>
+        <a onclick="openSettings()" id="menuSettings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a onclick="goCert()"><i class="fa-solid fa-certificate"></i> Generate Certificate</a>
+        <a onclick="goShabd()"><i class="fa-solid fa-book"></i> Shabd Sagar</a>
+    </div>
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1 id="heroTitle">Apni Duniya<br><span id="heroSubtitle">सबकी अपनी सोच, सब एक</span></h1>
+    <p id="heroDesc">एक ऐसा मंच जहाँ सोच अलग हो सकती है, सम्मान नहीं।</p>
+    
+    <!-- Hero Icons in Single Line -->
+    <div class="hero-icons-row">
+        <div class="hero-icon-item" onclick="officialLogin()">
+            <i class="fa-solid fa-user-shield"></i>
+            <div class="hero-icon-label">Official Login</div>
+        </div>
+        <div class="hero-icon-item" onclick="comingSoon()">
+            <i class="fa-solid fa-user-plus"></i>
+            <div class="hero-icon-label">Sign Up</div>
+        </div>
+        <div class="hero-icon-item" onclick="comingSoon()">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <div class="hero-icon-label">Write</div>
+        </div>
+    </div>
+</section>
+<div class="feature-row">
+    
+    <!-- NEWS -->
+    <div class="feature-card" onclick="openWithLoader('all_news.html')">
+        <span class="new-badge">NEW</span>
+        <i class="fa-solid fa-newspaper"></i>
+        <p>News</p>
+    </div>
+    
+    <!-- USERS -->
+    <div class="feature-card" onclick="showUserSoon()">
+    <span class="new-badge">NEW</span>
+    <i class="fa-solid fa-users"></i>
+    <p>All Users</p>
+</div>
+    
+    <!-- LOGIN -->
+    <div class="feature-card" onclick="openWithLoader('login.html')">
+        <span class="new-badge">NEW</span>
+        <i class="fa-solid fa-user-shield"></i>
+        <p>Official Login</p>
+    </div>
+    
+</div>
+
+<!-- LOADER POPUP -->
+<div id="loaderPopup">
+    <div class="loader"></div>
+    <p>Loading...</p>
+</div>
+
+<!-- COMING SOON -->
+<div class="user-soon-overlay">
+    <div class="user-soon-box">
+        <h3>Coming Soon 🚀</h3>
+        <p>All Users feature is under development</p>
+        <button onclick="hideUserSoon()">OK</button>
+    </div>
+</div>
+
+<!-- EARN CARD -->
+<div class="earn-card">
+    <h2>💎 Coins कमाएँ</h2>
+    <p>
+        Mission पूरा करें, Golden Coins पाएँ और
+        Leaderboard में अपना नाम ऊपर लाएँ।
+    </p>
+    
+    <ul class="earn-points">
+        <li>Mission Complete करके Coins कमाएँ</li>
+        <li>Leaderboard में Rank पाएँ</li>
+        <li>Profile Verified Badge पाएँ</li>
+    </ul>
+    
+    <button class="earn-btn" onclick="go('reward.html')">
+        🚀 Earn Now
+    </button>
+</div>
+
+<!-- FEATURES SECTION -->
+<section class="section">
+    <h2 id="featuresTitle">हमारी विशेषताएँ</h2>
+    <p id="featuresDesc">Apni Duniya को मजबूत बनाने वाले स्तंभ</p>
+
+    <div class="cards">
+        <div class="card" style="--card-index: 0;" onclick="openSignupPopup()">
+            <i class="fa-solid fa-brain"></i>
+            <h3>अपनी सोच</h3>
+            <p>हर विचार का सम्मान</p>
+        </div>
+        
+        <div class="card" style="--card-index: 1;" onclick="go('community.html')">
+            <i class="fa-solid fa-users"></i>
+            <h3 id="card2Title">समुदाय</h3>
+            <p id="card2Desc">सबको जोड़ने का मंच</p>
+        </div>
+        
+        <div class="card" style="--card-index: 2;" onclick="go('hamara-mission.html')">
+            <i class="fa-solid fa-bullseye"></i>
+            <h3 id="card3Title">Our Mission</h3>
+            <p id="card3Desc">सकारात्मक बदलाव</p>
+        </div>
+        
+        <div class="card" style="--card-index: 3;" onclick="go('Hamari-drishti.html')">
+            <i class="fa-solid fa-eye"></i>
+            <h3 id="card4Title">Our Vision</h3>
+            <p id="card4Desc">एक मजबूत समाज</p>
+        </div>
+        
+        <div class="card" style="--card-index: 4;" onclick="go('pardarshita.html')">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3 id="card5Title">Transparency</h3>
+            <p id="card5Desc">खुला और साफ़ सिस्टम</p>
+        </div>
+        
+        <div class="card" style="--card-index: 5;" onclick="go('sahayata.html')">
+            <i class="fa-solid fa-headset"></i>
+            <h3 id="card6Title">Support</h3>
+            <p id="card6Desc">हर सदस्य के साथ</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p id="footerText">© 2026 Apni Duniya | सबकी अपनी सोच</p>
+</footer>
+
+<!-- PROFESSIONAL SIGNUP POPUP -->
+<div class="signup-popup-overlay" id="signupPopup">
+    <div class="signup-popup-box">
+        <div class="popup-header">
+            <button class="popup-close-btn" onclick="closeSignupPopup()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>अपनी सोच में जुड़ें</h3>
+            <p>शुरुआत करें अपनी विचार यात्रा</p>
+        </div>
+        
+        <div class="popup-body">
+            <p>
+                अपनी सोच साझा करने के लिए पहले आपको साइन अप करना होगा।
+                यह आपकी विचार यात्रा का पहला कदम है।
+            </p>
+            
+            <div class="popup-steps">
+                <div class="popup-step active">1</div>
+                <div class="popup-step-line"></div>
+                <div class="popup-step">2</div>
+                <div class="popup-step-line"></div>
+                <div class="popup-step">3</div>
+            </div>
+            
+            <p style="font-size: 14px; color: #64748b;">
+                साइन अप करने के बाद, वापस आकर अपने विचार साझा करना शुरू करें।
+            </p>
+            
+            <!-- Popup Buttons Side by Side -->
+            <div class="popup-actions-row">
+                <button class="popup-btn popup-signup-btn" onclick="goToSignup()">
+                    <i class="fas fa-user-plus"></i>
+                    साइन अप करें
+                </button>
+                <button class="popup-btn popup-enter-btn" onclick="goToThoughts()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    विचारों में प्रवेश
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Files -->
+<script src="firebase-config.js"></script>
+<script src="script.js"></script>
+
+<script>
+// Popup loader functionality
+let popupLoader = document.getElementById('popupLoader');
+let isLoading = false;
+
+// Initialize popup loader
+function initPopupLoader() {
+    if (!popupLoader) {
+        popupLoader = document.createElement('div');
+        popupLoader.className = 'popup-loader';
+        popupLoader.id = 'popupLoader';
+        popupLoader.innerHTML = `
+            <div class="popup-loader-content">
+                <div class="popup-loader-logo">अपनी दुनिया</div>
+                <div class="popup-loader-text" id="popupLoaderText">Loading...</div>
+                <div class="popup-loader-progress"></div>
+                <div class="popup-loader-icons">
+                    <div class="popup-loader-icon"><i class="fas fa-brain"></i></div>
+                    <div class="popup-loader-icon"><i class="fas fa-users"></i></div>
+                    <div class="popup-loader-icon"><i class="fas fa-heart"></i></div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(popupLoader);
+    }
+}
+
+// Show popup loader (not full screen)
+function showPopupLoader(text = 'Loading...') {
+    if (!isLoading) {
+        initPopupLoader();
+        const loaderText = document.getElementById('popupLoaderText');
+        if (loaderText) {
+            loaderText.textContent = text;
+        }
+        popupLoader.classList.add('active');
+        isLoading = true;
+    }
+}
+
+// Hide popup loader
+function hidePopupLoader() {
+    if (popupLoader && isLoading) {
+        popupLoader.classList.remove('active');
+        isLoading = false;
+    }
+}
+
+// Enhanced navigation with popup loader
+function go(page) {
+    if (isLoading) return;
+    
+    closeMenu();
+    closeSettings();
+    
+    // Show popup loader (not full screen)
+    showPopupLoader('Navigating...');
+    
+    // Navigate after short delay
+    setTimeout(() => {
+        window.location.href = page;
+    }, 800);
+}
+
+// Navigation functions
+function goCert() {
+    showPopupLoader('Generating Certificate...');
+    setTimeout(() => {
+        window.location.href = "card.html";
+    }, 800);
+}
+
+function goShabd() {
+    showPopupLoader('Opening Shabd Sagar...');
+    setTimeout(() => {
+        window.location.href = "s.html";
+    }, 800);
+}
+
+// Professional popup functions
+function openSignupPopup() {
+    const popup = document.getElementById('signupPopup');
+    if (popup) {
+        popup.classList.add('active');
+    }
+}
+
+function closeSignupPopup() {
+    const popup = document.getElementById('signupPopup');
+    if (popup) {
+        popup.classList.remove('active');
+    }
+}
+
+function goToSignup() {
+    closeSignupPopup();
+    showPopupLoader('Opening Signup Page...');
+    setTimeout(() => {
+        window.location.href = "s.html";
+    }, 800);
+}
+
+function goToThoughts() {
+    closeSignupPopup();
+    showPopupLoader('Entering Thoughts...');
+    setTimeout(() => {
+        window.location.href = "apni-such.html";
+    }, 800);
+}
+
+// Official login
+function officialLogin() {
+    showPopupLoader('Opening Admin Panel...');
+    setTimeout(() => {
+        window.location.href = "admin-panel.html";
+    }, 800);
+}
+
+// Coming soon function
+function comingSoon() {
+    showToast("Coming Soon", "यह फीचर जल्द ही उपलब्ध होगा!", "info");
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide any loader after page loads
+    setTimeout(() => {
+        hidePopupLoader();
+    }, 600);
+    
+    // Initialize settings if not already
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+    
+    // Add animation to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+            this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.12)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.08)';
+        });
+    });
+    
+    // Close popup when clicking outside
+    document.getElementById('signupPopup')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeSignupPopup();
+        }
+    });
+    
+    // Add escape key support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeSignupPopup();
+            closeSettings();
+            closeMenu();
+            closeSearch();
+            closeVirtualKeyboard();
+            hidePopupLoader();
+        }
+    });
+    
+    // Handle browser navigation
+    window.addEventListener('pageshow', function() {
+        hidePopupLoader();
+    });
+});
+
+// Enhanced security
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    showToast("Action Restricted", "Right-click is disabled", "info");
+    return false;
+});
+
+// Prevent some keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Disable F12, Ctrl+Shift+I, Ctrl+U
+    if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+    ) {
+        e.preventDefault();
+        showToast("Action Restricted", "This shortcut is disabled", "info");
+        return false;
+    }
+});
+
+// Handle page visibility
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        // Page became visible again
+        document.body.style.opacity = '1';
+    }
+});
+</script>
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js");
+    }
+</script>
+
+<script>
+    let deferredPrompt;
+    
+    window.addEventListener("beforeinstallprompt", e => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById("installBtn").style.display = "block";
+    });
+    
+    document.getElementById("installBtn").addEventListener("click", () => {
+        deferredPrompt.prompt();
+    });
+</script>
+
+</body>
+</html>

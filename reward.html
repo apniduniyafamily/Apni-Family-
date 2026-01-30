@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apni Duniya | Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand h1 {
+            color: white;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .auth-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: #4a69bd;
+            box-shadow: 0 0 0 2px rgba(74, 105, 189, 0.2);
+        }
+
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .main-btn {
+            background: #1e3799;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .main-btn:hover {
+            background: #0c2461;
+        }
+
+        .toggle-btn {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .toggle-btn span {
+            color: #1e3799;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-btn span:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            font-size: 0.9rem;
+            color: #1e3799;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand">
+            <h1><i class="fas fa-globe-asia"></i> Apni Duniya</h1>
+        </div>
+
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2 id="title">Create Account</h2>
+                <p id="subtitle">Sign up to get started</p>
+            </div>
+
+            <form id="authForm">
+                <div class="form-group" id="nameGroup">
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" placeholder="Full Name">
+                    </div>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="mobile" placeholder="Mobile Number">
+                    </div>
+                    <div class="error-message" id="mobileError"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="pass" placeholder="Password">
+                        <button type="button" class="show-password" id="showPass">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passError"></div>
+                </div>
+
+                <div class="success-message" id="successMessage"></div>
+                <div class="error-message" id="generalError"></div>
+
+                <div class="loading" id="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Processing...
+                </div>
+
+                <button type="button" class="main-btn" id="mainBtn">
+                    <i class="fas fa-user-plus"></i> <span id="btnText">Create Account</span>
+                </button>
+
+                <div class="toggle-btn">
+                    <span id="toggleBtn">Already have an account? Login</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHAQjn4sTuR9FiGF3ljRrFEMZQjsx-SHg",
+            authDomain: "apni-duniya-b53d7.firebaseapp.com",
+            databaseURL: "https://apni-duniya-b53d7-default-rtdb.firebaseio.com",
+            projectId: "apni-duniya-b53d7",
+            storageBucket: "apni-duniya-b53d7.firebasestorage.app",
+            messagingSenderId: "178853058918",
+            appId: "1:178853058918:web:91dfaa5c5e41446da290a7"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // DOM Elements
+        const title = document.getElementById('title');
+        const subtitle = document.getElementById('subtitle');
+        const nameGroup = document.getElementById('nameGroup');
+        const nameInput = document.getElementById('name');
+        const mobileInput = document.getElementById('mobile');
+        const passInput = document.getElementById('pass');
+        const mainBtn = document.getElementById('mainBtn');
+        const btnText = document.getElementById('btnText');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const showPassBtn = document.getElementById('showPass');
+        const nameError = document.getElementById('nameError');
+        const mobileError = document.getElementById('mobileError');
+        const passError = document.getElementById('passError');
+        const generalError = document.getElementById('generalError');
+        const successMessage = document.getElementById('successMessage');
+        const loading = document.getElementById('loading');
+
+        // Mode state
+        let mode = "signup";
+
+        // Password visibility toggle
+        showPassBtn.addEventListener('click', () => {
+            const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passInput.setAttribute('type', type);
+            showPassBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // Toggle between login and signup
+        toggleBtn.addEventListener('click', () => {
+            resetForm();
+            
+            if (mode === "signup") {
+                mode = "login";
+                title.innerText = "Login";
+                subtitle.innerText = "Sign in to your account";
+                nameGroup.style.display = "none";
+                btnText.innerText = "Login";
+                toggleBtn.innerText = "Don't have an account? Sign up";
+                mainBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="btnText">Login</span>';
+            } else {
+                mode = "signup";
+                title.innerText = "Create Account";
+                subtitle.innerText = "Sign up to get started";
+                nameGroup.style.display = "block";
+                btnText.innerText = "Create Account";
+                toggleBtn.innerText = "Already have an account? Login";
+                mainBtn.innerHTML = '<i class="fas fa-user-plus"></i> <span id="btnText">Create Account</span>';
+            }
+        });
+
+        // Main button click handler
+        mainBtn.addEventListener('click', async () => {
+            const mobile = mobileInput.value.trim();
+            const password = passInput.value.trim();
+            const name = nameInput ? nameInput.value.trim() : '';
+            
+            if (!validateInputs(mobile, password, name)) return;
+            
+            showLoading(true);
+            
+            try {
+                if (mode === "signup") {
+                    await handleSignup(mobile, password, name);
+                } else {
+                    await handleLogin(mobile, password);
+                }
+            } catch (error) {
+                showError(generalError, error.message || "An error occurred");
+                showLoading(false);
+            }
+        });
+
+        // Validation function
+        function validateInputs(mobile, password, name) {
+            let isValid = true;
+            resetErrors();
+            
+            if (!mobile) {
+                showError(mobileError, "Mobile number is required");
+                isValid = false;
+            } else if (!/^\d{10}$/.test(mobile)) {
+                showError(mobileError, "Enter valid 10-digit mobile");
+                isValid = false;
+            }
+            
+            if (!password) {
+                showError(passError, "Password is required");
+                isValid = false;
+            } else if (password.length < 6) {
+                showError(passError, "Password must be 6+ characters");
+                isValid = false;
+            }
+            
+            if (mode === "signup" && !name) {
+                showError(nameError, "Name is required");
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Handle user signup
+        async function handleSignup(mobile, password, name) {
+            const snapshot = await get(child(ref(db), "users/" + mobile));
+            
+            if (snapshot.exists()) {
+                showError(mobileError, "User already exists");
+                showLoading(false);
+                return;
+            }
+            
+            await set(ref(db, "users/" + mobile), {
+                name: name,
+                password: password,
+                points: 10,
+                level: "green",
+                created: Date.now(),
+                lastLogin: Date.now()
+            });
+            
+            showSuccess("Account created! Switching to login...");
+            
+            setTimeout(() => {
+                toggleBtn.click();
+                showLoading(false);
+            }, 1500);
+        }
+
+        // Handle user login
+        async function handleLogin(mobile, password) {
+            const snapshot = await get(child(ref(db), "users/" + mobile));
+            
+            if (!snapshot.exists()) {
+                showError(mobileError, "User not found");
+                showLoading(false);
+                return;
+            }
+            
+            const user = snapshot.val();
+            
+            if (user.password !== password) {
+                showError(passError, "Wrong password");
+                showLoading(false);
+                return;
+            }
+            
+            await update(ref(db, "users/" + mobile), {
+                lastLogin: Date.now(),
+                points: user.points + 10
+            });
+            
+            localStorage.setItem("uid", mobile);
+            localStorage.setItem("userName", user.name);
+            localStorage.setItem("userPoints", user.points + 10);
+            localStorage.setItem("userLevel", user.level);
+            
+            showSuccess("Login successful! Redirecting...");
+            
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1000);
+        }
+
+        // Utility functions
+        function showError(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            generalError.style.display = 'none';
+        }
+
+        function resetErrors() {
+            nameError.style.display = 'none';
+            mobileError.style.display = 'none';
+            passError.style.display = 'none';
+            generalError.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        function resetForm() {
+            nameInput.value = '';
+            mobileInput.value = '';
+            passInput.value = '';
+            resetErrors();
+        }
+
+        function showLoading(isLoading) {
+            loading.style.display = isLoading ? 'block' : 'none';
+            mainBtn.disabled = isLoading;
+        }
+
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const uid = localStorage.getItem("uid");
+            if (uid) {
+                window.location.href = "dashboard.html";
+            }
+        });
+    </script>
+</body>
+</html>

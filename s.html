@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Apni Duniya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+/* RESET AND BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* BODY - FIXED SCROLL ISSUE */
+body {
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  overflow-x: hidden;
+  touch-action: pan-y;
+  position: relative;
+  min-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* HEADER - MOBILE OPTIMIZED */
+header {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  box-shadow: 0 4px 15px rgba(41, 121, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+  width: 100%;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 22px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-icons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.icon {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  -webkit-touch-callout: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.icon:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.icon:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff3b30;
+  color: white;
+  font-size: 10px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  padding: 0 4px;
+  border: 2px solid #2979ff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* CATEGORIES - MOBILE OPTIMIZED */
+.categories-wrapper {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.categories {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categories div {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e5e7eb;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  background: white;
+  color: #374151;
+  font-weight: 500;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.categories div:active {
+  transform: scale(0.95);
+}
+
+.categories .active {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(41,121,255,0.25);
+}
+
+/* MAIN CONTENT AREA */
+.main-content {
+  margin-top: 120px;
+  margin-bottom: 20px;
+  padding: 0 16px;
+  padding-bottom: 40px;
+  min-height: calc(100vh - 140px);
+  height: auto;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+/* POSTS - IMPROVED DESIGN */
+.post {
+  background: white;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 1px solid rgba(41, 121, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-touch-callout: none;
+  max-height: none;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.post:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.post:active {
+  transform: translateY(0);
+}
+
+.title {
+  color: #2979ff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title i {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.text {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  color: #1f2937;
+  font-size: 15px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: visible;
+  padding: 12px 0;
+  border-top: 1px solid rgba(41, 121, 255, 0.1);
+  border-bottom: 1px solid rgba(41, 121, 255, 0.1);
+}
+
+.post-meta {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.post-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #374151;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(243, 244, 246, 0.8);
+}
+
+.actions span {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  -webkit-user-select: none;
+  background: #f8fafc;
+}
+
+.actions span:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+.actions span:active {
+  background: #e2e8f0;
+  transform: scale(0.95);
+}
+
+.actions i {
+  font-size: 16px;
+}
+
+.comment {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  border-left: 3px solid #2979ff;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.comment:hover {
+  transform: translateX(2px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.comment b {
+  color: #2979ff;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.comment-text {
+  color: #374151;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.comment-time {
+  color: #9ca3af;
+  font-size: 11px;
+  margin-top: 6px;
+  text-align: right;
+}
+
+/* COMMENT INPUT - IMPROVED DESIGN */
+.comment-input {
+  margin-top: 16px;
+  position: relative;
+}
+
+.comment-input input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  box-sizing: border-box;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: 'Inter', sans-serif;
+  touch-action: pan-y;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.comment-input input:focus {
+  border-color: #2979ff;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(41,121,255,0.1), 0 4px 12px rgba(41,121,255,0.1);
+  transform: translateY(-1px);
+}
+
+.send-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.send-wrap button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 100px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(41,121,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.send-wrap button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(41,121,255,0.3);
+}
+
+.send-wrap button:active {
+  background: #1a67e8;
+  transform: scale(0.98);
+  box-shadow: 0 2px 10px rgba(41,121,255,0.2);
+}
+
+/* POPUP OVERLAY */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* SIGNUP POPUP */
+.signup-popup-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.signup-popup-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.signup-popup-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.signup-popup-header p {
+  margin: 8px 0 0 0;
+  opacity: 0.9;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.signup-popup-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.signup-input-group {
+  margin-bottom: 20px;
+}
+
+.signup-input-group label {
+  display: block;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.signup-input-group input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.signup-input-group input:focus {
+  border-color: #2979ff;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(41,121,255,0.15);
+  transform: translateY(-1px);
+}
+
+.signup-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.signup-btn {
+  flex: 1;
+  min-width: 120px;
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(41,121,255,0.2);
+}
+
+.signup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(41,121,255,0.3);
+}
+
+.signup-btn:active {
+  transform: translateY(0);
+}
+
+.secondary-btn {
+  background: white;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.secondary-btn:hover {
+  background: #f9fafb;
+  border-color: #2979ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.terms-text {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  padding: 0 12px;
+}
+
+.terms-text a {
+  color: #2979ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* CUSTOM CONFIRM DIALOG */
+.custom-confirm {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 4000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.confirm-box {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirm-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+.confirm-header i {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.confirm-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.confirm-body {
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.confirm-message {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.confirm-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+}
+
+.confirm-btn:active {
+  transform: translateY(2px);
+}
+
+.confirm-primary {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(41,121,255,0.3);
+}
+
+.confirm-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(41,121,255,0.4);
+}
+
+.confirm-secondary {
+  background: white;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.confirm-secondary:hover {
+  background: #f9fafb;
+  border-color: #2979ff;
+  transform: translateY(-2px);
+}
+
+/* UPLOAD POPUP */
+.upload-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideUp 0.4s ease;
+}
+
+.upload-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.upload-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.upload-input {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  box-sizing: border-box;
+  background: white;
+  color: #374151;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.upload-input:focus {
+  border-color: #2979ff;
+  box-shadow: 0 0 0 3px rgba(41,121,255,0.15);
+  transform: translateY(-1px);
+}
+
+.upload-select {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  background: white;
+  color: #374151;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.upload-select:focus {
+  border-color: #2979ff;
+  box-shadow: 0 0 0 3px rgba(41,121,255,0.15);
+}
+
+.upload-btn {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  width: 100%;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(41,121,255,0.2);
+}
+
+.upload-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(41,121,255,0.3);
+}
+
+.upload-btn:active {
+  background: #1a67e8;
+  transform: translateY(0);
+}
+
+/* PROFILE POPUP */
+.profile-box {
+  background: white;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideUp 0.4s ease;
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.profile-body {
+  padding: 28px 24px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.profile-info {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.profile-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #2979ff;
+  margin: 0 auto 16px;
+  border: 4px solid white;
+  box-shadow: 0 8px 25px rgba(41,121,255,0.2);
+}
+
+.profile-name {
+  color: #1f2937;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.profile-username {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.profile-action-btn {
+  background: #f9fafb;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #374151;
+  text-align: left;
+  border: 2px solid transparent;
+}
+
+.profile-action-btn:hover {
+  background: #f1f5f9;
+  transform: translateX(4px);
+  border-color: #2979ff;
+}
+
+.profile-action-btn:active {
+  transform: translateX(0);
+}
+
+.profile-action-btn i {
+  font-size: 20px;
+  color: #2979ff;
+  width: 24px;
+}
+
+/* NOTIFICATION POPUP */
+.notification-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideUp 0.4s ease;
+}
+
+.notification-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.notification-body {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: 60vh;
+}
+
+.notification-item {
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  border-left: 4px solid #2979ff;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.notification-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.notification-title {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.notification-message {
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.notification-time {
+  color: #9ca3af;
+  font-size: 11px;
+  text-align: right;
+  margin-top: 10px;
+  font-family: 'Inter', sans-serif;
+}
+
+.clear-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.clear-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.clear-btn:active {
+  transform: scale(0.98);
+}
+
+.empty-notification {
+  text-align: center;
+  padding: 50px 20px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.empty-notification i {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #d1d5db;
+  display: block;
+}
+
+/* SHARE OPTIONS */
+.share-options {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -20px 40px rgba(0,0,0,0.3);
+  z-index: 2000;
+  display: none;
+  padding: 28px 20px;
+  max-height: 80vh;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.share-header {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f3f4f6;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.share-header h3 {
+  margin: 0;
+  color: #2979ff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.share-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  -webkit-touch-callout: none;
+}
+
+.share-option:hover {
+  background: #e5e7eb;
+  transform: translateY(-4px);
+  border-color: #2979ff;
+}
+
+.share-option i {
+  font-size: 28px;
+  color: #2979ff;
+}
+
+.whatsapp-share i {
+  color: #25D366;
+}
+
+.telegram-share i {
+  color: #0088cc;
+}
+
+.facebook-share i {
+  color: #1877F2;
+}
+
+.copy-share i {
+  color: #6b7280;
+}
+
+.share-option span {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.close-share {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
+  transition: all 0.3s ease;
+}
+
+.close-share:hover {
+  background: #e5e7eb;
+  transform: rotate(90deg);
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  z-index: 5000;
+  animation: fadeInOut 3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(41,121,255,0.3);
+  max-width: 90%;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; bottom: 10px; transform: translateX(-50%) translateY(10px); }
+  15% { opacity: 1; bottom: 30px; transform: translateX(-50%) translateY(0); }
+  85% { opacity: 1; bottom: 30px; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; bottom: 10px; transform: translateX(-50%) translateY(10px); }
+}
+
+/* LOADING STATE */
+.loading {
+  text-align: center;
+  padding: 50px 20px;
+  color: #6b7280;
+}
+
+.loading i {
+  font-size: 36px;
+  margin-bottom: 16px;
+  color: #d1d5db;
+  display: block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* PREVIEW BOX */
+.preview-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: slideUp 0.4s ease;
+}
+
+.preview-header {
+  background: linear-gradient(135deg, #2979ff 0%, #1a67e8 100%);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.preview-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.preview-body {
+  padding: 24px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.preview-details {
+  background: #f9fafb;
+  padding: 24px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  border: 2px solid #e5e7eb;
+}
+
+.detail-item {
+  margin-bottom: 20px;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.detail-value {
+  font-size: 16px;
+  color: #2979ff;
+  font-weight: 700;
+}
+
+/* NO POSTS MESSAGE */
+.no-posts {
+  text-align: center;
+  padding: 50px 20px;
+  color: #6b7280;
+}
+
+.no-posts i {
+  font-size: 40px;
+  margin-bottom: 16px;
+  color: #d1d5db;
+  display: block;
+}
+
+.no-posts h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.no-posts p {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 480px) {
+  .main-content {
+    margin-top: 115px;
+    padding: 0 12px;
+    padding-bottom: 30px;
+  }
+  
+  .post {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  
+  .title {
+    font-size: 15px;
+  }
+  
+  .text {
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 10px 0;
+  }
+  
+  .post-meta {
+    font-size: 11px;
+    gap: 8px;
+  }
+  
+  .actions {
+    gap: 12px;
+    font-size: 12px;
+  }
+  
+  .actions span {
+    padding: 5px 10px;
+    gap: 5px;
+  }
+  
+  .actions i {
+    font-size: 14px;
+  }
+  
+  .comment {
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .comment-text {
+    font-size: 12px;
+  }
+  
+  .comment-input input {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .send-wrap button {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 90px;
+  }
+  
+  .share-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .share-option {
+    padding: 14px 10px;
+  }
+  
+  .share-option i {
+    font-size: 24px;
+  }
+  
+  .share-option span {
+    font-size: 12px;
+  }
+  
+  .categories div {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .header-icons {
+    gap: 10px;
+  }
+  
+  .icon {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+  
+  .logo {
+    font-size: 18px;
+  }
+}
+
+/* SMOOTH SCROLLING */
+html {
+  scroll-behavior: smooth;
+}
+
+/* IMPROVED ANIMATIONS */
+.post, .comment, .actions span, .icon, .send-wrap button, .signup-btn, .confirm-btn, .share-option {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* IMPROVED TRANSITIONS */
+* {
+  transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+/* HIDE SCROLLBARS */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- CUSTOM CONFIRM DIALOG -->
+<div class="custom-confirm" id="customConfirm">
+  <div class="confirm-box">
+    <div class="confirm-header" id="confirmHeader">
+      <i class="fas fa-exclamation-triangle" id="confirmIcon"></i>
+      <h3 id="confirmTitle">Confirm Action</h3>
+    </div>
+    <div class="confirm-body">
+      <div class="confirm-message" id="confirmMessage"></div>
+      <div class="confirm-buttons">
+        <button class="confirm-btn confirm-primary" id="confirmYesBtn">
+          <i class="fas fa-check"></i>
+          Continue
+        </button>
+        <button class="confirm-btn confirm-secondary" id="confirmNoBtn">
+          <i class="fas fa-times"></i>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="logo">Apni Duniya</div>
+  
+  <div class="header-icons">
+    <div class="icon" id="notificationIcon">
+      <i class="fa-solid fa-bell"></i>
+      <div class="notification-badge" id="notificationBadge" style="display:none">0</div>
+    </div>
+    
+    <div id="topIcon" class="icon">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+  </div>
+</header>
+
+<div class="categories-wrapper">
+  <div class="categories" id="cats"></div>
+</div>
+
+<div class="main-content" id="postsContainer">
+  <div id="posts">
+    <!-- Posts will load here -->
+    <div class="loading">
+      <i class="fas fa-spinner"></i>
+      <div>Loading posts...</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFESSIONAL SIGNUP POPUP -->
+<div class="popup" id="startPopup">
+  <div class="signup-popup-box">
+    <div class="signup-popup-header">
+      <h2><i class="fa-solid fa-user-plus"></i> Join Apni Duniya</h2>
+      <p>सबकी अपनी सोच, सब एक</p>
+    </div>
+    <div class="signup-popup-body">
+      <div class="signup-input-group">
+        <label for="signupUsername"><i class="fa-solid fa-user"></i> Username</label>
+        <input type="text" id="signupUsername" placeholder="Enter your username" autocomplete="off">
+      </div>
+      
+      <div class="signup-input-group">
+        <label for="signupMobile"><i class="fa-solid fa-mobile-alt"></i> Mobile Number</label>
+        <input type="tel" id="signupMobile" placeholder="Enter 10-digit number" autocomplete="off" maxlength="10">
+      </div>
+      
+      <div class="signup-buttons">
+        <button class="signup-btn" onclick="openSignup()">
+          <i class="fa-solid fa-user-plus"></i>
+          Sign Up
+        </button>
+        <button class="signup-btn secondary-btn" onclick="hideAll()">
+          <i class="fa-solid fa-times"></i>
+          Cancel
+        </button>
+      </div>
+      
+      <div class="terms-text">
+        By signing up, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW POPUP -->
+<div class="popup" id="previewPopup">
+  <div class="preview-box">
+    <div class="preview-header">
+      <h2><i class="fa-solid fa-eye"></i> Confirm Details</h2>
+    </div>
+    <div class="preview-body">
+      <div class="preview-details" id="prev">
+        <!-- Preview will be shown here -->
+      </div>
+      
+      <div class="signup-buttons">
+        <button class="signup-btn" onclick="saveUser()">
+          <i class="fa-solid fa-check"></i>
+          Confirm & Join
+        </button>
+        <button class="signup-btn secondary-btn" onclick="openSignupFromPreview()">
+          <i class="fa-solid fa-edit"></i>
+          Edit Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE OPTIONS -->
+<div class="share-options" id="shareOptions">
+  <div class="close-share" onclick="closeShareOptions()">
+    <i class="fa-solid fa-times"></i>
+  </div>
+  <div class="share-header">
+    <h3>Share Post</h3>
+  </div>
+  <div class="share-options-grid">
+    <div class="share-option whatsapp-share" onclick="shareToWhatsApp()">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp</span>
+    </div>
+    <div class="share-option telegram-share" onclick="shareToTelegram()">
+      <i class="fab fa-telegram"></i>
+      <span>Telegram</span>
+    </div>
+    <div class="share-option facebook-share" onclick="shareToFacebook()">
+      <i class="fab fa-facebook"></i>
+      <span>Facebook</span>
+    </div>
+    <div class="share-option copy-share" onclick="copyToClipboard()">
+      <i class="fa-solid fa-copy"></i>
+      <span>Copy Text</span>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION POPUP -->
+<div class="popup" id="notificationPopup">
+  <div class="notification-box">
+    <div class="notification-header">
+      <span>Notifications</span>
+      <button class="clear-btn" onclick="showClearNotificationsConfirm()">
+        Clear All
+      </button>
+    </div>
+    <div class="notification-body" id="notificationList">
+      <div class="empty-notification">
+        <i class="fa-solid fa-bell-slash"></i>
+        No notifications yet
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE POPUP -->
+<div class="popup" id="profilePopup">
+  <div class="profile-box">
+    <div class="profile-header">Profile</div>
+    <div class="profile-body">
+      <div class="profile-info">
+        <div class="profile-icon">
+          <i class="fa-solid fa-user" id="profileIcon"></i>
+        </div>
+        <div class="profile-name" id="showUserName"></div>
+        <div class="profile-username" id="showUserMobile"></div>
+      </div>
+      
+      <div class="profile-actions">
+        <button class="profile-action-btn" onclick="openUpload()">
+          <i class="fa-solid fa-upload"></i>
+          Upload Post
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD BOX -->
+<div class="popup" id="uploadPopup">
+  <div class="upload-box">
+    <div class="upload-header">Create New Post</div>
+    <div class="upload-body">
+      <select class="upload-select" id="category"></select>
+      <input class="upload-input" id="title" placeholder="Title" autocomplete="off">
+      <textarea class="upload-input" id="text" placeholder="Write your post..." rows="5"></textarea>
+      <button class="upload-btn" onclick="upload()">Upload Post</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {getDatabase,ref,push,onValue,update,remove,get} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+const app=initializeApp({
+apiKey:"AIzaSyAHAQjn4sTuR9FiGF3ljRrFEMZQjsx-SHg",
+databaseURL:"https://apni-duniya-b53d7-default-rtdb.firebaseio.com"
+});
+const db=getDatabase(app);
+
+let user=localStorage.getItem("apniUser")||"";
+let currentCat="Shayari";
+let notificationCount = 0;
+let currentShareData = null;
+let confirmResolve = null;
+
+// CUSTOM CONFIRM DIALOG SYSTEM
+function showCustomConfirm(title, message, type = 'warning') {
+  return new Promise((resolve) => {
+    const confirmDialog = document.getElementById('customConfirm');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmHeader = document.getElementById('confirmHeader');
+    const confirmIcon = document.getElementById('confirmIcon');
+    const confirmYesBtn = document.getElementById('confirmYesBtn');
+    
+    // Set content
+    confirmTitle.textContent = title;
+    confirmMessage.textContent = message;
+    
+    // Set icon based on type
+    switch(type) {
+      case 'warning':
+        confirmIcon.className = 'fas fa-exclamation-triangle';
+        confirmHeader.style.background = 'linear-gradient(135deg, #ff9500 0%, #ff7300 100%)';
+        confirmYesBtn.style.background = 'linear-gradient(135deg, #ff9500 0%, #ff7300 100%)';
+        break;
+      case 'danger':
+        confirmIcon.className = 'fas fa-trash-alt';
+        confirmHeader.style.background = 'linear-gradient(135deg, #ff3b30 0%, #ff1a1a 100%)';
+        confirmYesBtn.style.background = 'linear-gradient(135deg, #ff3b30 0%, #ff1a1a 100%)';
+        break;
+      case 'success':
+        confirmIcon.className = 'fas fa-check-circle';
+        confirmHeader.style.background = 'linear-gradient(135deg, #34c759 0%, #28a745 100%)';
+        confirmYesBtn.style.background = 'linear-gradient(135deg, #34c759 0%, #28a745 100%)';
+        break;
+      default:
+        confirmIcon.className = 'fas fa-question-circle';
+        confirmHeader.style.background = 'linear-gradient(135deg, #2979ff 0%, #1a67e8 100%)';
+        confirmYesBtn.style.background = 'linear-gradient(135deg, #2979ff 0%, #1a67e8 100%)';
+    }
+    
+    // Store resolve function
+    confirmResolve = resolve;
+    
+    // Show dialog
+    confirmDialog.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+}
+
+// Handle confirm button clicks
+document.getElementById('confirmYesBtn').addEventListener('click', () => {
+  document.getElementById('customConfirm').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  if (confirmResolve) {
+    confirmResolve(true);
+    confirmResolve = null;
+  }
+});
+
+document.getElementById('confirmNoBtn').addEventListener('click', () => {
+  document.getElementById('customConfirm').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  if (confirmResolve) {
+    confirmResolve(false);
+    confirmResolve = null;
+  }
+});
+
+// Close popups when clicking outside
+document.querySelectorAll('.popup').forEach(popup => {
+  popup.addEventListener('click', function(e) {
+    if (e.target === this) {
+      hideAll();
+    }
+  });
+});
+
+const catsArr=["Shayari","Motivational","Gajla","Apni Duniya Shayari","Dosti","Mohabbat","Pyar","Ishq","Success","Jindagi","Desh Bhakti","Dard"];
+
+// Create categories
+catsArr.forEach((c,i)=>{
+let d=document.createElement("div");
+d.innerText=c;
+if(i==0){
+  d.classList.add("active");
+}
+
+d.onclick=()=>{
+document.querySelectorAll(".categories div").forEach(x=>{
+  x.classList.remove("active");
+  x.style.background = "white";
+  x.style.color = "#374151";
+});
+
+d.classList.add("active");
+d.style.background = "#2979ff";
+d.style.color = "white";
+currentCat=c;
+loadPosts();
+
+// Auto scroll to category
+setTimeout(() => {
+  d.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+    inline: "center"
+  });
+}, 100);
+};
+
+document.getElementById('cats').appendChild(d);
+
+// Add to upload select
+let o=document.createElement("option");
+o.innerText=c;
+o.value=c;
+document.getElementById('category').appendChild(o);
+});
+
+// Notification icon click
+document.getElementById("notificationIcon").onclick = () => {
+  loadNotifications();
+  document.getElementById("notificationPopup").style.display = "flex";
+  document.body.style.overflow = 'hidden';
+};
+
+const topIcon=document.getElementById("topIcon");
+
+// Check user and set UI
+async function checkUserExists() {
+  if(!user) return false;
+  
+  try {
+    const userRef = ref(db, "normalUsers");
+    const snapshot = await get(userRef);
+    
+    if(snapshot.exists()) {
+      let userExists = false;
+      snapshot.forEach(child => {
+        if(child.val().username === user) {
+          userExists = true;
+        }
+      });
+      return userExists;
+    }
+    return false;
+  } catch(error) {
+    console.error("Error checking user:", error);
+    return false;
+  }
+}
+
+async function refreshUI(){
+  const userExists = await checkUserExists();
+  
+  if(user && userExists){
+    topIcon.innerHTML = '<i class="fa-solid fa-user"></i>';
+    topIcon.onclick = () => {
+      document.getElementById('showUserName').textContent = user;
+      document.getElementById('showUserMobile').textContent = localStorage.getItem("apniMobile") || "User";
+      document.getElementById('profilePopup').style.display = "flex";
+      document.body.style.overflow = 'hidden';
+    };
+    
+    loadNotificationCount();
+  } else {
+    user = "";
+    localStorage.removeItem("apniUser");
+    localStorage.removeItem("apniMobile");
+    
+    topIcon.innerHTML = '<i class="fa-solid fa-plus"></i>';
+    topIcon.onclick = () => {
+      document.getElementById('startPopup').style.display = "flex";
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        document.getElementById('signupUsername').focus();
+      }, 100);
+    };
+  }
+}
+
+// Load UI on page load
+refreshUI();
+
+window.openSignup = () => {
+  const username = document.getElementById('signupUsername').value.trim();
+  const mobile = document.getElementById('signupMobile').value.trim();
+  
+  if(!username) {
+    showToast("Please enter username!");
+    document.getElementById('signupUsername').focus();
+    return;
+  }
+  
+  if(username.length < 3) {
+    showToast("Username must be at least 3 characters!");
+    document.getElementById('signupUsername').focus();
+    return;
+  }
+  
+  if(!mobile) {
+    showToast("Please enter mobile number!");
+    document.getElementById('signupMobile').focus();
+    return;
+  }
+  
+  if(mobile.length !== 10) {
+    showToast("Please enter 10-digit mobile number!");
+    document.getElementById('signupMobile').focus();
+    return;
+  }
+  
+  if(!/^\d+$/.test(mobile)) {
+    showToast("Mobile number should contain only digits!");
+    document.getElementById('signupMobile').focus();
+    return;
+  }
+  
+  document.getElementById('previewPopup').style.display = "flex";
+  document.getElementById('startPopup').style.display = "none";
+  
+  document.getElementById('prev').innerHTML = `
+    <div class="detail-item">
+      <div class="detail-label">Username:</div>
+      <div class="detail-value">${username}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Mobile Number:</div>
+      <div class="detail-value">${mobile}</div>
+    </div>
+  `;
+  
+  window.tempUsername = username;
+  window.tempMobile = mobile;
+};
+
+window.openSignupFromPreview = () => {
+  document.getElementById('previewPopup').style.display = "none";
+  document.getElementById('startPopup').style.display = "flex";
+  
+  if(window.tempUsername) {
+    document.getElementById('signupUsername').value = window.tempUsername;
+  }
+  if(window.tempMobile) {
+    document.getElementById('signupMobile').value = window.tempMobile;
+  }
+  
+  setTimeout(() => {
+    document.getElementById('signupUsername').focus();
+  }, 100);
+};
+
+window.saveUser = async () => {
+  const newUser = window.tempUsername;
+  const newMobile = window.tempMobile;
+  
+  if(!newUser || !newMobile) {
+    showToast("Please fill all fields!");
+    return;
+  }
+  
+  try {
+    await push(ref(db, "normalUsers"), {
+      username: newUser,
+      mobile: newMobile,
+      timestamp: Date.now()
+    });
+    
+    user = newUser;
+    localStorage.setItem("apniUser", newUser);
+    localStorage.setItem("apniMobile", newMobile);
+    
+    await push(ref(db, "notifications"), {
+      type: "welcome",
+      username: newUser,
+      message: `नया सदस्य ${newUser} Apni Duniya में जुड़े! 🎉`,
+      timestamp: Date.now(),
+      read: false
+    });
+    
+    document.getElementById('signupUsername').value = "";
+    document.getElementById('signupMobile').value = "";
+    
+    hideAll();
+    refreshUI();
+    showToast("Account created successfully!");
+    
+    window.tempUsername = null;
+    window.tempMobile = null;
+    
+  } catch(error) {
+    console.error("Error saving user:", error);
+    showToast("Something went wrong. Please try again!");
+  }
+};
+
+window.openUpload = () => {
+  if(!user) {
+    showToast("Please signup first!");
+    document.getElementById('startPopup').style.display = "flex";
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+  hideAll();
+  document.getElementById('uploadPopup').style.display = "flex";
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    document.getElementById('title').focus();
+  }, 100);
+};
+
+window.upload = async () => {
+  let catVal = document.getElementById('category').value;
+  let titleVal = document.getElementById('title').value.trim();
+  let textVal = document.getElementById('text').value.trim();
+
+  if(!titleVal || !textVal){
+    showToast("Please fill title and post content!");
+    return;
+  }
+
+  if(!user){
+    showToast("Please signup first!");
+    hideAll();
+    document.getElementById('startPopup').style.display = "flex";
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
+  try {
+    await push(ref(db, "posts/" + catVal), {
+      user: user,
+      title: titleVal,
+      text: textVal,
+      likes: 0,
+      timestamp: Date.now()
+    });
+
+    await push(ref(db, "notifications"), {
+      type: "new_post",
+      category: catVal,
+      username: user,
+      title: titleVal,
+      message: `${user} ने ${catVal} में एक नई पोस्ट की है: "${titleVal}"`,
+      timestamp: Date.now(),
+      read: false
+    });
+
+    document.getElementById('title').value = "";
+    document.getElementById('text').value = "";
+
+    hideAll();
+    showToast("Post uploaded successfully!");
+    loadPosts();
+  } catch(error) {
+    console.error("Error uploading post:", error);
+    showToast("Failed to upload post. Please try again!");
+  }
+};
+
+// SHARE FUNCTIONS
+window.sharePost = (cat, postId, postText) => {
+  const shareText = `Check this ${cat} from Apni Duniya:\n\n"${postText}"\n\nShared from Apni Duniya App`;
+  
+  currentShareData = {
+    text: shareText,
+    title: `${cat} - Apni Duniya`
+  };
+  
+  document.getElementById('shareOptions').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+};
+
+function closeShareOptions() {
+  document.getElementById('shareOptions').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  currentShareData = null;
+}
+
+function shareToWhatsApp() {
+  if(!currentShareData) return;
+  
+  const whatsappURL = `https://wa.me/?text=${encodeURIComponent(currentShareData.text)}`;
+  window.open(whatsappURL, '_blank');
+  closeShareOptions();
+  showToast("Opening WhatsApp...");
+}
+
+function shareToTelegram() {
+  if(!currentShareData) return;
+  
+  const telegramURL = `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(currentShareData.text)}`;
+  window.open(telegramURL, '_blank');
+  closeShareOptions();
+  showToast("Opening Telegram...");
+}
+
+function shareToFacebook() {
+  if(!currentShareData) return;
+  
+  const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(currentShareData.text)}`;
+  window.open(facebookURL, '_blank', 'width=600,height=400');
+  closeShareOptions();
+  showToast("Opening Facebook...");
+}
+
+function copyToClipboard() {
+  if(!currentShareData) return;
+  
+  navigator.clipboard.writeText(currentShareData.text).then(() => {
+    showToast("Text copied to clipboard!");
+    closeShareOptions();
+  }).catch(err => {
+    showToast("Failed to copy text!");
+  });
+}
+
+// Load notifications
+function loadNotifications() {
+  onValue(ref(db, "notifications"), (snap) => {
+    const notificationList = document.getElementById("notificationList");
+    notificationList.innerHTML = "";
+    
+    if(!snap.exists()) {
+      notificationList.innerHTML = `
+        <div class="empty-notification">
+          <i class="fa-solid fa-bell-slash"></i>
+          No notifications yet
+        </div>`;
+      return;
+    }
+    
+    let notifications = [];
+    snap.forEach((notification) => {
+      notifications.push({
+        id: notification.key,
+        ...notification.val()
+      });
+    });
+    
+    notifications.sort((a, b) => b.timestamp - a.timestamp);
+    
+    if(notifications.length === 0) {
+      notificationList.innerHTML = `
+        <div class="empty-notification">
+          <i class="fa-solid fa-bell-slash"></i>
+          No notifications yet
+        </div>`;
+      return;
+    }
+    
+    notifications.forEach((notif) => {
+      const timeAgo = getTimeAgo(notif.timestamp);
+      notificationList.innerHTML += `
+        <div class="notification-item">
+          <div class="notification-title">${notif.title || notif.type.replace('_', ' ').toUpperCase()}</div>
+          <div class="notification-message">${notif.message}</div>
+          <div class="notification-time">${timeAgo}</div>
+        </div>`;
+    });
+  }, {
+    onlyOnce: true
+  });
+}
+
+// Load notification count
+function loadNotificationCount() {
+  onValue(ref(db, "notifications"), (snap) => {
+    const badge = document.getElementById("notificationBadge");
+    if(snap.exists()) {
+      notificationCount = snap.size;
+      if(notificationCount > 0) {
+        badge.style.display = "flex";
+        badge.textContent = notificationCount > 9 ? "9+" : notificationCount;
+      } else {
+        badge.style.display = "none";
+      }
+    } else {
+      badge.style.display = "none";
+    }
+  });
+}
+
+// Time ago function
+function getTimeAgo(timestamp) {
+  const now = Date.now();
+  const diff = now - timestamp;
+  
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  
+  if(seconds < 60) return "Just now";
+  if(minutes < 60) return `${minutes} min ago`;
+  if(hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  if(days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+  
+  const date = new Date(timestamp);
+  return date.toLocaleDateString();
+}
+
+// Clear all notifications with custom confirm
+window.showClearNotificationsConfirm = async () => {
+  const confirmed = await showCustomConfirm(
+    'Clear All Notifications',
+    'Are you sure you want to delete all notifications? This action cannot be undone.',
+    'danger'
+  );
+  
+  if(confirmed) {
+    try {
+      await remove(ref(db, "notifications"));
+      showToast("All notifications cleared!");
+      document.getElementById('notificationPopup').style.display = "none";
+      loadNotificationCount();
+    } catch(error) {
+      showToast("Error clearing notifications!");
+    }
+  }
+};
+
+window.likePost = (cat, id, count) => {
+  update(ref(db, "posts/" + cat + "/" + id), {likes: count + 1});
+  showToast("Post liked!");
+};
+
+window.sendComment = (cat, id) => {
+  let commentText = document.getElementById("c_" + id).value.trim();
+  if(!commentText || !user) return;
+  
+  push(ref(db, "comments/" + cat + "/" + id), {
+    user: user, 
+    text: commentText,
+    timestamp: Date.now()
+  });
+  
+  document.getElementById("c_" + id).value = "";
+  showToast("Comment posted!");
+};
+
+function hideAll(){
+  document.querySelectorAll(".popup").forEach(p => p.style.display = "none");
+  document.getElementById('shareOptions').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+function showToast(message) {
+  let toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'fadeOut 0.5s ease forwards';
+    setTimeout(() => {
+      if(toast.parentNode) toast.remove();
+    }, 500);
+  }, 2500);
+}
+
+function loadPosts(){
+  onValue(ref(db, "posts/" + currentCat), snap => {
+    const postsDiv = document.getElementById('posts');
+    postsDiv.innerHTML = "";
+    
+    if(!snap.exists()){
+      postsDiv.innerHTML = `<div class="no-posts">
+        <i class="fa-solid fa-feather"></i>
+        <h3>${currentCat} में अभी कोई पोस्ट नहीं</h3>
+        <p>पहली पोस्ट आप करें!</p>
+      </div>`;
+      return;
+    }
+
+    let postsArray = [];
+    snap.forEach(p => {
+      postsArray.push({
+        id: p.key,
+        ...p.val()
+      });
+    });
+
+    postsArray.sort((a, b) => b.timestamp - a.timestamp);
+
+    postsArray.forEach(post => {
+      postsDiv.innerHTML += `
+      <div class="post">
+        <div class="title"><i class="fa-solid fa-quote-left"></i> ${post.title || 'Untitled'}</div>
+        <div class="text">${post.text}</div>
+        <div class="post-meta">
+          <span><i class="fa-solid fa-user"></i> ${post.user}</span>
+          <span><i class="fa-solid fa-clock"></i> ${getTimeAgo(post.timestamp || Date.now())}</span>
+        </div>
+
+        <div class="actions">
+          <span onclick="likePost('${currentCat}','${post.id}',${post.likes || 0})">
+            <i class="fa-regular fa-thumbs-up"></i> ${post.likes || 0}
+          </span>
+          <span onclick="sharePost('${currentCat}','${post.id}','${post.text}')">
+            <i class="fa-solid fa-share"></i> Share
+          </span>
+        </div>
+
+        <div id="com_${post.id}"></div>
+
+        <div class="comment-input">
+          <input id="c_${post.id}" placeholder="Write a comment...">
+
+          <div class="send-wrap">
+            <button onclick="sendComment('${currentCat}','${post.id}')"><i class="fa-solid fa-paper-plane"></i> Post</button>
+          </div>
+        </div>
+      </div>`;
+
+      // Load comments
+      onValue(ref(db, "comments/" + currentCat + "/" + post.id), cs => {
+        const commentDiv = document.getElementById("com_" + post.id);
+        commentDiv.innerHTML = "";
+        
+        if(cs.exists()) {
+          let comments = [];
+          cs.forEach(c => {
+            comments.push({
+              id: c.key,
+              ...c.val()
+            });
+          });
+          
+          comments.sort((a, b) => b.timestamp - a.timestamp);
+          
+          comments.forEach(comment => {
+            commentDiv.innerHTML += `
+              <div class="comment">
+                <b>${comment.user}</b>
+                <div class="comment-text">${comment.text}</div>
+                <div class="comment-time">${getTimeAgo(comment.timestamp)}</div>
+              </div>`;
+          });
+        }
+      });
+    });
+  });
+}
+
+// Load posts on page load
+loadPosts();
+
+// Mobile number input validation
+document.getElementById('signupMobile').addEventListener('input', function() {
+  this.value = this.value.replace(/[^0-9]/g, '');
+  if(this.value.length > 10) {
+    this.value = this.value.slice(0, 10);
+  }
+});
+
+// Enter key support for signup
+document.getElementById('signupUsername').addEventListener('keypress', function(e) {
+  if(e.key === 'Enter') {
+    document.getElementById('signupMobile').focus();
+  }
+});
+
+document.getElementById('signupMobile').addEventListener('keypress', function(e) {
+  if(e.key === 'Enter') {
+    openSignup();
+  }
+});
+
+// Enter key for comment input
+document.addEventListener('keypress', function(e) {
+  if(e.key === 'Enter' && e.target.type === 'text' && e.target.placeholder === 'Write a comment...') {
+    const inputId = e.target.id;
+    const postId = inputId.split('_')[1];
+    window.sendComment(currentCat, postId);
+  }
+});
+
+// Smooth scrolling
+document.addEventListener('touchmove', function(e) {
+  if(e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// Enable smooth animations
+document.body.style.overflow = 'auto';
+
+</script>
+</body>
+</html>

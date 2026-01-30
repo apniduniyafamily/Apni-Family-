@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Apni Duniya</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#2563eb,#0f172a);
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+.container{
+padding:40px 20px;
+animation:fadeIn 1s ease;
+}
+
+.logo{
+width:90px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(255,255,255,.3);
+animation:pop 1s ease;
+}
+
+h1{
+margin:15px 0 5px;
+}
+
+p{
+opacity:.8;
+font-size:14px;
+}
+
+.install-btn{
+margin-top:30px;
+padding:12px 35px;
+border:none;
+border-radius:30px;
+font-size:16px;
+background:white;
+color:#2563eb;
+font-weight:bold;
+animation:pulse 1.2s infinite;
+}
+
+.features{
+display:flex;
+justify-content:space-around;
+margin-top:40px;
+font-size:12px;
+}
+
+.features div{
+animation:slideUp .8s ease;
+}
+
+.features i{
+font-size:20px;
+margin-bottom:6px;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes pop{
+0%{transform:scale(.5)}
+100%{transform:scale(1)}
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+@keyframes slideUp{
+from{transform:translateY(30px);opacity:0}
+to{transform:translateY(0);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="icon-192.png" class="logo">
+
+<h1>Apni Duniya</h1>
+<p>Your Digital Community</p>
+
+<button class="install-btn" onclick="installApp()">
+⬇ Download App
+</button>
+
+<div class="features">
+<div>
+<i class="fa-solid fa-bolt"></i><br>Fast
+</div>
+
+<div>
+<i class="fa-solid fa-lock"></i><br>Secure
+</div>
+
+<div>
+<i class="fa-solid fa-globe"></i><br>Community
+</div>
+</div>
+
+</div>
+
+<script>
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", e=>{
+e.preventDefault();
+deferredPrompt = e;
+});
+
+function installApp(){
+if(deferredPrompt){
+deferredPrompt.prompt();
+}
+}
+</script>
+
+</body>
+</html>

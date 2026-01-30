@@ -1,0 +1,4216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apni Duniya - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .page {
+            display: none;
+            padding-bottom: 70px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Level Based Header Colors Only */
+        .level-starter-header {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d) !important;
+        }
+        .level-beginner-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+        }
+        .level-active-header {
+            background: linear-gradient(135deg, #3498db, #2980b9) !important;
+        }
+        .level-pro-header {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
+        }
+        .level-elite-header {
+            background: linear-gradient(135deg, #f1c40f, #f39c12) !important;
+        }
+        .level-master-header {
+            background: linear-gradient(135deg, #e67e22, #d35400) !important;
+        }
+        .level-legend-header {
+            background: linear-gradient(135deg, #e84393, #fd79a8) !important;
+        }
+        .level-king-header {
+            background: linear-gradient(135deg, #d63031, #c0392b) !important;
+        }
+        .level-emperor-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9f43, #feca57) !important;
+        }
+        .level-god-header {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045, #405de6) !important;
+        }
+
+        /* Level badges only */
+        .level-starter-badge {
+            background: #95a5a6 !important;
+            border-left-color: #95a5a6 !important;
+        }
+        .level-beginner-badge {
+            background: #2ecc71 !important;
+            border-left-color: #2ecc71 !important;
+        }
+        .level-active-badge {
+            background: #3498db !important;
+            border-left-color: #3498db !important;
+        }
+        .level-pro-badge {
+            background: #9b59b6 !important;
+            border-left-color: #9b59b6 !important;
+        }
+        .level-elite-badge {
+            background: #f1c40f !important;
+            border-left-color: #f1c40f !important;
+        }
+        .level-master-badge {
+            background: #e67e22 !important;
+            border-left-color: #e67e22 !important;
+        }
+        .level-legend-badge {
+            background: #e84393 !important;
+            border-left-color: #e84393 !important;
+        }
+        .level-king-badge {
+            background: #d63031 !important;
+            border-left-color: #d63031 !important;
+        }
+        .level-emperor-badge {
+            background: #2d3436 !important;
+            border-left-color: #2d3436 !important;
+        }
+        .level-god-badge {
+            background: #000000 !important;
+            border-left-color: #000000 !important;
+        }
+
+        /* Notification Bell - Right side (only on Home and Rewards pages) */
+        .home-page .notification-bell,
+        .rewards-page .notification-bell {
+            display: flex;
+        }
+
+        .profile-page .notification-bell {
+            display: none;
+        }
+
+        .notification-bell {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: toastSlide 0.3s ease;
+        }
+
+        .toast.error {
+            background: #ff4757;
+        }
+
+        .toast.info {
+            background: #2e86de;
+        }
+
+        .toast.warning {
+            background: #f39c12;
+        }
+
+        @keyframes toastSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Notification Panel */
+        .notification-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+            animation: panelSlide 0.3s ease;
+        }
+
+        @keyframes panelSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .clear-notifications {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .notification-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .no-notifications {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        /* Header with Profile - WILL CHANGE COLOR */
+        .profile-header, .rewards-header {
+            padding: 20px 15px 40px;
+            border-radius: 0 0 20px 20px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: background 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .profile-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .profile-main {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .level-icon {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #333;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+
+        .level-icon.show {
+            display: flex;
+        }
+
+        /* Name with verified badge */
+        .profile-name, .profile-page-name, .view-profile-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            max-width: 100%;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .profile-name span, .profile-page-name span, .view-profile-name span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+            display: inline-block;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .verified-badge {
+            color: #1DA1F2;
+            font-size: 18px;
+            vertical-align: middle;
+            flex-shrink: 0;
+            margin-left: 3px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .profile-level {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+            margin-bottom: 10px;
+        }
+
+        /* Profile Page Coins Display - PROFESSIONAL STYLE BELOW HEADER */
+        .profile-coins-section {
+            background: white;
+            margin: -20px 15px 20px;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .coins-display-title {
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .coins-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .coin-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid #667eea;
+        }
+
+        .coin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .coin-card.rewards {
+            border-color: #667eea;
+        }
+
+        .coin-card.golden {
+            border-color: #FFD700;
+        }
+
+        .coin-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .coin-card.rewards .coin-icon {
+            color: #667eea;
+        }
+
+        .coin-card.golden .coin-icon {
+            color: #FFD700;
+        }
+
+        .coin-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .coin-card.rewards .coin-amount {
+            color: #333;
+        }
+
+        .coin-card.golden .coin-amount {
+            color: #333;
+        }
+
+        .coin-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Profile Menu Dropdown - Only for Profile Page */
+        #profilePage .profile-menu {
+            display: block;
+        }
+
+        .other-page .profile-menu {
+            display: none;
+        }
+
+        .profile-menu {
+            position: absolute;
+            top: 70px;
+            right: 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 250px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background: #f8f9fa;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item i {
+            width: 24px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .menu-item span {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .menu-item.logout {
+            color: #ff4757;
+        }
+
+        .menu-item.logout i {
+            color: #ff4757;
+        }
+
+        /* Home Page Content */
+        .home-content {
+            padding: 15px;
+        }
+
+        .home-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            font-size: 1rem;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+
+        .home-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .home-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Rules Section */
+        .rules-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .rules-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rule-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .rule-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: inherit;
+        }
+
+        .rule-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .rule-info {
+            flex: 1;
+        }
+
+        .rule-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .rule-range {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Leaderboard Section - UPDATED */
+        .leaderboard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: none;
+        }
+
+        .leaderboard-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Leaderboard card - UPDATED for full name display */
+        .leader-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 15px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 5px solid #667eea;
+            min-height: 80px;
+        }
+
+        .leader-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .leader-rank {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            flex-shrink: 0;
+        }
+
+        .leader-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .leader-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .leader-name-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .leader-points {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .leader-level {
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            min-width: 80px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        /* Rewards Page - UPDATED */
+        .rewards-header {
+            border-radius: 0 0 20px 20px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 40px 15px 30px;
+            position: relative;
+            min-height: 180px;
+        }
+
+        .rewards-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .rewards-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Rewards Page Coins Display - BELOW TEXT */
+        .rewards-coins-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .rewards-coin-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            min-width: 160px;
+            justify-content: center;
+        }
+
+        .rewards-coin-item.golden {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #FFD700;
+        }
+
+        .rewards-coin-item i {
+            font-size: 1.3rem;
+        }
+
+        .rewards-coin-item.golden i {
+            color: #FFD700;
+        }
+
+        .rewards-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 15px;
+            padding: 5px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .reward-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .reward-tab:hover {
+            background: #f8f9fa;
+        }
+
+        .reward-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .reward-tab.locked {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .rewards-grid {
+            padding: 0 15px 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .reward-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .reward-card i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reward-card h4 {
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .reward-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .reward-card button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .reward-card button:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+
+        .reward-card button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .reward-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4757;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Daily Reward Card */
+        .daily-reward {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            position: relative;
+        }
+
+        .daily-reward i,
+        .daily-reward h4,
+        .daily-reward p {
+            color: white;
+            -webkit-text-fill-color: white;
+        }
+
+        /* Golden Vault Styles */
+        .golden-card {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border: 2px solid #FFD700;
+        }
+
+        .golden-card i {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .golden-card h4,
+        .golden-card p {
+            color: #333;
+        }
+
+        .golden-card button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            font-weight: 600;
+        }
+
+        .golden-card button:hover {
+            background: linear-gradient(135deg, #FFA500, #FFD700);
+        }
+
+        .locked-card {
+            opacity: 0.7;
+            position: relative;
+            cursor: not-allowed;
+        }
+
+        .locked-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            z-index: 1;
+        }
+
+        .locked-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Golden Vault Content */
+        .golden-vault-content {
+            padding: 15px;
+        }
+
+        /* SMALLER Vault Tabs - Single line */
+        .vault-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+            padding: 4px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .vault-tab {
+            flex: 1;
+            padding: 8px 6px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.8rem;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vault-tab:hover {
+            background: #f8f9fa;
+        }
+
+        .vault-tab.active {
+            background: #FFD700;
+            color: #333;
+        }
+
+        /* Monthly Run Styles */
+        .monthly-run-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .day-card.completed {
+            background: #FFD700;
+            color: #333;
+            transform: scale(1.05);
+        }
+
+        .day-card.current {
+            background: #FFA500;
+            color: white;
+            transform: scale(1.05);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .day-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .day-reward {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .day-card.completed .day-reward {
+            color: #333;
+        }
+
+        .day-card.current .day-reward {
+            color: white;
+        }
+
+        /* Exchange System - SMALLER BUTTONS */
+        .exchange-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .exchange-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .exchange-card.silver {
+            border: 2px solid #C0C0C0;
+        }
+
+        .exchange-card.platinum {
+            border: 2px solid #3498db;
+        }
+
+        .exchange-card.diamond {
+            border: 2px solid #9b59b6;
+        }
+
+        .exchange-currency {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .exchange-rate {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .exchange-card button {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .exchange-card.silver button {
+            background: #C0C0C0;
+            color: white;
+        }
+
+        .exchange-card.platinum button {
+            background: #3498db;
+            color: white;
+        }
+
+        .exchange-card.diamond button {
+            background: #9b59b6;
+            color: white;
+        }
+
+        /* Profile Page - Professional Design */
+        .profile-content {
+            padding: 15px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .profile-section h3 {
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-section h3 i {
+            font-size: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-label i {
+            font-size: 0.9rem;
+            color: #667eea;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bio-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .bio-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bio-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            min-height: 60px;
+        }
+
+        /* Elite Points Display */
+        .elite-points {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .elite-point {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .elite-point.silver {
+            border: 2px solid #C0C0C0;
+        }
+
+        .elite-point.platinum {
+            border: 2px solid #3498db;
+        }
+
+        .elite-point.diamond {
+            border: 2px solid #9b59b6;
+        }
+
+        /* Diamond Theme */
+        .diamond-theme .profile-header {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+
+        .diamond-theme .profile-card {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 2px solid #9b59b6;
+        }
+
+        .diamond-theme .bio-section {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+        }
+
+        .diamond-theme .profile-section h3 {
+            color: #9b59b6;
+        }
+
+        .diamond-theme .info-label i {
+            color: #9b59b6;
+        }
+
+        .diamond-theme .info-item {
+            border-left-color: #9b59b6;
+        }
+
+        /* View Profile Modal */
+        .view-profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .view-profile-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+        }
+
+        .view-profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px 20px;
+            border-radius: 20px 20px 0 0;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .view-profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin: 0 auto 15px;
+        }
+
+        .view-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .view-profile-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .view-profile-level {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        .view-profile-body {
+            padding: 20px;
+        }
+
+        .view-profile-points {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .points-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .points-info i {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .points-info span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .level-info {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .view-profile-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .view-profile-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        /* Edit Modal */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .modal-close:hover {
+            background: #f5f5f5;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .avatar-categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #f8f9fa;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .category-tab:hover {
+            background: #e9ecef;
+        }
+
+        .category-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* AVATARS GRID - FIXED WITH REAL AVATARS */
+        .avatars-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .avatar-option {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            overflow: hidden;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            padding: 3px;
+            position: relative;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .avatar-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: white;
+            padding: 2px;
+        }
+
+        .avatar-option.selected .avatar-img {
+            border-color: #667eea;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .avatar-name {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        /* Lock overlay for locked avatars */
+        .avatar-locked {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .avatar-requirement {
+            font-size: 0.7rem;
+            color: #ff4757;
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        /* Bottom Navigation */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.1);
+            border-radius: 20px 20px 0 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .nav-item span {
+            font-size: 0.8rem;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            background: #f0f2ff;
+            border-radius: 15px;
+            margin: 5px;
+        }
+
+        /* Professional Logout Dialog */
+        .logout-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .logout-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 350px;
+            overflow: hidden;
+            animation: modalSlide 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logout-header {
+            padding: 25px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .logout-header i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .logout-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .logout-body {
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .logout-body p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .logout-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #f8f9fa;
+        }
+
+        .btn-logout {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+            transform: translateY(-2px);
+        }
+
+        /* New Silver Privileges Modal */
+        .silver-privileges-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .silver-privileges-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.4s ease;
+        }
+
+        .silver-privileges-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #C0C0C0, #a0a0a0);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .silver-privileges-header h3 {
+            font-size: 1.3rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .silver-privileges-body {
+            padding: 20px;
+        }
+
+        .privilege-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #C0C0C0;
+        }
+
+        .privilege-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .privilege-item p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .password-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .password-display input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .toggle-password {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .update-form {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .update-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .update-form button {
+            width: 100%;
+            padding: 10px;
+            background: #C0C0C0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .update-form button:hover {
+            background: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Bell (Right Side) -->
+    <div class="notification-bell" onclick="toggleNotifications()">
+        <i class="fas fa-bell"></i>
+        <div class="notification-badge" id="notificationCount">3</div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="clear-notifications" onclick="clearNotifications()">Clear All</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <!-- Notifications will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <!-- View Profile Modal -->
+    <div class="view-profile-modal" id="viewProfileModal">
+        <div class="view-profile-content">
+            <div class="view-profile-header" id="viewProfileHeader">
+                <div class="view-profile-avatar">
+                    <img id="viewProfileAvatar" src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Avatar">
+                </div>
+                <div class="view-profile-name">
+                    <span id="viewProfileName">Loading...</span>
+                    <i class="fas fa-check-circle verified-badge" id="viewProfileVerifiedBadge" style="display: none;" title="Verified Account"></i>
+                </div>
+                <div class="view-profile-level" id="viewProfileLevel">Starter</div>
+            </div>
+            
+            <div class="view-profile-body">
+                <div class="view-profile-points">
+                    <div class="points-info">
+                        <i class="fas fa-coins"></i>
+                        <span id="viewProfilePoints">0</span>
+                    </div>
+                    <div class="level-info">
+                        <span id="viewProfileLevelText">Level</span>
+                    </div>
+                </div>
+                
+                <div class="view-profile-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Member Since</span>
+                        <span class="detail-value" id="viewProfileMemberSince">Today</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" id="viewProfileStatus">Active</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Achievements</span>
+                        <span class="detail-value" id="viewProfileAchievements">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-profile-footer">
+                <button class="btn-secondary" onclick="closeViewProfileModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Silver Privileges Modal -->
+    <div class="silver-privileges-modal" id="silverPrivilegesModal">
+        <div class="silver-privileges-content">
+            <div class="silver-privileges-header">
+                <h3><i class="fas fa-user-shield"></i> Silver Privileges</h3>
+                <button class="modal-close" onclick="closeSilverPrivileges()">×</button>
+            </div>
+            
+            <div class="silver-privileges-body">
+                <div class="privilege-item">
+                    <h4><i class="fas fa-envelope"></i> Email Address</h4>
+                    <p id="currentEmail">Current: Not set</p>
+                    <div class="update-form">
+                        <input type="email" id="newEmail" placeholder="Enter new email address">
+                        <button onclick="updateEmail()">Update Email</button>
+                    </div>
+                </div>
+
+                <div class="privilege-item">
+                    <h4><i class="fas fa-mobile-alt"></i> Mobile Number</h4>
+                    <p id="currentMobile">Current: Loading...</p>
+                    <div class="update-form">
+                        <input type="tel" id="newMobile" placeholder="Enter new mobile number">
+                        <button onclick="updateMobile()">Update Mobile</button>
+                    </div>
+                </div>
+
+                <div class="privilege-item">
+                    <h4><i class="fas fa-key"></i> Password</h4>
+                    <p>View your current password</p>
+                    <div class="password-display">
+                        <input type="password" id="passwordField" value="●●●●●●●●" readonly>
+                        <button class="toggle-password" onclick="togglePassword()">Show</button>
+                    </div>
+                    <div class="update-form" style="margin-top: 15px;">
+                        <input type="password" id="newPassword" placeholder="Enter new password">
+                        <button onclick="updatePassword()">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Logout Dialog -->
+    <div class="logout-dialog" id="logoutDialog">
+        <div class="logout-content">
+            <div class="logout-header">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Confirm Logout</h3>
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="logout-body">
+                <p>You will need to login again to access your account.</p>
+                <div class="logout-actions">
+                    <button class="btn-cancel" onclick="cancelLogout()">Cancel</button>
+                    <button class="btn-logout" onclick="confirmLogout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home" class="page active home-page">
+        <div class="profile-header level-starter-header" id="profileHeader">
+            <div class="profile-top">
+                <!-- Points removed from top - shown in home-points -->
+            </div>
+            <div class="profile-main">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar" onclick="openTab('profilePage', document.querySelector('#profilePage .nav-item'))">
+                        <img id="profileAvatar" src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Avatar">
+                    </div>
+                    <div class="level-icon" id="levelIcon">
+                        <!-- Icon will be added based on level -->
+                    </div>
+                </div>
+                <div class="profile-name" id="profileName">
+                    <span id="profileNameText">Loading...</span>
+                    <i class="fas fa-check-circle verified-badge" id="verifiedBadge" style="display: none;" title="Verified Account"></i>
+                </div>
+                <div class="profile-level" id="profileLevel">Starter</div>
+            </div>
+        </div>
+
+        <div class="home-content">
+            <div class="home-buttons">
+                <button class="home-btn active" onclick="showRules()">
+                    <i class="fas fa-info-circle"></i>
+                    Rules
+                </button>
+                <button class="home-btn" onclick="showLeaderboard()">
+                    <i class="fas fa-trophy"></i>
+                    Leaderboard
+                </button>
+            </div>
+
+            <div class="rules-section" id="rulesSection">
+                <h3><i class="fas fa-list"></i> Level Rules & Rewards</h3>
+                <div class="rules-list" id="rulesList">
+                    <!-- Rules will be loaded here -->
+                </div>
+            </div>
+
+            <div class="leaderboard-section" id="leaderboardSection">
+                <h3><i class="fas fa-crown"></i> Top Players</h3>
+                <div class="leaderboard-list" id="leaderboardList">
+                    <!-- Leaderboard will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rewards Page -->
+    <div id="reward" class="page rewards-page">
+        <div class="rewards-header level-starter-header">
+            <h2>Earn Rewards</h2>
+            <p>Complete tasks and claim your rewards</p>
+            
+            <!-- COINS DISPLAY - BELOW TEXT -->
+            <div class="rewards-coins-display">
+                <div class="rewards-coin-item" id="rewardsHeaderPoints">
+                    <i class="fas fa-coins"></i>
+                    <span id="rewardsHeaderPointsCount">0</span>
+                </div>
+                <div class="rewards-coin-item golden" id="rewardsHeaderGolden">
+                    <i class="fas fa-coins"></i>
+                    <span id="rewardsHeaderGoldenCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="rewards-tabs">
+            <button class="reward-tab active" onclick="showRewardCategory('daily')">
+                <i class="fas fa-calendar-day"></i> Daily
+            </button>
+            <button class="reward-tab" onclick="showRewardCategory('missions')">
+                <i class="fas fa-tasks"></i> Missions
+            </button>
+            <button class="reward-tab" id="goldenVaultTab" onclick="showRewardCategory('golden')">
+                <i class="fas fa-lock"></i> Golden Vault
+            </button>
+        </div>
+
+        <div class="rewards-grid" id="dailyRewards">
+            <!-- Daily rewards will be loaded from Firebase -->
+        </div>
+
+        <div class="rewards-grid" id="missionRewards" style="display: none;">
+            <!-- Mission rewards will be loaded from Firebase -->
+        </div>
+
+        <!-- Golden Vault Content -->
+        <div class="golden-vault-content" id="goldenVaultContent" style="display: none;">
+            <div id="vaultLocked" style="display: none;">
+                <div class="locked-card reward-card">
+                    <div class="locked-content">
+                        <i class="fas fa-lock" style="font-size: 3rem; color: #FFD700;"></i>
+                        <h4>Golden Vault Locked</h4>
+                        <p>Reach 100,000 coins to unlock the Golden Vault and start earning Golden Coins!</p>
+                        <div style="background: rgba(255, 215, 0, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <p style="color: #333; font-weight: 600;">Current Progress: <span id="currentCoins">0</span> / 100,000 coins</p>
+                            <div style="background: #ddd; height: 10px; border-radius: 5px; margin-top: 10px;">
+                                <div id="progressBar" style="background: #FFD700; height: 100%; border-radius: 5px; width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vaultUnlocked" style="display: none;">
+                <!-- Elite Points Display -->
+                <div class="elite-points" id="elitePoints">
+                    <!-- Elite points will be loaded here -->
+                </div>
+
+                <!-- Golden Vault Tabs - SMALLER SINGLE LINE -->
+                <div class="vault-tabs">
+                    <button class="vault-tab active" onclick="showVaultSection('monthly')">
+                        <i class="fas fa-calendar-alt"></i> Monthly Run
+                    </button>
+                    <button class="vault-tab" onclick="showVaultSection('exchange')">
+                        <i class="fas fa-exchange-alt"></i> Exchange
+                    </button>
+                    <button class="vault-tab" onclick="showVaultSection('privileges')">
+                        <i class="fas fa-crown"></i> Privileges
+                    </button>
+                </div>
+
+                <!-- Monthly Run Section -->
+                <div id="monthlySection">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #333;">Golden Monthly Run</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">Complete daily streaks to earn Golden Coins!</p>
+                    
+                    <div id="weeklyChain" style="display: none;">
+                        <h4 style="text-align: center; margin-bottom: 15px; color: #FFD700;">🎯 Entry Week (1-7 Days)</h4>
+                        <div class="monthly-run-grid" id="weeklyGrid">
+                            <!-- Weekly days will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div id="monthlyChain" style="display: none;">
+                        <h4 style="text-align: center; margin-bottom: 15px; color: #FFD700;">📅 Monthly Run (1-30 Days)</h4>
+                        <div class="monthly-run-grid" id="monthlyGrid">
+                            <!-- Monthly days will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn-primary" onclick="claimGoldenReward()" id="claimGoldenBtn" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
+                            <i class="fas fa-gift"></i> Claim Today's Golden Reward
+                        </button>
+                        <p style="color: #666; font-size: 0.9rem; margin-top: 10px;" id="goldenStatus">Ready to claim!</p>
+                    </div>
+                </div>
+
+                <!-- Exchange Section - SMALLER BUTTONS -->
+                <div id="exchangeSection" style="display: none;">
+                    <h3 style="text-align: center; margin-bottom: 15px; color: #333;">Exchange Golden Coins</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 15px;">Convert your Golden Coins to Elite Points</p>
+                    
+                    <div class="exchange-grid">
+                        <div class="exchange-card silver">
+                            <div class="exchange-currency">
+                                <i class="fas fa-coins" style="color: #C0C0C0;"></i>
+                            </div>
+                            <h4>Silver</h4>
+                            <p class="exchange-rate">100 Golden = 1 Silver</p>
+                            <button onclick="exchangeCurrency('silver', 100)">
+                                Exchange
+                            </button>
+                        </div>
+
+                        <div class="exchange-card platinum">
+                            <div class="exchange-currency">
+                                <i class="fas fa-gem" style="color: #3498db;"></i>
+                            </div>
+                            <h4>Platinum</h4>
+                            <p class="exchange-rate">10,000 Golden = 1 Platinum</p>
+                            <button onclick="exchangeCurrency('platinum', 10000)">
+                                Exchange
+                            </button>
+                        </div>
+
+                        <div class="exchange-card diamond">
+                            <div class="exchange-currency">
+                                <i class="fas fa-gem" style="color: #9b59b6;"></i>
+                            </div>
+                            <h4>Diamond</h4>
+                            <p class="exchange-rate">100,000 Golden = 1 Diamond</p>
+                            <button onclick="exchangeCurrency('diamond', 100000)">
+                                Exchange
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privileges Section - UPDATED WITH ACTIVE SILVER PRIVILEGES -->
+                <div id="privilegesSection" style="display: none;">
+                    <h3 style="text-align: center; margin-bottom: 15px; color: #333;">Elite Privileges</h3>
+                    
+                    <div class="rewards-grid">
+                        <div class="reward-card silver">
+                            <i class="fas fa-user-shield" style="color: #C0C0C0;"></i>
+                            <h4>Silver Privileges</h4>
+                            <p>• Add Email Address<br>• Change Mobile Number<br>• View/Change Password</p>
+                            <button class="btn-primary" onclick="openSilverPrivileges()" style="background: #C0C0C0;">
+                                Access Privileges
+                            </button>
+                        </div>
+
+                        <div class="reward-card platinum">
+                            <i class="fas fa-crown" style="color: #3498db;"></i>
+                            <h4>Platinum Benefits</h4>
+                            <p>• 1 Platinum = +100 Coins<br>• Leaderboard Boost<br>• Exclusive Badge</p>
+                            <button class="btn-primary" onclick="usePlatinum()" style="background: #3498db;">
+                                Use Platinum (+100 Coins)
+                            </button>
+                        </div>
+
+                        <div class="reward-card diamond">
+                            <i class="fas fa-gem" style="color: #9b59b6;"></i>
+                            <h4>Diamond Theme</h4>
+                            <p>• 2 Diamonds Required<br>• Purple Theme Unlock<br>• Exclusive Profile Design</p>
+                            <button class="btn-primary" onclick="activateDiamondTheme()" style="background: #9b59b6;">
+                                Activate Diamond Theme
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profilePage" class="page profile-page">
+        <div class="profile-header level-starter-header" id="profilePageHeader">
+            <div class="profile-top">
+                <button class="menu-btn" onclick="toggleProfileMenu()">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+            <div class="profile-main">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar" onclick="openEditModal()">
+                        <img id="profilePageAvatar" src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Avatar">
+                    </div>
+                    <div class="level-icon" id="profileLevelIcon">
+                        <!-- Icon will be added based on level -->
+                    </div>
+                </div>
+                <div class="profile-name" id="profilePageName">
+                    <span id="profilePageNameText">Loading...</span>
+                    <i class="fas fa-check-circle verified-badge" id="profilePageVerifiedBadge" style="display: none;" title="Verified Account"></i>
+                </div>
+                <div class="profile-level" id="profilePageLevel">Starter</div>
+            </div>
+        </div>
+
+        <!-- PROFILE COINS DISPLAY - PROFESSIONAL SECTION BELOW HEADER -->
+        <div class="profile-coins-section">
+            <div class="coins-display-title">
+                <i class="fas fa-wallet"></i>
+                My Coins Balance
+            </div>
+            <div class="coins-grid">
+                <div class="coin-card rewards">
+                    <div class="coin-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="coin-amount" id="profilePagePoints">0</div>
+                    <div class="coin-label">Rewards Coins</div>
+                </div>
+                <div class="coin-card golden">
+                    <div class="coin-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="coin-amount" id="profilePageGolden">0</div>
+                    <div class="coin-label">Golden Coins</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Menu Dropdown -->
+        <div class="profile-menu" id="profileMenu">
+            <div class="menu-item" onclick="openEditModal()">
+                <i class="fas fa-edit"></i>
+                <span>Edit Name & Bio</span>
+            </div>
+            <div class="menu-item" onclick="openEditModal('avatar')">
+                <i class="fas fa-user-circle"></i>
+                <span>Change Avatar</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='admin-reward.html'">
+    <i class="fas fa-user-shield"></i>
+    <span>Official Login</span>
+</div>
+            <div class="menu-item logout" onclick="showLogoutDialog()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-card">
+                <div class="profile-section">
+                    <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-mobile-alt"></i>
+                                Mobile Number
+                            </div>
+                            <div class="info-value" id="profileMobile">Loading...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </div>
+                            <div class="info-value" id="profileEmail">Not set</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Join Date
+                            </div>
+                            <div class="info-value" id="memberSince">Today</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-chart-line"></i>
+                                Current Level
+                            </div>
+                            <div class="info-value" id="profileUserLevel">Starter</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    <div class="bio-section">
+                        <div class="bio-label">
+                            <i class="fas fa-clock"></i>
+                            Last Active
+                        </div>
+                        <div class="bio-text" id="lastActivity">Just now</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-info-circle"></i> About Me</h3>
+                    <div class="bio-section">
+                        <div class="bio-label">
+                            <i class="fas fa-user-edit"></i>
+                            Bio
+                        </div>
+                        <div class="bio-text" id="profileBio">No bio yet. Tell us about yourself!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="edit-modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Edit Profile</h3>
+                <button class="modal-close" onclick="closeEditModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group" id="nameBioSection">
+                    <label>Name</label>
+                    <input type="text" id="editName" placeholder="Enter your name">
+                    
+                    <label style="margin-top: 15px;">Bio</label>
+                    <textarea id="editBio" placeholder="Tell us about yourself"></textarea>
+                </div>
+
+                <div id="avatarSection" style="display: none;">
+                    <div class="avatar-categories">
+                        <button class="category-tab active" onclick="showAvatarCategory('free')">Free (10 Avatars)</button>
+                        <button class="category-tab" onclick="showAvatarCategory('better')">Better (25 Avatars)</button>
+                        <button class="category-tab" onclick="showAvatarCategory('primer')">Primer (50 Avatars)</button>
+                    </div>
+                    
+                    <div id="freeAvatars" class="avatars-grid">
+                        <!-- Free avatars will be loaded here -->
+                    </div>
+                    
+                    <div id="betterAvatars" class="avatars-grid" style="display: none;">
+                        <!-- Better avatars will be loaded here -->
+                    </div>
+                    
+                    <div id="primerAvatars" class="avatars-grid" style="display: none;">
+                        <!-- Primer avatars will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="saveProfile()" id="saveBtn">Save Changes</button>
+                <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="nav">
+        <div class="nav-item active" onclick="openTab('home', this)">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="openTab('reward', this)">
+            <i class="fas fa-gift"></i>
+            <span>Rewards</span>
+        </div>
+        <div class="nav-item" onclick="openTab('profilePage', this)">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHAQjn4sTuR9FiGF3ljRrFEMZQjsx-SHg",
+            databaseURL: "https://apni-duniya-b53d7-default-rtdb.firebaseio.com",
+            projectId: "apni-duniya-b53d7"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Check authentication
+        let uid = localStorage.getItem("uid");
+        if (!uid) {
+            window.location.href = "index.html";
+        }
+
+        let currentUser = null;
+        selectedAvatar = null;
+        let currentAvatarCategory = 'free';
+        let dailyRewards = {};
+        let missionRewards = {};
+        let notifications = [];
+        let leaderboardUsers = [];
+        let originalPoints = 0;
+        let isAvatarChange = false;
+        let avatarCost = 0;
+        let vaultUnlocked = false;
+
+        // Level System with Colors - ONLY FOR HEADERS
+        const levels = [
+            { 
+                points: 0, 
+                name: "Starter", 
+                headerClass: "level-starter-header",
+                badgeClass: "level-starter-badge",
+                color: "#95a5a6", 
+                bgColor: "linear-gradient(135deg, #95a5a6, #7f8c8d)",
+                icon: "",
+                iconColor: "#27ae60",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 100, 
+                name: "Beginner", 
+                headerClass: "level-beginner-header",
+                badgeClass: "level-beginner-badge",
+                color: "#2ecc71", 
+                bgColor: "linear-gradient(135deg, #2ecc71, #27ae60)",
+                icon: "",
+                iconColor: "#2ecc71",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 200, 
+                name: "Active", 
+                headerClass: "level-active-header",
+                badgeClass: "level-active-badge",
+                color: "#3498db", 
+                bgColor: "linear-gradient(135deg, #3498db, #2980b9)",
+                icon: "",
+                iconColor: "#3498db",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 500, 
+                name: "Pro", 
+                headerClass: "level-pro-header",
+                badgeClass: "level-pro-badge",
+                color: "#9b59b6", 
+                bgColor: "linear-gradient(135deg, #9b59b6, #8e44ad)",
+                icon: "",
+                iconColor: "#9b59b6",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 1000, 
+                name: "Elite", 
+                headerClass: "level-elite-header",
+                badgeClass: "level-elite-badge",
+                color: "#f1c40f", 
+                bgColor: "linear-gradient(135deg, #f1c40f, #f39c12)",
+                icon: "",
+                iconColor: "#f1c40f",
+                textColor: "#333333"
+            },
+            { 
+                points: 2000, 
+                name: "Master", 
+                headerClass: "level-master-header",
+                badgeClass: "level-master-badge",
+                color: "#e67e22", 
+                bgColor: "linear-gradient(135deg, #e67e22, #d35400)",
+                icon: "",
+                iconColor: "#e67e22",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 4000, 
+                name: "Legend", 
+                headerClass: "level-legend-header",
+                badgeClass: "level-legend-badge",
+                color: "#e84393", 
+                bgColor: "linear-gradient(135deg, #e84393, #fd79a8)",
+                icon: "fas fa-fire",
+                iconColor: "#e84393",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 5000, 
+                name: "King", 
+                headerClass: "level-king-header",
+                badgeClass: "level-king-badge",
+                color: "#d63031", 
+                bgColor: "linear-gradient(135deg, #d63031, #c0392b)",
+                icon: "fas fa-crown",
+                iconColor: "#ffd700",
+                textColor: "#ffffff"
+            },
+            { 
+                points: 10000, 
+                name: "Emperor", 
+                headerClass: "level-emperor-header",
+                badgeClass: "level-emperor-badge",
+                color: "#2d3436", 
+                bgColor: "linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9f43, #feca57)",
+                icon: "fas fa-chess-king",
+                iconColor: "#ffd700",
+                textTextColor: "#ffffff"
+            },
+            { 
+                points: 50000, 
+                name: "GOD", 
+                headerClass: "level-god-header",
+                badgeClass: "level-god-badge",
+                color: "#000000", 
+                bgColor: "linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045, #405de6)",
+                icon: "fas fa-star",
+                iconColor: "#ffd700",
+                textColor: "#ffffff"
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadRules();
+            loadAvatars();
+            loadRewards();
+            loadNotifications();
+            
+            // Close notification panel when clicking outside
+            document.addEventListener('click', function(event) {
+                const panel = document.getElementById('notificationPanel');
+                const bell = document.querySelector('.notification-bell');
+                
+                if (panel.style.display === 'block' && 
+                    !panel.contains(event.target) && 
+                    !bell.contains(event.target)) {
+                    panel.style.display = 'none';
+                }
+            });
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = 'toast';
+            if (type === 'error') {
+                toast.classList.add('error');
+                toast.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else if (type === 'info') {
+                toast.classList.add('info');
+                toast.querySelector('i').className = 'fas fa-info-circle';
+            } else if (type === 'warning') {
+                toast.classList.add('warning');
+                toast.querySelector('i').className = 'fas fa-exclamation-triangle';
+            } else {
+                toast.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            toastMessage.textContent = message;
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function toggleNotifications() {
+            const panel = document.getElementById('notificationPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function clearNotifications() {
+            notifications = [];
+            updateNotificationUI();
+            showToast("All notifications cleared", 'info');
+        }
+
+        function addNotification(title, message) {
+            const notification = {
+                id: Date.now(),
+                title: title,
+                message: message,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                read: false
+            };
+            
+            notifications.unshift(notification);
+            updateNotificationUI();
+            
+            // Show notification badge
+            document.getElementById('notificationCount').textContent = notifications.length;
+        }
+
+        function updateNotificationUI() {
+            const notificationList = document.getElementById('notificationList');
+            const notificationCount = document.getElementById('notificationCount');
+            
+            notificationCount.textContent = notifications.length;
+            
+            if (notifications.length === 0) {
+                notificationList.innerHTML = `
+                    <div class="no-notifications">
+                        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No notifications yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationList.innerHTML = '';
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+                notificationItem.innerHTML = `
+                    <div class="notification-title">${notification.title}</div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-time">${notification.time}</div>
+                `;
+                notificationList.appendChild(notificationItem);
+            });
+        }
+
+        function loadNotifications() {
+            // Load initial notifications
+            addNotification("Welcome to Apni Duniya!", "Start earning points by completing daily tasks.");
+            addNotification("Daily Login Bonus", "Don't forget to claim your daily reward!");
+            addNotification("Level Up!", "You're doing great! Keep earning points to unlock new levels.");
+        }
+
+        function loadUserData() {
+            db.ref("users/" + uid).on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                    currentUser = snapshot.val();
+                    
+                    // Initialize Golden Vault fields if not exists
+                    const goldenFields = {
+                        goldenCoins: currentUser.goldenCoins || 0,
+                        silver: currentUser.silver || 0,
+                        platinum: currentUser.platinum || 0,
+                        diamond: currentUser.diamond || 0,
+                        goldenWeekDone: currentUser.goldenWeekDone || false,
+                        goldenDay: currentUser.goldenDay || 1,
+                        goldenMonthly: currentUser.goldenMonthly || false,
+                        diamondTheme: currentUser.diamondTheme || false,
+                        lastGoldenClaim: currentUser.lastGoldenClaim || 0,
+                        email: currentUser.email || "",
+                        password: currentUser.password || "default123"
+                    };
+                    
+                    // Update if any field is missing
+                    db.ref("users/" + uid).update(goldenFields);
+                    
+                    updateUI();
+                    loadLeaderboard();
+                    loadAvatars();
+                    
+                    // Check Golden Vault unlock status
+                    checkGoldenVault();
+                } else {
+                    logout();
+                }
+            });
+        }
+
+        function updateUI() {
+            if (!currentUser) return;
+
+            const points = currentUser.points || 0;
+            const level = getCurrentLevel(points);
+            const name = currentUser.name || "User";
+            const bio = currentUser.bio || "Welcome to Apni Duniya!";
+            const avatar = currentUser.avatar || "https://cdn-icons-png.flaticon.com/512/4140/4140048.png";
+            const isVerified = currentUser.is_verified || false;
+            const goldenCoins = currentUser.goldenCoins || 0;
+            const silver = currentUser.silver || 0;
+            const platinum = currentUser.platinum || 0;
+            const diamond = currentUser.diamond || 0;
+            const diamondTheme = currentUser.diamondTheme || false;
+            const email = currentUser.email || "Not set";
+            const mobile = uid;
+
+            // Update header classes only
+            updateHeaderClasses(level.headerClass, level.badgeClass);
+
+            // Update verified badge for ALL locations
+            const verifiedBadge = document.getElementById('verifiedBadge');
+            const profilePageVerifiedBadge = document.getElementById('profilePageVerifiedBadge');
+            const viewProfileVerifiedBadge = document.getElementById('viewProfileVerifiedBadge');
+            
+            // Update name text for all locations
+            document.getElementById('profileNameText').textContent = name;
+            document.getElementById('profilePageNameText').textContent = name;
+            
+            // Show/hide blue tick based on verification status
+            if (isVerified) {
+                if (verifiedBadge) verifiedBadge.style.display = 'inline';
+                if (profilePageVerifiedBadge) profilePageVerifiedBadge.style.display = 'inline';
+                if (viewProfileVerifiedBadge) viewProfileVerifiedBadge.style.display = 'inline';
+            } else {
+                if (verifiedBadge) verifiedBadge.style.display = 'none';
+                if (profilePageVerifiedBadge) profilePageVerifiedBadge.style.display = 'none';
+                if (viewProfileVerifiedBadge) viewProfileVerifiedBadge.style.display = 'none';
+            }
+
+            // Update points display
+            document.getElementById('rewardsHeaderPointsCount').textContent = points;
+            document.getElementById('rewardsHeaderGoldenCount').textContent = goldenCoins;
+            document.getElementById('profilePagePoints').textContent = points;
+            document.getElementById('profilePageGolden').textContent = goldenCoins;
+            document.getElementById('profileUserLevel').textContent = level.name;
+            
+            // Update email and mobile
+            document.getElementById('profileEmail').textContent = email;
+            document.getElementById('profileMobile').textContent = mobile;
+            
+            // Update silver privileges modal
+            document.getElementById('currentEmail').textContent = `Current: ${email}`;
+            document.getElementById('currentMobile').textContent = `Current: ${mobile}`;
+            document.getElementById('passwordField').value = currentUser.password || "default123";
+            
+            // Update last activity
+            const lastActivity = currentUser.lastActivity ? 
+                formatTimeAgo(currentUser.lastActivity) : 'Just now';
+            document.getElementById('lastActivity').textContent = lastActivity;
+
+            // Update profile info
+            document.getElementById('profileLevel').textContent = level.name;
+            document.getElementById('profilePageLevel').textContent = level.name;
+
+            // Update level icons
+            const levelIcon = document.getElementById('levelIcon');
+            const profileLevelIcon = document.getElementById('profileLevelIcon');
+            
+            if (level.icon) {
+                levelIcon.innerHTML = `<i class="${level.icon}"></i>`;
+                levelIcon.style.color = level.iconColor;
+                levelIcon.classList.add('show');
+                
+                profileLevelIcon.innerHTML = `<i class="${level.icon}"></i>`;
+                profileLevelIcon.style.color = level.iconColor;
+                profileLevelIcon.classList.add('show');
+            } else {
+                levelIcon.classList.remove('show');
+                profileLevelIcon.classList.remove('show');
+            }
+
+            // Update avatars
+            document.getElementById('profileAvatar').src = avatar;
+            document.getElementById('profilePageAvatar').src = avatar;
+
+            // Update profile page info
+            document.getElementById('profileBio').textContent = bio;
+            document.getElementById('memberSince').textContent = formatDate(currentUser.created);
+            
+            // Update elite points display
+            updateElitePointsDisplay(silver, platinum, diamond);
+        }
+
+        function updateHeaderClasses(headerClass, badgeClass) {
+            // Update home page header
+            const homeHeader = document.getElementById('profileHeader');
+            const homeBadges = document.querySelectorAll('#home .leader-rank');
+            
+            if (homeHeader) {
+                homeHeader.className = homeHeader.className.replace(/level-\w+-header/g, '');
+                homeHeader.classList.add(headerClass);
+            }
+            
+            // Update rewards page header
+            const rewardsHeader = document.querySelector('.rewards-header');
+            if (rewardsHeader) {
+                rewardsHeader.className = rewardsHeader.className.replace(/level-\w+-header/g, '');
+                rewardsHeader.classList.add(headerClass);
+            }
+            
+            // Update profile page header
+            const profileHeader = document.getElementById('profilePageHeader');
+            if (profileHeader) {
+                profileHeader.className = profileHeader.className.replace(/level-\w+-header/g, '');
+                profileHeader.classList.add(headerClass);
+            }
+            
+            // Update leaderboard badges
+            homeBadges.forEach(badge => {
+                badge.className = badge.className.replace(/level-\w+-badge/g, '');
+                badge.classList.add(badgeClass);
+            });
+            
+            // Update rules items
+            const ruleItems = document.querySelectorAll('.rule-item');
+            ruleItems.forEach(item => {
+                item.className = item.className.replace(/level-\w+-badge/g, '');
+                item.classList.add(badgeClass);
+            });
+        }
+
+        function updateElitePointsDisplay(silver, platinum, diamond) {
+            const elitePointsDiv = document.getElementById('elitePoints');
+            if (elitePointsDiv) {
+                elitePointsDiv.innerHTML = `
+                    <div class="elite-point silver">
+                        <i class="fas fa-coins" style="color: #C0C0C0;"></i>
+                        <span>${silver} Silver</span>
+                    </div>
+                    <div class="elite-point platinum">
+                        <i class="fas fa-gem" style="color: #3498db;"></i>
+                        <span>${platinum} Platinum</span>
+                    </div>
+                    <div class="elite-point diamond">
+                        <i class="fas fa-gem" style="color: #9b59b6;"></i>
+                        <span>${diamond} Diamond</span>
+                    </div>
+                `;
+            }
+        }
+
+        function openSilverPrivileges() {
+            // Check if user has at least 1 Silver
+            if (!currentUser || (currentUser.silver || 0) < 1) {
+                showToast("You need at least 1 Silver to access Silver Privileges!", 'error');
+                return;
+            }
+            
+            document.getElementById('silverPrivilegesModal').style.display = 'flex';
+        }
+
+        function closeSilverPrivileges() {
+            document.getElementById('silverPrivilegesModal').style.display = 'none';
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById('passwordField');
+            const toggleBtn = document.querySelector('.toggle-password');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleBtn.textContent = 'Hide';
+            } else {
+                passwordField.type = 'password';
+                toggleBtn.textContent = 'Show';
+            }
+        }
+
+        function updateEmail() {
+            const newEmail = document.getElementById('newEmail').value.trim();
+            
+            if (!newEmail) {
+                showToast("Please enter a valid email address", 'error');
+                return;
+            }
+            
+            if (!validateEmail(newEmail)) {
+                showToast("Please enter a valid email format", 'error');
+                return;
+            }
+            
+            db.ref("users/" + uid).update({
+                email: newEmail,
+                lastActivity: Date.now()
+            })
+            .then(() => {
+                showToast("Email updated successfully!", 'success');
+                document.getElementById('currentEmail').textContent = `Current: ${newEmail}`;
+                document.getElementById('newEmail').value = '';
+                addNotification("Email Updated", "Your email address has been updated");
+            })
+            .catch(error => {
+                showToast("Error updating email: " + error.message, 'error');
+            });
+        }
+
+        function updateMobile() {
+            const newMobile = document.getElementById('newMobile').value.trim();
+            
+            if (!newMobile) {
+                showToast("Please enter a mobile number", 'error');
+                return;
+            }
+            
+            if (!validateMobile(newMobile)) {
+                showToast("Please enter a valid 10-digit mobile number", 'error');
+                return;
+            }
+            
+            showToast("Mobile number update requires authentication verification", 'info');
+            document.getElementById('currentMobile').textContent = `Current: ${newMobile} (Pending verification)`;
+            document.getElementById('newMobile').value = '';
+        }
+
+        function updatePassword() {
+            const newPassword = document.getElementById('newPassword').value.trim();
+            
+            if (!newPassword) {
+                showToast("Please enter a new password", 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showToast("Password must be at least 6 characters long", 'error');
+                return;
+            }
+            
+            db.ref("users/" + uid).update({
+                password: newPassword,
+                lastActivity: Date.now()
+            })
+            .then(() => {
+                showToast("Password updated successfully!", 'success');
+                document.getElementById('passwordField').value = newPassword;
+                document.getElementById('newPassword').value = '';
+                addNotification("Password Changed", "Your password has been updated");
+            })
+            .catch(error => {
+                showToast("Error updating password: " + error.message, 'error');
+            });
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validateMobile(mobile) {
+            const re = /^\d{10}$/;
+            return re.test(mobile);
+        }
+
+        function checkGoldenVault() {
+            if (!currentUser) return;
+            
+            const points = currentUser.points || 0;
+            vaultUnlocked = points >= 100000;
+            
+            const goldenVaultTab = document.getElementById('goldenVaultTab');
+            const vaultLockedDiv = document.getElementById('vaultLocked');
+            const vaultUnlockedDiv = document.getElementById('vaultUnlocked');
+            
+            if (vaultUnlocked) {
+                // Unlock Golden Vault
+                goldenVaultTab.innerHTML = '<i class="fas fa-vault"></i> Golden Vault';
+                goldenVaultTab.classList.remove('locked');
+                
+                vaultLockedDiv.style.display = 'none';
+                vaultUnlockedDiv.style.display = 'block';
+                
+                // Load Golden Vault content
+                loadGoldenVault();
+            } else {
+                // Show locked state
+                goldenVaultTab.innerHTML = '<i class="fas fa-lock"></i> Golden Vault';
+                goldenVaultTab.classList.add('locked');
+                
+                vaultLockedDiv.style.display = 'block';
+                vaultUnlockedDiv.style.display = 'none';
+                
+                // Update progress
+                document.getElementById('currentCoins').textContent = points;
+                const progress = Math.min((points / 100000) * 100, 100);
+                document.getElementById('progressBar').style.width = progress + '%';
+            }
+        }
+
+        function loadGoldenVault() {
+            if (!currentUser || !vaultUnlocked) return;
+            
+            const goldenWeekDone = currentUser.goldenWeekDone || false;
+            const goldenDay = currentUser.goldenDay || 1;
+            const goldenMonthly = currentUser.goldenMonthly || false;
+            
+            // Show appropriate chain
+            if (!goldenWeekDone) {
+                // Show weekly chain (1-7 days)
+                document.getElementById('weeklyChain').style.display = 'block';
+                document.getElementById('monthlyChain').style.display = 'none';
+                loadWeeklyChain();
+            } else if (goldenMonthly) {
+                // Show monthly chain (1-30 days)
+                document.getElementById('weeklyChain').style.display = 'none';
+                document.getElementById('monthlyChain').style.display = 'block';
+                loadMonthlyChain();
+            }
+            
+            // Update claim button status
+            updateGoldenClaimStatus();
+        }
+
+        function loadWeeklyChain() {
+            const weeklyGrid = document.getElementById('weeklyGrid');
+            weeklyGrid.innerHTML = '';
+            
+            const goldenDay = currentUser.goldenDay || 1;
+            const lastGoldenClaim = currentUser.lastGoldenClaim || 0;
+            const today = new Date().toDateString();
+            const lastClaimDate = lastGoldenClaim ? new Date(lastGoldenClaim).toDateString() : '';
+            const canClaim = today !== lastClaimDate;
+            
+            for (let day = 1; day <= 7; day++) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                
+                if (day < goldenDay) {
+                    dayCard.classList.add('completed');
+                } else if (day === goldenDay && canClaim) {
+                    dayCard.classList.add('current');
+                }
+                
+                // Calculate reward: Day 1 → +5, Day 2 → +10, etc.
+                const reward = day * 5;
+                
+                dayCard.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="day-reward">+${reward} Golden</div>
+                `;
+                
+                weeklyGrid.appendChild(dayCard);
+            }
+        }
+
+        function loadMonthlyChain() {
+            const monthlyGrid = document.getElementById('monthlyGrid');
+            monthlyGrid.innerHTML = '';
+            
+            const goldenDay = currentUser.goldenDay || 1;
+            const lastGoldenClaim = currentUser.lastGoldenClaim || 0;
+            const today = new Date().toDateString();
+            const lastClaimDate = lastGoldenClaim ? new Date(lastGoldenClaim).toDateString() : '';
+            const canClaim = today !== lastClaimDate;
+            
+            for (let day = 1; day <= 30; day++) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                
+                if (day < goldenDay) {
+                    dayCard.classList.add('completed');
+                } else if (day === goldenDay && canClaim) {
+                    dayCard.classList.add('current');
+                }
+                
+                // Calculate reward: day * 20
+                const reward = day * 20;
+                
+                dayCard.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="day-reward">+${reward} Golden</div>
+                `;
+                
+                monthlyGrid.appendChild(dayCard);
+            }
+        }
+
+        function updateGoldenClaimStatus() {
+            if (!currentUser) return;
+            
+            const lastGoldenClaim = currentUser.lastGoldenClaim || 0;
+            const today = new Date().toDateString();
+            const lastClaimDate = lastGoldenClaim ? new Date(lastGoldenClaim).toDateString() : '';
+            const canClaim = today !== lastClaimDate;
+            
+            const claimBtn = document.getElementById('claimGoldenBtn');
+            const statusText = document.getElementById('goldenStatus');
+            
+            if (canClaim) {
+                claimBtn.disabled = false;
+                claimBtn.innerHTML = '<i class="fas fa-gift"></i> Claim Today\'s Golden Reward';
+                statusText.textContent = "Ready to claim today's reward!";
+                statusText.style.color = "#27ae60";
+            } else {
+                claimBtn.disabled = true;
+                claimBtn.innerHTML = '<i class="fas fa-check"></i> Already Claimed Today';
+                statusText.textContent = "Come back tomorrow for next reward!";
+                statusText.style.color = "#666";
+            }
+        }
+
+        function claimGoldenReward() {
+            if (!currentUser) return;
+            
+            const lastGoldenClaim = currentUser.lastGoldenClaim || 0;
+            const today = new Date().toDateString();
+            const lastClaimDate = lastGoldenClaim ? new Date(lastGoldenClaim).toDateString() : '';
+            
+            if (today === lastClaimDate) {
+                showToast("You have already claimed today's reward!", 'info');
+                return;
+            }
+            
+            const goldenWeekDone = currentUser.goldenWeekDone || false;
+            let goldenDay = currentUser.goldenDay || 1;
+            const goldenMonthly = currentUser.goldenMonthly || false;
+            
+            let reward = 0;
+            
+            if (!goldenWeekDone) {
+                // Weekly chain: day * 5
+                reward = goldenDay * 5;
+                goldenDay++;
+                
+                if (goldenDay > 7) {
+                    // Week completed, move to monthly
+                    goldenWeekDone = true;
+                    goldenMonthly = true;
+                    goldenDay = 1;
+                    showToast("🎉 Week completed! Monthly run unlocked!", 'success');
+                }
+            } else if (goldenMonthly) {
+                // Monthly chain: day * 20
+                reward = goldenDay * 20;
+                goldenDay++;
+                
+                // Check for bonuses
+                if (goldenDay === 11) { // After completing day 10
+                    reward += 100; // +100 Golden bonus
+                    showToast("🎁 10-day streak bonus: +100 Golden!", 'success');
+                } else if (goldenDay === 21) { // After completing day 20
+                    reward += 500; // +500 Golden bonus
+                    showToast("🎁 20-day streak bonus: +500 Golden!", 'success');
+                } else if (goldenDay === 31) { // After completing day 30
+                    reward += 1000; // +1000 Golden bonus
+                    showToast("🎁 30-day streak complete: +1000 Golden!", 'success');
+                    // Reset for next month
+                    goldenDay = 1;
+                }
+            }
+            
+            // Update user data
+            const updates = {
+                goldenCoins: (currentUser.goldenCoins || 0) + reward,
+                goldenWeekDone: goldenWeekDone,
+                goldenDay: goldenDay,
+                goldenMonthly: goldenMonthly,
+                lastGoldenClaim: Date.now(),
+                lastActivity: Date.now()
+            };
+            
+            db.ref("users/" + uid).update(updates)
+                .then(() => {
+                    showToast(`🎉 Golden reward claimed! +${reward} Golden Coins`, 'success');
+                    addNotification("Golden Reward", `You earned ${reward} Golden Coins!`);
+                    updateGoldenClaimStatus();
+                    loadGoldenVault();
+                })
+                .catch(error => {
+                    showToast("Error claiming reward: " + error.message, 'error');
+                });
+        }
+
+        function exchangeCurrency(type, cost) {
+            if (!currentUser) return;
+            
+            const goldenCoins = currentUser.goldenCoins || 0;
+            
+            if (goldenCoins < cost) {
+                showToast(`Not enough Golden Coins! Required: ${cost}, Available: ${goldenCoins}`, 'error');
+                return;
+            }
+            
+            let updates = {};
+            let newCurrency = 0;
+            
+            switch(type) {
+                case 'silver':
+                    newCurrency = (currentUser.silver || 0) + 1;
+                    updates.silver = newCurrency;
+                    break;
+                case 'platinum':
+                    newCurrency = (currentUser.platinum || 0) + 1;
+                    updates.platinum = newCurrency;
+                    break;
+                case 'diamond':
+                    newCurrency = (currentUser.diamond || 0) + 1;
+                    updates.diamond = newCurrency;
+                    break;
+            }
+            
+            updates.goldenCoins = goldenCoins - cost;
+            updates.lastActivity = Date.now();
+            
+            db.ref("users/" + uid).update(updates)
+                .then(() => {
+                    showToast(`Successfully exchanged ${cost} Golden for 1 ${type.charAt(0).toUpperCase() + type.slice(1)}!`, 'success');
+                    addNotification("Currency Exchange", `Exchanged ${cost} Golden for 1 ${type}`);
+                })
+                .catch(error => {
+                    showToast("Error exchanging currency: " + error.message, 'error');
+                });
+        }
+
+        function usePlatinum() {
+            if (!currentUser) return;
+            
+            const platinum = currentUser.platinum || 0;
+            
+            if (platinum < 1) {
+                showToast("You need at least 1 Platinum to use this feature!", 'error');
+                return;
+            }
+            
+            const updates = {
+                platinum: platinum - 1,
+                points: (currentUser.points || 0) + 100,
+                lastActivity: Date.now()
+            };
+            
+            db.ref("users/" + uid).update(updates)
+                .then(() => {
+                    showToast("Platinum used! +100 Coins added to your balance", 'success');
+                    addNotification("Platinum Used", "Converted 1 Platinum to 100 Coins");
+                })
+                .catch(error => {
+                    showToast("Error using platinum: " + error.message, 'error');
+                });
+        }
+
+        function activateDiamondTheme() {
+            if (!currentUser) return;
+            
+            const diamond = currentUser.diamond || 0;
+            
+            if (diamond < 2) {
+                showToast("You need at least 2 Diamonds to activate Diamond Theme!", 'error');
+                return;
+            }
+            
+            const updates = {
+                diamondTheme: true,
+                lastActivity: Date.now()
+            };
+            
+            db.ref("users/" + uid).update(updates)
+                .then(() => {
+                    showToast("Diamond Theme activated! Enjoy the exclusive purple theme!", 'success');
+                    addNotification("Diamond Theme", "Exclusive purple theme activated");
+                })
+                .catch(error => {
+                    showToast("Error activating theme: " + error.message, 'error');
+                });
+        }
+
+        function showVaultSection(section) {
+            // Hide all sections
+            document.getElementById('monthlySection').style.display = 'none';
+            document.getElementById('exchangeSection').style.display = 'none';
+            document.getElementById('privilegesSection').style.display = 'none';
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.vault-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section and activate tab
+            document.getElementById(section + 'Section').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return 'Just now';
+            
+            const now = Date.now();
+            const diff = now - timestamp;
+            
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days === 1) return 'Yesterday';
+            if (days < 7) return `${days}d ago`;
+            
+            return formatDate(timestamp);
+        }
+
+        function getCurrentLevel(points) {
+            for (let i = levels.length - 1; i >= 0; i--) {
+                if (points >= levels[i].points) {
+                    return levels[i];
+                }
+            }
+            return levels[0];
+        }
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Today';
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function loadRules() {
+            const rulesList = document.getElementById('rulesList');
+            rulesList.innerHTML = '';
+
+            levels.forEach(level => {
+                const nextLevel = levels[levels.indexOf(level) + 1];
+                const range = nextLevel ? 
+                    `${level.points} - ${nextLevel.points - 1}` : 
+                    `${level.points}+`;
+
+                const ruleItem = document.createElement('div');
+                ruleItem.className = `rule-item ${level.badgeClass}`;
+                ruleItem.innerHTML = `
+                    <div class="rule-icon" style="background: ${level.color}">
+                        ${level.icon ? `<i class="${level.icon}" style="color: white;"></i>` : ''}
+                    </div>
+                    <div class="rule-info">
+                        <div class="rule-name">${level.name}</div>
+                        <div class="rule-range">${range} points</div>
+                    </div>
+                `;
+                rulesList.appendChild(ruleItem);
+            });
+        }
+
+        function loadAvatars() {
+            // Generate avatar URLs for different categories
+            const freeAvatars = document.getElementById('freeAvatars');
+            const betterAvatars = document.getElementById('betterAvatars');
+            const primerAvatars = document.getElementById('primerAvatars');
+            
+            // Clear existing avatars
+            freeAvatars.innerHTML = '';
+            betterAvatars.innerHTML = '';
+            primerAvatars.innerHTML = '';
+            
+            // Get current user points
+            const points = currentUser ? (currentUser.points || 0) : 0;
+            
+            // Real avatar URLs - using different avatar services
+            const avatarUrls = [
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Jamie",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Casey",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Riley",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Avery",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Quinn",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Blake",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Taylor",
+                "https://api.dicebear.com/7.x/avataaars/svg?seed=Hayden",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Harper",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Sage",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Rowan",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Sawyer",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Peyton",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Emerson",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Finley",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Skyler",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=River",
+                "https://api.dicebear.com/7.x/adventurer/svg?seed=Phoenix",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Arlo",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Kai",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Oakley",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Remi",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Zion",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Dakota",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Marley",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Zephyr",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Justice",
+                "https://api.dicebear.com/7.x/pixel-art/svg?seed=Denver",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Indiana",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Baylor",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Memphis",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Shiloh",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Bowie",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Milan",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Aspen",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Kylo",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Creed",
+                "https://api.dicebear.com/7.x/bottts/svg?seed=Shea",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Oakley",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Remington",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Sterling",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Sutton",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Wilder",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Zion",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Armani",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Karsyn",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Landry",
+                "https://api.dicebear.com/7.x/micah/svg?seed=Madden"
+            ];
+            
+            // Generate 10 free avatars
+            for (let i = 1; i <= 10; i++) {
+                const avatarUrl = avatarUrls[i-1];
+                const avatarOption = createAvatarOption('free', i, avatarUrl, 0, true);
+                freeAvatars.appendChild(avatarOption);
+            }
+            
+            // Generate 25 better avatars (unlocks at 500+ coins)
+            for (let i = 1; i <= 25; i++) {
+                const avatarUrl = avatarUrls[i+9];
+                const isUnlocked = points >= 500;
+                const avatarOption = createAvatarOption('better', i, avatarUrl, 500, isUnlocked);
+                betterAvatars.appendChild(avatarOption);
+            }
+            
+            // Generate 50 primer avatars (unlocks at 10000+ coins)
+            for (let i = 1; i <= 50; i++) {
+                const avatarUrl = avatarUrls[i+34];
+                const isUnlocked = points >= 10000;
+                const avatarOption = createAvatarOption('primer', i, avatarUrl, 10000, isUnlocked);
+                primerAvatars.appendChild(avatarOption);
+            }
+        }
+
+        function createAvatarOption(category, index, avatarUrl, requirement, isUnlocked) {
+            const avatarOption = document.createElement('div');
+            avatarOption.className = 'avatar-option';
+            if (!isUnlocked) {
+                avatarOption.style.opacity = '0.6';
+                avatarOption.style.cursor = 'not-allowed';
+            }
+            
+            avatarOption.innerHTML = `
+                <div class="avatar-img">
+                    <img src="${avatarUrl}" alt="Avatar ${index}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4140/4140048.png'">
+                    ${!isUnlocked ? `<div class="avatar-locked"><i class="fas fa-lock"></i></div>` : ''}
+                </div>
+                <div class="avatar-name">Avatar ${index}</div>
+                ${!isUnlocked ? `<div class="avatar-requirement">Requires ${requirement} coins</div>` : ''}
+            `;
+            
+            if (isUnlocked) {
+                avatarOption.onclick = function() {
+                    selectAvatar(category, avatarUrl, requirement);
+                };
+            }
+            
+            return avatarOption;
+        }
+
+        function selectAvatar(category, avatarUrl, cost) {
+            if (!currentUser) return;
+            
+            const points = currentUser.points || 0;
+            
+            // Check if avatar is locked
+            if (category === 'better' && points < 500) {
+                showToast("You need 500+ coins to unlock Better avatars", 'error');
+                return;
+            }
+            
+            if (category === 'primer' && points < 10000) {
+                showToast("You need 10,000+ coins to unlock Primer avatars", 'error');
+                return;
+            }
+            
+            // Clear previous selection
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Mark current as selected
+            event.target.closest('.avatar-option').classList.add('selected');
+            
+            // Set selected avatar
+            selectedAvatar = avatarUrl;
+            avatarCost = cost;
+        }
+
+        function loadRewards() {
+            // Load Daily Rewards
+            db.ref("rewards/daily").once("value").then(snapshot => {
+                const dailyGrid = document.getElementById('dailyRewards');
+                dailyGrid.innerHTML = '';
+                
+                if (snapshot.exists()) {
+                    dailyRewards = snapshot.val();
+                    
+                    Object.keys(dailyRewards).forEach(key => {
+                        const reward = dailyRewards[key];
+                        const isClaimed = localStorage.getItem(`daily_${key}_claimed`) === 'true';
+                        
+                        const rewardCard = document.createElement('div');
+                        rewardCard.className = 'reward-card';
+                        if (key === 'login') rewardCard.classList.add('daily-reward');
+                        
+                        rewardCard.innerHTML = `
+                            <i class="${reward.icon || 'fas fa-gift'}"></i>
+                            <h4>${reward.title}</h4>
+                            <p>${reward.description}</p>
+                            <button onclick="claimDailyReward('${key}', ${reward.points})" ${isClaimed ? 'disabled' : ''}>
+                                ${isClaimed ? 'Already Claimed' : `Claim +${reward.points} Coins`}
+                            </button>
+                        `;
+                        
+                        dailyGrid.appendChild(rewardCard);
+                    });
+                } else {
+                    // Default daily rewards
+                    const defaultDailyRewards = {
+                        login: {
+                            title: "Daily Login Bonus",
+                            description: "Claim your daily reward for logging in",
+                            points: 50,
+                            icon: "fas fa-gift"
+                        },
+                        read: {
+                            title: "Read Articles",
+                            description: "Read 3 articles daily",
+                            points: 15,
+                            icon: "fas fa-book-reader"
+                        },
+                        watch: {
+                            title: "Watch Videos",
+                            description: "Watch 5 short videos",
+                            points: 20,
+                            icon: "fas fa-video"
+                        },
+                        share: {
+                            title: "Share Content",
+                            description: "Share with 2 friends",
+                            points: 25,
+                            icon: "fas fa-share-alt"
+                        }
+                    };
+                    
+                    Object.keys(defaultDailyRewards).forEach(key => {
+                        const reward = defaultDailyRewards[key];
+                        const isClaimed = localStorage.getItem(`daily_${key}_claimed`) === 'true';
+                        
+                        const rewardCard = document.createElement('div');
+                        rewardCard.className = 'reward-card';
+                        if (key === 'login') rewardCard.classList.add('daily-reward');
+                        
+                        rewardCard.innerHTML = `
+                            <i class="${reward.icon}"></i>
+                            <h4>${reward.title}</h4>
+                            <p>${reward.description}</p>
+                            <button onclick="claimDailyReward('${key}', ${reward.points})" ${isClaimed ? 'disabled' : ''}>
+                                ${isClaimed ? 'Already Claimed' : `Claim +${reward.points} Coins`}
+                            </button>
+                        `;
+                        
+                        dailyGrid.appendChild(rewardCard);
+                    });
+                }
+            });
+
+            // Load Mission Rewards
+            db.ref("rewards/missions").on("value", snapshot => {
+                const missionGrid = document.getElementById('missionRewards');
+                
+                if (snapshot.exists()) {
+                    missionRewards = snapshot.val();
+                    missionGrid.innerHTML = '';
+                    
+                    Object.keys(missionRewards).forEach(key => {
+                        const mission = missionRewards[key];
+                        const isClaimed = localStorage.getItem(`mission_${key}_claimed`) === 'true';
+                        
+                        const missionCard = document.createElement('div');
+                        missionCard.className = 'reward-card';
+                        
+                        missionCard.innerHTML = `
+                            <i class="${mission.icon || 'fas fa-tasks'}"></i>
+                            <h4>${mission.title}</h4>
+                            <p>${mission.description}</p>
+                            <button onclick="claimMissionReward('${key}', ${mission.points})" ${isClaimed ? 'disabled' : ''}>
+                                ${isClaimed ? 'Completed' : `Complete for +${mission.points} Coins`}
+                            </button>
+                        `;
+                        
+                        missionGrid.appendChild(missionCard);
+                    });
+                } else {
+                    missionGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-tasks" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <h3>No Missions Yet</h3>
+                            <p>Check back later for new missions from admin</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function claimDailyReward(key, points) {
+            if (localStorage.getItem(`daily_${key}_claimed`) === 'true') {
+                showToast("This reward has already been claimed today!", 'info');
+                return;
+            }
+            
+            addPoints(points);
+            localStorage.setItem(`daily_${key}_claimed`, 'true');
+            
+            // Update button
+            event.target.disabled = true;
+            event.target.textContent = "Already Claimed";
+            
+            showToast(`🎉 Daily reward claimed! +${points} coins added`, 'success');
+            
+            // Add notification
+            addNotification("Daily Reward Claimed", `You earned ${points} coins from daily task!`);
+        }
+
+        function claimMissionReward(key, points) {
+            if (localStorage.getItem(`mission_${key}_claimed`) === 'true') {
+                showToast("This mission has already been completed!", 'info');
+                return;
+            }
+            
+            addPoints(points);
+            localStorage.setItem(`mission_${key}_claimed`, 'true');
+            
+            // Update button
+            event.target.disabled = true;
+            event.target.textContent = "Completed";
+            
+            showToast(`🏆 Mission completed! +${points} coins added`, 'success');
+            
+            // Add notification
+            addNotification("Mission Completed", `You earned ${points} coins from mission!`);
+        }
+
+        function addPoints(points) {
+            if (!currentUser) return;
+            
+            const newPoints = (currentUser.points || 0) + points;
+            
+            db.ref("users/" + uid).update({
+                points: newPoints,
+                lastActivity: Date.now()
+            });
+        }
+
+        function deductPoints(points) {
+            if (!currentUser) return;
+            
+            const newPoints = (currentUser.points || 0) - points;
+            
+            // Ensure points don't go negative
+            const finalPoints = newPoints < 0 ? 0 : newPoints;
+            
+            db.ref("users/" + uid).update({
+                points: finalPoints,
+                lastActivity: Date.now()
+            });
+        }
+
+        function loadLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">Loading...</div>';
+
+            db.ref("users").once("value").then(snapshot => {
+                const users = [];
+                snapshot.forEach(child => {
+                    users.push({
+                        uid: child.key,
+                        ...child.val()
+                    });
+                });
+                
+                users.sort((a, b) => (b.points || 0) - (a.points || 0));
+                leaderboardUsers = users;
+
+                leaderboardList.innerHTML = '';
+                users.slice(0, 10).forEach((user, index) => {
+                    const level = getCurrentLevel(user.points || 0);
+                    const isVerified = user.is_verified || false;
+                    
+                    const leaderItem = document.createElement('div');
+                    leaderItem.className = `leader-item ${level.badgeClass}`;
+                    leaderItem.innerHTML = `
+                        <div class="leader-rank ${level.badgeClass}">${index + 1}</div>
+                        <div class="leader-info">
+                            <div class="leader-name">
+                                <span class="leader-name-text" title="${user.name || 'User'}">
+                                    ${user.name || 'User'}
+                                </span>
+                                ${isVerified ? '<i class="fas fa-check-circle" style="color: #1DA1F2; flex-shrink: 0; font-size: 14px; margin-left: 3px;" title="Verified"></i>' : ''}
+                            </div>
+                            <div class="leader-points">${user.points || 0} coins</div>
+                        </div>
+                        <div class="leader-level ${level.badgeClass}">
+                            ${level.name}
+                        </div>
+                    `;
+                    leaderItem.onclick = () => viewUserProfile(user.uid);
+                    leaderboardList.appendChild(leaderItem);
+                });
+            });
+        }
+
+        function viewUserProfile(userId) {
+            db.ref("users/" + userId).once("value").then(snapshot => {
+                if (snapshot.exists()) {
+                    const user = snapshot.val();
+                    const level = getCurrentLevel(user.points || 0);
+                    const isVerified = user.is_verified || false;
+                    
+                    // Update view profile modal
+                    document.getElementById('viewProfileAvatar').src = user.avatar || "https://cdn-icons-png.flaticon.com/512/4140/4140048.png";
+                    document.getElementById('viewProfileName').textContent = user.name || 'User';
+                    
+                    // Show/hide verified badge in modal
+                    const viewProfileVerifiedBadge = document.getElementById('viewProfileVerifiedBadge');
+                    if (isVerified) {
+                        if (viewProfileVerifiedBadge) viewProfileVerifiedBadge.style.display = 'inline';
+                    } else {
+                        if (viewProfileVerifiedBadge) viewProfileVerifiedBadge.style.display = 'none';
+                    }
+                    
+                    document.getElementById('viewProfileLevel').textContent = level.name;
+                    document.getElementById('viewProfilePoints').textContent = user.points || 0;
+                    document.getElementById('viewProfileLevelText').textContent = level.name;
+                    document.getElementById('viewProfileMemberSince').textContent = formatDate(user.created);
+                    document.getElementById('viewProfileStatus').textContent = "Active";
+                    document.getElementById('viewProfileAchievements').textContent = "0";
+                    
+                    // Update header color
+                    document.getElementById('viewProfileHeader').style.background = level.bgColor;
+                    
+                    // Show modal
+                    document.getElementById('viewProfileModal').style.display = 'flex';
+                } else {
+                    showToast("User profile not found", 'error');
+                }
+            });
+        }
+
+        function closeViewProfileModal() {
+            document.getElementById('viewProfileModal').style.display = 'none';
+        }
+
+        function openTab(tabId, element) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+                page.classList.remove('home-page', 'rewards-page', 'profile-page');
+            });
+            
+            // Show selected page
+            const activePage = document.getElementById(tabId);
+            activePage.classList.add('active');
+            
+            // Add page class for styling
+            if (tabId === 'home') {
+                activePage.classList.add('home-page');
+                document.querySelector('.notification-bell').style.display = 'flex';
+            } else if (tabId === 'reward') {
+                activePage.classList.add('rewards-page');
+                document.querySelector('.notification-bell').style.display = 'flex';
+                
+                // Check Golden Vault status
+                checkGoldenVault();
+            } else if (tabId === 'profilePage') {
+                activePage.classList.add('profile-page');
+                document.querySelector('.notification-bell').style.display = 'none';
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            element.classList.add('active');
+            
+            // Hide profile menu
+            document.getElementById('profileMenu').style.display = 'none';
+            
+            // Hide notification panel
+            document.getElementById('notificationPanel').style.display = 'none';
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showRules() {
+            document.querySelectorAll('.home-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('rulesSection').style.display = 'block';
+            document.getElementById('leaderboardSection').style.display = 'none';
+        }
+
+        function showLeaderboard() {
+            document.querySelectorAll('.home-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('rulesSection').style.display = 'none';
+            document.getElementById('leaderboardSection').style.display = 'block';
+            
+            // Load fresh leaderboard data
+            loadLeaderboard();
+        }
+
+        function showRewardCategory(category) {
+            document.querySelectorAll('.reward-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (category === 'daily') {
+                document.getElementById('dailyRewards').style.display = 'grid';
+                document.getElementById('missionRewards').style.display = 'none';
+                document.getElementById('goldenVaultContent').style.display = 'none';
+            } else if (category === 'missions') {
+                document.getElementById('dailyRewards').style.display = 'none';
+                document.getElementById('missionRewards').style.display = 'grid';
+                document.getElementById('goldenVaultContent').style.display = 'none';
+            } else if (category === 'golden') {
+                document.getElementById('dailyRewards').style.display = 'none';
+                document.getElementById('missionRewards').style.display = 'none';
+                document.getElementById('goldenVaultContent').style.display = 'block';
+                
+                // Check Golden Vault status
+                checkGoldenVault();
+            }
+        }
+
+        function openEditModal(section = 'name') {
+            document.getElementById('editModal').style.display = 'flex';
+            document.getElementById('profileMenu').style.display = 'none';
+            
+            if (currentUser) {
+                document.getElementById('editName').value = currentUser.name || "";
+                document.getElementById('editBio').value = currentUser.bio || "";
+                originalPoints = currentUser.points || 0;
+            }
+            
+            if (section === 'avatar') {
+                document.getElementById('modalTitle').textContent = "Change Avatar";
+                document.getElementById('nameBioSection').style.display = 'none';
+                document.getElementById('avatarSection').style.display = 'block';
+                document.getElementById('saveBtn').textContent = "Change Avatar";
+                showAvatarCategory('free');
+                highlightCurrentAvatar();
+                isAvatarChange = false;
+                selectedAvatar = null;
+                avatarCost = 0;
+            } else {
+                document.getElementById('modalTitle').textContent = "Edit Profile";
+                document.getElementById('nameBioSection').style.display = 'block';
+                document.getElementById('avatarSection').style.display = 'none';
+                document.getElementById('saveBtn').textContent = "Save Changes";
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function showAvatarCategory(category) {
+            currentAvatarCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show selected category
+            document.getElementById('freeAvatars').style.display = category === 'free' ? 'grid' : 'none';
+            document.getElementById('betterAvatars').style.display = category === 'better' ? 'grid' : 'none';
+            document.getElementById('primerAvatars').style.display = category === 'primer' ? 'grid' : 'none';
+            
+            // Clear selection when switching category
+            selectedAvatar = null;
+            avatarCost = 0;
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Highlight current avatar if in this category
+            highlightCurrentAvatar();
+        }
+
+        function highlightCurrentAvatar() {
+            if (!currentUser || !currentUser.avatar) return;
+            
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                const img = option.querySelector('img');
+                if (img && img.src === currentUser.avatar) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+
+        function saveProfile() {
+            const modalTitle = document.getElementById('modalTitle').textContent;
+            
+            if (modalTitle === "Edit Profile") {
+                // Save name and bio
+                const name = document.getElementById('editName').value.trim();
+                const bio = document.getElementById('editBio').value.trim();
+                
+                if (!name) {
+                    showToast("Please enter your name", 'error');
+                    return;
+                }
+                
+                const updates = {};
+                updates.name = name;
+                updates.bio = bio;
+                
+                db.ref("users/" + uid).update(updates)
+                    .then(() => {
+                        showToast("Profile updated successfully!", 'success');
+                        closeEditModal();
+                    })
+                    .catch(error => {
+                        showToast("Error updating profile: " + error.message, 'error');
+                    });
+                    
+            } else if (modalTitle === "Change Avatar") {
+                // Save avatar with coin deduction logic
+                if (!selectedAvatar) {
+                    showToast("Please select an avatar first", 'error');
+                    return;
+                }
+                
+                if (!currentUser) return;
+                
+                const currentPoints = currentUser.points || 0;
+                
+                // Check if user has enough coins for paid avatar
+                if (avatarCost > 0 && currentPoints < avatarCost) {
+                    showToast(`You don't have enough coins! Required: ${avatarCost}, Available: ${currentPoints}`, 'error');
+                    return;
+                }
+                
+                const currentAvatar = currentUser.avatar || "https://cdn-icons-png.flaticon.com/512/4140/4140048.png";
+                let newAvatar = selectedAvatar;
+                let pointsToDeduct = avatarCost;
+                
+                // Update avatar and deduct points if necessary
+                const updates = {
+                    avatar: newAvatar,
+                    lastActivity: Date.now()
+                };
+                
+                if (pointsToDeduct > 0) {
+                    const newPoints = currentPoints - pointsToDeduct;
+                    updates.points = newPoints;
+                }
+                
+                db.ref("users/" + uid).update(updates)
+                    .then(() => {
+                        if (pointsToDeduct > 0) {
+                            showToast(`Avatar changed successfully! ${pointsToDeduct} coins deducted`, 'success');
+                        } else {
+                            showToast("Avatar changed successfully!", 'success');
+                        }
+                        closeEditModal();
+                    })
+                    .catch(error => {
+                        showToast("Error changing avatar: " + error.message, 'error');
+                    });
+            }
+        }
+
+        function showLogoutDialog() {
+            document.getElementById('logoutDialog').style.display = 'flex';
+            document.getElementById('profileMenu').style.display = 'none';
+        }
+
+        function cancelLogout() {
+            document.getElementById('logoutDialog').style.display = 'none';
+        }
+
+        function confirmLogout() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            showLogoutDialog();
+        }
+        // ===== PROFILE MENU AUTO CLOSE (FINAL FIX) =====
+
+document.addEventListener("click", function(e) {
+    
+    const menu = document.getElementById("profileMenu");
+    const menuBtn = document.querySelector(".menu-btn");
+    
+    if (!menu || !menuBtn) return;
+    
+    // agar menu open hai aur bahar click hua
+    if (
+        menu.style.display === "block" &&
+        !menu.contains(e.target) &&
+        !menuBtn.contains(e.target)
+    ) {
+        menu.style.display = "none";
+    }
+    
+});
+
+// stop bubbling when clicking menu itself
+document.getElementById("profileMenu").addEventListener("click", function(e) {
+    e.stopPropagation();
+});
+
+// stop bubbling when clicking 3 dot button
+document.querySelector(".menu-btn").addEventListener("click", function(e) {
+    e.stopPropagation();
+});
+    </script>
+</body>
+</html>

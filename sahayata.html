@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Support | Apni Duniya</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+/* HEADER - Professional Header without Black */
+.header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-title i {
+    color: #4fc3f7;
+}
+
+.home-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h2 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.hero p {
+    opacity: 0.9;
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.hero-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* QUICK ACTION BAR */
+.quick-bar {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    max-width: 500px;
+    margin: -20px auto 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.quick-item {
+    flex: 1;
+    background: white;
+    padding: 16px 8px;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #2c3e50;
+}
+
+.quick-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.quick-item:nth-child(1) {
+    border-top: 4px solid #25D366;
+    color: #25D366;
+}
+
+.quick-item:nth-child(2) {
+    border-top: 4px solid #EA4335;
+    color: #EA4335;
+}
+
+.quick-item:nth-child(3) {
+    border-top: 4px solid #4285F4;
+    color: #4285F4;
+}
+
+.quick-icon {
+    font-size: 1.5rem;
+}
+
+/* MAIN CONTENT */
+.section {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* SUPPORT CARDS */
+.support-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-left: 6px solid #667eea;
+    position: relative;
+    overflow: hidden;
+}
+
+.support-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.7s;
+}
+
+.support-card:hover::before {
+    left: 100%;
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.card-left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);
+}
+
+.support-card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.card-content b {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.card-content small {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+
+.card-arrow {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #95a5a6;
+    transition: all 0.3s ease;
+}
+
+.support-card:hover .card-arrow {
+    transform: translateX(8px);
+    color: #667eea;
+}
+
+/* FAQ SECTION */
+.section-title {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin: 25px 0 15px;
+    padding-left: 5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: #667eea;
+}
+
+.faq-item {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.faq-item:hover {
+    border-left-color: #667eea;
+    transform: translateX(5px);
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.faq-question i {
+    color: #667eea;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    color: #5d6d7e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+    display: none;
+}
+
+/* STATUS PANEL */
+.status-panel {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    margin-top: 25px;
+    border-top: 4px solid #2ecc71;
+}
+
+.status-title {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-title i {
+    color: #2ecc71;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f2f6;
+    font-size: 0.95rem;
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    color: #7f8c8d;
+}
+
+.status-value {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.status-active {
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.popup-box {
+    background: white;
+    width: 90%;
+    max-width: 320px;
+    padding: 28px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.popup-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    color: #667eea;
+}
+
+.popup-box h3 {
+    margin-bottom: 12px;
+    color: #2c3e50;
+    font-size: 1.4rem;
+}
+
+.popup-box p {
+    margin-bottom: 22px;
+    line-height: 1.6;
+    color: #5d6d7e;
+    font-size: 0.95rem;
+}
+
+.popup-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+    font-size: 0.95rem;
+}
+
+.popup-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* FLOATING EMERGENCY */
+.floating-emergency {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.3s ease;
+    animation: pulse-emergency 2s infinite;
+}
+
+@keyframes pulse-emergency {
+    0%, 100% { box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4); }
+    50% { box-shadow: 0 10px 30px rgba(255, 65, 108, 0.7); }
+}
+
+.floating-emergency:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 65, 108, 0.6);
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    color: #95a5a6;
+    margin: 35px 0 20px;
+    font-size: 0.85rem;
+    padding: 0 20px;
+}
+
+.footer-logo {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    .header {
+        padding: 16px 20px;
+    }
+    
+    .hero {
+        padding: 35px 16px;
+    }
+    
+    .hero h2 {
+        font-size: 1.6rem;
+    }
+    
+    .quick-bar {
+        padding: 20px 16px;
+        margin-top: -15px;
+    }
+    
+    .section {
+        padding: 0 16px;
+    }
+    
+    .support-card {
+        padding: 20px;
+    }
+    
+    .floating-emergency {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h2 {
+        font-size: 1.4rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+    }
+    
+    .quick-item {
+        padding: 14px 6px;
+        font-size: 0.9rem;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+    
+    .floating-emergency {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 18px;
+    }
+}
+
+/* TOUCH-FRIENDLY */
+.support-card:active,
+.quick-item:active,
+.faq-item:active {
+    transform: scale(0.98);
+}
+
+.home-btn:active,
+.popup-btn:active,
+.floating-emergency:active {
+    transform: scale(0.95);
+}
+
+/* ANIMATIONS FOR CARDS */
+.support-card {
+    animation: cardSlideIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.support-card:nth-child(1) { animation-delay: 0.1s; }
+.support-card:nth-child(2) { animation-delay: 0.2s; }
+.support-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cardSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">
+        <i class="fas fa-headset"></i>
+        Professional Support Center
+    </div>
+    <button class="home-btn" onclick="location.href='index.html'">
+        <i class="fas fa-home"></i> होम
+    </button>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-icon">
+            <i class="fas fa-hands-helping"></i>
+        </div>
+        <h2>हम आपकी सेवा में उपलब्ध हैं</h2>
+        <p>त्वरित और विश्वसनीय समाधान के लिए हमसे संपर्क करें</p>
+    </div>
+</div>
+
+<!-- QUICK ACTION BAR -->
+<div class="quick-bar">
+    <div class="quick-item" onclick="location.href='https://wa.me/918084873902'">
+        <i class="fab fa-whatsapp quick-icon"></i>
+        WhatsApp
+    </div>
+    <div class="quick-item" onclick="location.href='mailto: apniduniya.family@gmail.com=Support Request'">
+        <i class="fas fa-envelope quick-icon"></i>
+        Email
+    </div>
+    <div class="quick-item" onclick="location.href='tel:+918084873902'">
+        <i class="fas fa-phone-alt quick-icon"></i>
+        Call
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="section">
+
+    <!-- SUPPORT CARDS -->
+    <div class="support-card" onclick="location.href='https://wa.me/+918084873902'">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fab fa-whatsapp"></i>
+            </div>
+            <div class="card-content">
+                <b>WhatsApp Support</b>
+                <small>Instant chat, 24/7 available</small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <div class="support-card" onclick="location.href='mailto: apniduniya.family@gmail.com'">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <div class="card-content">
+                <b>Email Support</b>
+                <small>Detailed issues, official response</small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <div class="support-card" onclick="openPopup()">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="card-content">
+                <b>Community Help</b>
+                <small>Coming soon - Beta testing</small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <div class="section-title">
+        <i class="fas fa-question-circle"></i>
+        Frequently Asked Questions
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <span>Login समस्या कैसे हल करें?</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            Username और registered mobile number verify करें। Password reset विकल्प का उपयोग करें।
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <span>Post/Reply issue कैसे fix करें?</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            पेज को refresh करके दुबारा कोशिश करें। Internet connection check करें। Browser cache clear करें।
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <span>Avatar update नहीं हो रहा?</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            Profile खोलकर avatar फिर select करें। Supported image format (JPG, PNG) use करें। File size 2MB से कम रखें।
+        </div>
+    </div>
+
+    <!-- STATUS PANEL -->
+    <div class="status-panel">
+        <div class="status-title">
+            <i class="fas fa-chart-line"></i>
+            Support Status
+        </div>
+        <div class="status-item">
+            <span class="status-label">Working Hours</span>
+            <span class="status-value">9:00 AM - 8:00 PM</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Avg. Response Time</span>
+            <span class="status-value">24 Hours</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">System Status</span>
+            <span class="status-active"><i class="fas fa-circle"></i> Active</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-logo">Apni Duniya</div>
+    <div>Professional Support Center | 24/7 Assistance</div>
+    <div style="margin-top: 10px; font-size: 0.8rem;">© 2023 All Rights Reserved</div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <div class="popup-icon">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h3>Coming Soon</h3>
+        <p>Community Help feature वर्तमान में development phase में है। जल्द ही आपको बेहतर सहायता मिलेगी।</p>
+        <button class="popup-btn" onclick="closePopup()">ठीक है</button>
+    </div>
+</div>
+
+<!-- FLOATING EMERGENCY -->
+<div class="floating-emergency" onclick="location.href='tel:+918084873902'">
+    <i class="fas fa-phone-alt"></i>
+    Emergency Call
+</div>
+
+<script>
+function toggleFAQ(element) {
+    const answer = element.querySelector('.faq-answer');
+    const icon = element.querySelector('.faq-question i');
+    
+    if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+    } else {
+        answer.style.display = 'block';
+        icon.style.transform = 'rotate(180deg)';
+    }
+}
+
+function openPopup() {
+    document.getElementById('popup').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+// Auto-close popup when clicking outside
+document.getElementById('popup').addEventListener('click', function(e) {
+    if(e.target === this) closePopup();
+});
+
+// Add touch feedback for mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const interactiveElements = document.querySelectorAll('.support-card, .quick-item, .faq-item, .floating-emergency');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('touchstart', function() {
+            this.style.opacity = '0.8';
+        });
+        
+        el.addEventListener('touchend', function() {
+            this.style.opacity = '1';
+        });
+    });
+    
+    // Initialize first FAQ as open
+    const firstFAQ = document.querySelector('.faq-item');
+    if (firstFAQ) {
+        const firstAnswer = firstFAQ.querySelector('.faq-answer');
+        const firstIcon = firstFAQ.querySelector('.faq-question i');
+        firstAnswer.style.display = 'block';
+        firstIcon.style.transform = 'rotate(180deg)';
+    }
+});
+</script>
+
+</body>
+</html>

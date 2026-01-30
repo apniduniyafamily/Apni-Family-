@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Contact Us | Apni Duniya</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+}
+
+/* HEADER - Professional Gradient */
+.header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.header-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title i {
+    color: #4fc3f7;
+}
+
+.home-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h2 {
+    margin-bottom: 12px;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.hero-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+/* MAIN CONTENT */
+.section {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* CONTACT CARDS */
+.contact-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-left: 6px solid transparent;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardSlideIn 0.6s ease-out forwards;
+}
+
+@keyframes cardSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contact-card:nth-child(1) {
+    animation-delay: 0.2s;
+    border-left-color: #25D366;
+}
+
+.contact-card:nth-child(2) {
+    animation-delay: 0.4s;
+    border-left-color: #EA4335;
+}
+
+.contact-card:nth-child(3) {
+    animation-delay: 0.6s;
+    border-left-color: #4CAF50;
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.7s;
+}
+
+.contact-card:hover::before {
+    left: 100%;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+.card-left {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card:nth-child(1) .card-icon {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.contact-card:nth-child(2) .card-icon {
+    background: linear-gradient(135deg, #EA4335 0%, #D14836 100%);
+}
+
+.contact-card:nth-child(3) .card-icon {
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+}
+
+.contact-card:hover .card-icon {
+    transform: scale(1.1) rotate(10deg);
+    animation: iconPulse 0.6s ease;
+}
+
+@keyframes iconPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1.1); }
+}
+
+.card-content b {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+}
+
+.contact-card:hover .card-content b {
+    color: #667eea;
+}
+
+.card-content small {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-content i {
+    font-size: 0.8rem;
+}
+
+.card-arrow {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #95a5a6;
+    transition: all 0.4s ease;
+    position: relative;
+    right: 0;
+}
+
+.contact-card:hover .card-arrow {
+    transform: translateX(10px);
+    color: #667eea;
+    right: -5px;
+}
+
+/* INFO PANEL */
+.info-panel {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    border-top: 5px solid #667eea;
+    animation: fadeInUp 0.8s ease-out 0.8s both;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.info-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+}
+
+.info-title {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-title i {
+    color: #667eea;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f2f6;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 10px;
+    transform: translateX(5px);
+}
+
+.info-label {
+    color: #7f8c8d;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.status-active {
+    color: #2ecc71;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-active i {
+    animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.info-note {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 18px;
+    border-radius: 14px;
+    margin-top: 22px;
+    border-left: 4px solid #2ecc71;
+    font-size: 1rem;
+    color: #5d6d7e;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.info-note i {
+    color: #2ecc71;
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    color: #95a5a6;
+    margin: 40px 0 25px;
+    font-size: 0.9rem;
+    padding: 0 20px;
+    animation: fadeIn 1s ease-out 1s both;
+}
+
+.footer-logo {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo i {
+    animation: spinSlow 10s linear infinite;
+}
+
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    .header {
+        padding: 18px 20px;
+    }
+    
+    .hero {
+        padding: 40px 16px;
+    }
+    
+    .hero h2 {
+        font-size: 1.7rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .section {
+        padding: 0 16px;
+        margin: 30px auto;
+    }
+    
+    .contact-card {
+        padding: 22px;
+    }
+    
+    .card-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.6rem;
+    }
+    
+    .info-panel {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-icon {
+        font-size: 3rem;
+    }
+    
+    .card-left {
+        gap: 14px;
+    }
+    
+    .card-content b {
+        font-size: 1.1rem;
+    }
+    
+    .card-content small {
+        font-size: 0.9rem;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* TOUCH-FRIENDLY INTERACTIONS */
+.contact-card:active,
+.home-btn:active {
+    transform: scale(0.98);
+}
+
+/* HOVER EFFECTS FOR TOUCH DEVICES */
+@media (hover: hover) and (pointer: fine) {
+    .contact-card:hover .card-arrow {
+        animation: arrowBounce 0.6s ease;
+    }
+    
+    @keyframes arrowBounce {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(15px); }
+    }
+}
+
+/* LOADING ANIMATION FOR PAGE */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 9999;
+    animation: pageLoad 0.8s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes pageLoad {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-title">
+        <i class="fas fa-address-book"></i>
+        Contact Us
+    </div>
+    <button class="home-btn" onclick="location.href='index.html'">
+        <i class="fas fa-home"></i> होम
+    </button>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-icon">
+            <i class="fas fa-headset"></i>
+        </div>
+        <h2>हमसे संपर्क करें</h2>
+        <p>Apni Duniya Team हमेशा आपकी सेवा के लिए तैयार है</p>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="section">
+
+    <!-- CALL CARD -->
+    <div class="contact-card" onclick="location.href='tel:+918084873902'">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="card-content">
+                <b>Direct Phone Call</b>
+                <small>
+                    <i class="fas fa-mobile-alt"></i>
+                    +91 80848 73902
+                </small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <!-- EMAIL CARD -->
+    <div class="contact-card" onclick="location.href='mailto:apniduniya.family@gmail.com?subject=Contact%20Request%20-%20Apni%20Duniya'">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <div class="card-content">
+                <b>Email Support</b>
+                <small>
+                    <i class="fas fa-at"></i>
+                    apniduniya.family@gmail.com
+                </small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <!-- WHATSAPP CARD -->
+    <div class="contact-card" onclick="location.href='https://wa.me/918084873902'">
+        <div class="card-left">
+            <div class="card-icon">
+                <i class="fab fa-whatsapp"></i>
+            </div>
+            <div class="card-content">
+                <b>WhatsApp Chat</b>
+                <small>
+                    <i class="fas fa-comment-dots"></i>
+                    Instant messaging support
+                </small>
+            </div>
+        </div>
+        <div class="card-arrow">→</div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="info-panel">
+        <div class="info-title">
+            <i class="fas fa-info-circle"></i>
+            Support Information
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">
+                    <i class="far fa-clock"></i>
+                    Working Hours
+                </div>
+                <div class="info-value">9:00 AM – 8:00 PM</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <i class="fas fa-reply"></i>
+                    Avg. Response Time
+                </div>
+                <div class="info-value">24 Hours</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <i class="fas fa-server"></i>
+                    System Status
+                </div>
+                <div class="status-active">
+                    <i class="fas fa-circle"></i>
+                    Active & Operational
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <i class="fas fa-language"></i>
+                    Languages
+                </div>
+                <div class="info-value">हिन्दी, English</div>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <i class="fas fa-heart"></i>
+            <div>
+                <strong>हम आपकी बात को महत्व देते हैं।</strong><br>
+                हर query, suggestion और feedback का स्वागत है। हमारी टीम आपको सर्वोत्तम सहायता प्रदान करने के लिए प्रतिबद्ध है।
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-logo">
+        <i class="fas fa-globe-asia"></i>
+        Apni Duniya • Official Contact
+    </div>
+    <div>Building Connections • Fostering Growth • Creating Impact</div>
+    <div style="margin-top: 12px; font-size: 0.8rem;">© 2023 All Rights Reserved</div>
+</div>
+
+<script>
+// Add smooth interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Add ripple effect to cards
+    const cards = document.querySelectorAll('.contact-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('div');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(102, 126, 234, 0.4);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                width: ${size}px;
+                height: ${size}px;
+                top: ${y}px;
+                left: ${x}px;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // Touch feedback
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'translateY(-4px) scale(1.01)';
+        });
+        
+        card.addEventListener('touchend', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+    });
+    
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Page load complete
+    setTimeout(() => {
+        document.body.style.overflow = 'auto';
+    }, 800);
+});
+
+// Smooth scroll for page load
+window.addEventListener('load', function() {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+});
+</script>
+</body>
+</html>

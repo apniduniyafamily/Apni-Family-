@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apni Duniya – User Super Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2979ff;
+            --primary-dark: #1a67e8;
+            --secondary: #34c759;
+            --danger: #ff3b30;
+            --warning: #ff9500;
+            --light: #f5f7fa;
+            --dark: #333;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 18px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Tabs */
+        .tabs-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--light-gray);
+            position: sticky;
+            top: 78px;
+            z-index: 99;
+        }
+        
+        .tabs {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            color: var(--gray);
+        }
+        
+        .tab:hover {
+            background: rgba(41, 121, 255, 0.05);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background: rgba(41, 121, 255, 0.08);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+        
+        .stat-icon.coins { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .stat-icon.points { background: linear-gradient(135deg, #34c759, #2a9c46); }
+        .stat-icon.silver { background: linear-gradient(135deg, #C0C0C0, #A8A8A8); }
+        .stat-icon.golden { background: linear-gradient(135deg, #FFD700, #DAA520); }
+        .stat-icon.diamond { background: linear-gradient(135deg, #B9F2FF, #00BFFF); }
+        
+        .stat-info h4 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        
+        .stat-info .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* User Cards */
+        .list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .user-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .user-id {
+            font-size: 0.8rem;
+            background: var(--light-gray);
+            padding: 4px 8px;
+            border-radius: 20px;
+            color: var(--gray);
+        }
+        
+        .user-details {
+            margin-bottom: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--light-gray);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-key {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .detail-value {
+            color: var(--gray);
+        }
+        
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(245, 247, 250, 0.8);
+            border-radius: 8px;
+        }
+        
+        .point-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .point-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .point-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        /* Buttons */
+        .card-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .btn i {
+            font-size: 0.9rem;
+        }
+        
+        .btn-edit {
+            background: var(--primary);
+            color: var(--white);
+            grid-column: span 3;
+        }
+        
+        .btn-edit:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-delete {
+            background: var(--danger);
+            color: var(--white);
+        }
+        
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-add {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        
+        .btn-add:hover {
+            background: #2a9c46;
+        }
+        
+        .btn-subtract {
+            background: var(--warning);
+            color: var(--white);
+        }
+        
+        .btn-subtract:hover {
+            background: #e68900;
+        }
+        
+        .btn-refresh {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .btn-refresh:hover {
+            background: #d8d8d8;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: modalFade 0.3s ease;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(41, 121, 255, 0.2);
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--light-gray);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .list {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn-edit {
+                grid-column: span 2;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .tab {
+                min-width: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                max-height: 80vh;
+            }
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h2><i class="fas fa-users-cog"></i> Apni Duniya – User Super Admin</h2>
+            <div class="header-actions">
+                <button class="btn btn-refresh" onclick="load()" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <div class="tab active" onclick="loadUsers()">
+                <i class="fas fa-user-shield"></i> Admin Users
+            </div>
+            <div class="tab" onclick="loadNormal()">
+                <i class="fas fa-user"></i> Normal Users
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-container" id="statsContainer">
+            <!-- Stats will be loaded dynamically -->
+        </div>
+        
+        <!-- Users List -->
+        <div id="list" class="list">
+            <!-- User cards will be loaded here -->
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit User</h3>
+                <button class="btn btn-refresh" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="e_username">Username</label>
+                    <input type="text" id="e_username" class="form-control" placeholder="Enter username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="e_mobile">Mobile Number</label>
+                    <input type="tel" id="e_mobile" class="form-control" placeholder="Enter mobile number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="e_email">Email Address</label>
+                    <input type="email" id="e_email" class="form-control" placeholder="Enter email address">
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="e_coins">Coins</label>
+                        <input type="number" id="e_coins" class="form-control" placeholder="Coins">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="e_points">Points</label>
+                        <input type="number" id="e_points" class="form-control" placeholder="Points">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div class="form-group">
+                        <label for="e_silver">Silver</label>
+                        <input type="number" id="e_silver" class="form-control" placeholder="Silver">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="e_golden">Golden</label>
+                        <input type="number" id="e_golden" class="form-control" placeholder="Golden">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="e_diamond">Diamond</label>
+                        <input type="number" id="e_diamond" class="form-control" placeholder="Diamond">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-edit" onclick="saveEdit()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button class="btn btn-refresh" onclick="closeModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import {getDatabase, ref, onValue, update, remove, get} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+        
+        // Firebase Configuration
+        const firebaseConfig = {
+            databaseURL: "https://apni-duniya-b53d7-default-rtdb.firebaseio.com"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        // Global Variables
+        let currentNode = "users";
+        let editId = null;
+        
+        // Tab Functions
+        window.loadUsers = () => {
+            currentNode = "users";
+            setTab(0);
+            load();
+        };
+        
+        window.loadNormal = () => {
+            currentNode = "normalUsers";
+            setTab(1);
+            load();
+        };
+        
+        function setTab(index) {
+            document.querySelectorAll(".tab").forEach((tab, i) => {
+                tab.classList.toggle("active", i === index);
+            });
+        }
+        
+        // Load Data Function
+        window.load = function() {
+            // Show loading state
+            document.getElementById("list").innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading users data...</p>
+                </div>
+            `;
+            
+            // Clear stats
+            document.getElementById("statsContainer").innerHTML = "";
+            
+            // Listen for data changes
+            onValue(ref(db, currentNode), (snapshot) => {
+                const listElement = document.getElementById("list");
+                const statsContainer = document.getElementById("statsContainer");
+                
+                // Clear previous data
+                listElement.innerHTML = "";
+                statsContainer.innerHTML = "";
+                
+                // Check if data exists
+                if (!snapshot.exists()) {
+                    listElement.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-users-slash"></i>
+                            <h3>No Users Found</h3>
+                            <p>There are no users in the ${currentNode === "users" ? "Admin" : "Normal"} category.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Initialize stats
+                let totalCoins = 0;
+                let totalPoints = 0;
+                let totalSilver = 0;
+                let totalGolden = 0;
+                let totalDiamond = 0;
+                let userCount = 0;
+                
+                // Process each user
+                snapshot.forEach((childSnapshot) => {
+                    const userId = childSnapshot.key;
+                    const user = childSnapshot.val();
+                    userCount++;
+                    
+                    // Update totals for stats
+                    totalCoins += Number(user.coins) || 0;
+                    totalPoints += Number(user.points) || 0;
+                    totalSilver += Number(user.silver) || 0;
+                    totalGolden += Number(user.golden) || 0;
+                    totalDiamond += Number(user.diamond) || 0;
+                    
+                    // Create user card
+                    const card = createUserCard(userId, user);
+                    listElement.innerHTML += card;
+                });
+                
+                // Update stats display
+                updateStatsDisplay(totalCoins, totalPoints, totalSilver, totalGolden, totalDiamond, userCount);
+            });
+        };
+        
+        // Create User Card Function
+        function createUserCard(userId, user) {
+            return `
+                <div class="card">
+                    <div class="user-header">
+                        <div class="user-title">
+                            <i class="fas fa-user-circle"></i> ${user.username || "Unnamed User"}
+                        </div>
+                        <div class="user-id">ID: ${userId.substring(0, 8)}...</div>
+                    </div>
+                    
+                    <div class="user-details">
+                        <div class="detail-row">
+                            <span class="detail-key">Mobile:</span>
+                            <span class="detail-value">${user.mobile || "Not set"}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-key">Email:</span>
+                            <span class="detail-value">${user.email || "Not set"}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="points-grid">
+                        <div class="point-item">
+                            <span class="point-label">Coins:</span>
+                            <span class="point-value" style="color: #FFA500;">${user.coins || 0}</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-label">Points:</span>
+                            <span class="point-value" style="color: #34c759;">${user.points || 0}</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-label">Silver:</span>
+                            <span class="point-value" style="color: #C0C0C0;">${user.silver || 0}</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-label">Golden:</span>
+                            <span class="point-value" style="color: #FFD700;">${user.golden || 0}</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-label">Diamond:</span>
+                            <span class="point-value" style="color: #00BFFF;">${user.diamond || 0}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-edit" onclick="editUser('${userId}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        
+                        <button class="btn btn-add" onclick="changePoints('${userId}', 'coins', 10)">
+                            <i class="fas fa-plus"></i> Coins
+                        </button>
+                        <button class="btn btn-subtract" onclick="changePoints('${userId}', 'coins', -10)">
+                            <i class="fas fa-minus"></i> Coins
+                        </button>
+                        
+                        <button class="btn btn-add" onclick="changePoints('${userId}', 'points', 10)">
+                            <i class="fas fa-plus"></i> Points
+                        </button>
+                        <button class="btn btn-subtract" onclick="changePoints('${userId}', 'points', -10)">
+                            <i class="fas fa-minus"></i> Points
+                        </button>
+                        
+                        <button class="btn btn-add" onclick="changePoints('${userId}', 'silver', 1)">
+                            <i class="fas fa-plus"></i> Silver
+                        </button>
+                        <button class="btn btn-subtract" onclick="changePoints('${userId}', 'silver', -1)">
+                            <i class="fas fa-minus"></i> Silver
+                        </button>
+                        
+                        <button class="btn btn-add" onclick="changePoints('${userId}', 'golden', 1)">
+                            <i class="fas fa-plus"></i> Golden
+                        </button>
+                        <button class="btn btn-subtract" onclick="changePoints('${userId}', 'golden', -1)">
+                            <i class="fas fa-minus"></i> Golden
+                        </button>
+                        
+                        <button class="btn btn-add" onclick="changePoints('${userId}', 'diamond', 1)">
+                            <i class="fas fa-plus"></i> Diamond
+                        </button>
+                        <button class="btn btn-subtract" onclick="changePoints('${userId}', 'diamond', -1)">
+                            <i class="fas fa-minus"></i> Diamond
+                        </button>
+                        
+                        <button class="btn btn-delete" onclick="deleteUser('${userId}')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Update Stats Display
+        function updateStatsDisplay(coins, points, silver, golden, diamond, userCount) {
+            const statsContainer = document.getElementById("statsContainer");
+            
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-icon coins">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Total Coins</h4>
+                        <div class="value">${coins}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon points">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Total Points</h4>
+                        <div class="value">${points}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon silver">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Silver Points</h4>
+                        <div class="value">${silver}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon golden">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Golden Points</h4>
+                        <div class="value">${golden}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon diamond">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Diamond Points</h4>
+                        <div class="value">${diamond}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #2979ff, #1a67e8);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>Total Users</h4>
+                        <div class="value">${userCount}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Change Points Function
+        window.changePoints = async (userId, key, value) => {
+            try {
+                const snapshot = await get(ref(db, `${currentNode}/${userId}/${key}`));
+                let currentValue = snapshot.exists() ? Number(snapshot.val()) : 0;
+                
+                // Check if result would be negative
+                const newValue = currentValue + value;
+                if (newValue < 0) {
+                    alert(`Cannot reduce ${key} below 0! Current value: ${currentValue}`);
+                    return;
+                }
+                
+                // Update the value
+                await update(ref(db, `${currentNode}/${userId}`), {
+                    [key]: newValue
+                });
+                
+                // Show success feedback
+                showNotification(`${key.charAt(0).toUpperCase() + key.slice(1)} updated successfully!`, "success");
+            } catch (error) {
+                console.error("Error updating points:", error);
+                showNotification("Failed to update points. Please try again.", "error");
+            }
+        };
+        
+        // Edit User Function
+        window.editUser = async (userId) => {
+            editId = userId;
+            try {
+                const snapshot = await get(ref(db, `${currentNode}/${userId}`));
+                
+                if (snapshot.exists()) {
+                    const user = snapshot.val();
+                    
+                    // Populate form fields
+                    document.getElementById("e_username").value = user.username || "";
+                    document.getElementById("e_mobile").value = user.mobile || "";
+                    document.getElementById("e_email").value = user.email || "";
+                    document.getElementById("e_coins").value = user.coins || 0;
+                    document.getElementById("e_points").value = user.points || 0;
+                    document.getElementById("e_silver").value = user.silver || 0;
+                    document.getElementById("e_golden").value = user.golden || 0;
+                    document.getElementById("e_diamond").value = user.diamond || 0;
+                    
+                    // Show modal
+                    document.getElementById("editModal").style.display = "flex";
+                }
+            } catch (error) {
+                console.error("Error loading user for edit:", error);
+                showNotification("Failed to load user data.", "error");
+            }
+        };
+        
+        // Save Edit Function
+        window.saveEdit = async () => {
+            try {
+                // Validate inputs
+                const username = document.getElementById("e_username").value.trim();
+                if (!username) {
+                    showNotification("Username is required", "error");
+                    return;
+                }
+                
+                // Prepare updated data
+                const updatedData = {
+                    username: username,
+                    mobile: document.getElementById("e_mobile").value.trim(),
+                    email: document.getElementById("e_email").value.trim(),
+                    coins: Number(document.getElementById("e_coins").value) || 0,
+                    points: Number(document.getElementById("e_points").value) || 0,
+                    silver: Number(document.getElementById("e_silver").value) || 0,
+                    golden: Number(document.getElementById("e_golden").value) || 0,
+                    diamond: Number(document.getElementById("e_diamond").value) || 0
+                };
+                
+                // Update in Firebase
+                await update(ref(db, `${currentNode}/${editId}`), updatedData);
+                
+                // Close modal and show success
+                closeModal();
+                showNotification("User updated successfully!", "success");
+            } catch (error) {
+                console.error("Error saving user:", error);
+                showNotification("Failed to save user changes.", "error");
+            }
+        };
+        
+        // Delete User Function
+        window.deleteUser = (userId) => {
+            if (confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
+                remove(ref(db, `${currentNode}/${userId}`))
+                    .then(() => {
+                        showNotification("User deleted successfully!", "success");
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting user:", error);
+                        showNotification("Failed to delete user.", "error");
+                    });
+            }
+        };
+        
+        // Close Modal Function
+        window.closeModal = () => {
+            document.getElementById("editModal").style.display = "none";
+            editId = null;
+        };
+        
+        // Show Notification Function
+        function showNotification(message, type) {
+            // Remove any existing notifications
+            const existingNotification = document.querySelector(".notification");
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement("div");
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#34c759' : '#ff3b30'};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 6px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    animation: slideIn 0.3s ease;
+                ">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            load();
+            
+            // Close modal when clicking outside
+            document.getElementById("editModal").addEventListener("click", (e) => {
+                if (e.target.id === "editModal") {
+                    closeModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

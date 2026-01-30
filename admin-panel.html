@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 30px 25px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        
+        .logo-icon i {
+            font-size: 32px;
+            color: white;
+        }
+        
+        .logo-section h1 {
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .logo-section p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .login-form {
+            width: 100%;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .input-field {
+            position: relative;
+        }
+        
+        .input-field i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .input-field input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+        
+        .input-field input:focus {
+            border-color: #667eea;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .login-btn:hover {
+            background: linear-gradient(to right, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        
+        .error-message i {
+            cursor: pointer;
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 13px;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo-icon i {
+                font-size: 28px;
+            }
+            
+            .logo-section h1 {
+                font-size: 22px;
+            }
+            
+            .input-field input {
+                padding: 14px 14px 14px 45px;
+                font-size: 15px;
+            }
+            
+            .login-btn {
+                padding: 15px;
+                font-size: 15px;
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 360px) {
+            .login-container {
+                padding: 20px 15px;
+            }
+            
+            .logo-section {
+                margin-bottom: 25px;
+            }
+            
+            .input-group {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>Admin Login</h1>
+            <p>Enter credentials to access admin panel</p>
+        </div>
+        
+        <div class="login-form">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" value="admin" readonly>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-field">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+                    <button type="button" class="password-toggle" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button type="button" class="login-btn" id="loginButton" onclick="login()">
+                <div class="loading-spinner" id="loadingSpinner"></div>
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <div class="error-message" id="errorMsg">
+                <span id="errorText">Incorrect password!</span>
+                <i class="fas fa-times" onclick="hideError()"></i>
+            </div>
+            
+            <div class="footer-text">
+                <i class="fas fa-shield-alt"></i> Secure Admin Access
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const ADMIN_PASSWORD = "lavkush@915353";
+        
+        // DOM Elements
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const loginButton = document.getElementById('loginButton');
+        const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Toggle password visibility
+        togglePasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+        
+        // Login function
+        function login() {
+            const password = passwordInput.value.trim();
+            
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+            loginButton.disabled = true;
+            
+            // Simulate network delay
+            setTimeout(() => {
+                if(password === ADMIN_PASSWORD) {
+                    // Successful login
+                    errorMsg.style.backgroundColor = '#e8f5e9';
+                    errorMsg.style.color = '#2e7d32';
+                    errorText.textContent = 'Login successful! Redirecting...';
+                    errorMsg.style.display = 'flex';
+                    
+                    // Store login status
+                    localStorage.setItem("adminUser", "admin");
+                    
+                    // Redirect to admin page
+                    setTimeout(() => {
+                        window.location.href = "admin.html";
+                    }, 800);
+                    
+                } else {
+                    // Failed login
+                    errorText.textContent = 'Incorrect password! Please try again.';
+                    errorMsg.style.display = 'flex';
+                    errorMsg.style.backgroundColor = '#ffebee';
+                    errorMsg.style.color = '#c62828';
+                    
+                    // Clear password field
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+                
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+                loginButton.disabled = false;
+            }, 600);
+        }
+        
+        // Hide error message
+        function hideError() {
+            errorMsg.style.display = 'none';
+        }
+        
+        // Allow login on Enter key press
+        passwordInput.addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // Auto-focus password field on page load
+        window.onload = function() {
+            passwordInput.focus();
+        };
+    </script>
+</body>
+</html>
