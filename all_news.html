@@ -475,41 +475,67 @@ header {
 
 <script>
 
-const API="c13cd834e0b241e2b533196ee397deab";
-let ALL=[],STATES={},LANG="en";
+const API = "c13cd834e0b241e2b533196ee397deab";
+let ALL = [], LANG="en";
 let notifyEnabled=false,lastTitle="";
 
-fetch("india.json").then(r=>r.json()).then(d=>{
-STATES=d;
-Object.keys(d).forEach(s=>state.innerHTML+=`<option>${s}</option>`);
-});
+function toggleSearch(){
+searchWrap.style.display = searchWrap.style.display ? "" : "block";
+search.focus();
+}
 
-function toggleSearch(){searchWrap.style.display=searchWrap.style.display?"":"block";search.focus();}
-function toggleMenu(){menu.style.display=menu.style.display=="block"?"none":"block";}
-function nav(e){document.querySelectorAll(".bottom div").forEach(x=>x.classList.remove("active"));e.classList.add("active");}
+function toggleMenu(){
+menu.style.display = menu.style.display=="block"?"none":"block";
+}
+
+function nav(e){
+document.querySelectorAll(".bottom div").forEach(x=>x.classList.remove("active"));
+e.classList.add("active");
+}
 
 function cat(btn,q){
 document.querySelectorAll(".categories button").forEach(x=>x.classList.remove("active"));
-btn.classList.add("active");load(q);
+btn.classList.add("active");
+load(q);
 }
 
 function showLoader(){
 news.innerHTML='<div class="inlineLoader"><div class="spinner"></div></div>';
 }
 
+/* MAIN NEWS LOAD */
+
 function load(q){
+
 showLoader();
-fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
-.then(r=>r.json()).then(d=>{ALL=d.articles||[];render(ALL)});
+
+fetch("https://api.allorigins.win/raw?url=https://newsapi.org/v2/top-headlines?country=in&apiKey="+API)
+.then(r=>r.json())
+.then(d=>{
+ALL = d.articles || [];
+render(ALL);
+})
+.catch(e=>{
+news.innerHTML="News load error";
+console.log(e);
+});
+
 }
 
+/* RENDER */
+
 function render(arr){
-let saved=JSON.parse(localStorage.getItem("bookmarks")||"[]");
-bmCount.innerText=saved.length;
+
 news.innerHTML="";
+let saved = JSON.parse(localStorage.getItem("bookmarks")||"[]");
+bmCount.innerText = saved.length;
+
 arr.forEach(n=>{
-if(!n.urlToImage)return;
+
+if(!n.urlToImage) return;
+
 let mark=saved.find(x=>x.url==n.url);
+
 news.innerHTML+=`
 <div class="card">
 <div class="actions">
@@ -523,7 +549,10 @@ news.innerHTML+=`
 <a class="readmore" href="${n.url}" target="_blank">Read More</a>
 </div>`;
 });
+
 }
+
+/* BOOKMARK */
 
 function toggleBookmark(el,n){
 let b=JSON.parse(localStorage.getItem("bookmarks")||"[]");
@@ -537,7 +566,8 @@ bmCount.innerText=b.length;
 function showBookmarks(){
 let b=JSON.parse(localStorage.getItem("bookmarks")||"[]");
 news.innerHTML='<div class="bookmarkHeader">Saved Bookmarks</div>';
-render(b);menu.style.display="none";
+render(b);
+menu.style.display="none";
 }
 
 function clearBookmarks(){
@@ -547,61 +577,30 @@ news.innerHTML="";
 menu.style.display="none";
 }
 
-function filter(){render(ALL.filter(n=>(n.title||"").toLowerCase().includes(search.value.toLowerCase())));}
+/* SEARCH */
 
-function loadDistricts(){
-district.innerHTML="<option>Select District</option>";
-(STATES[state.value]||[]).forEach(x=>district.innerHTML+=`<option>${x}</option>`);
+function filter(){
+render(ALL.filter(n=>(n.title||"").toLowerCase().includes(search.value.toLowerCase())));
 }
 
-function share(u){navigator.share?navigator.share({url:u}):prompt("Copy",u);}
+/* SHARE */
 
-/* NOTIFICATION SYSTEM */
-
-function enableNotify(){
-
-if(!("Notification" in window)){
-alert("Notification not supported");
-return;
+function share(u){
+navigator.share ? navigator.share({url:u}) : prompt("Copy",u);
 }
 
-Notification.requestPermission().then(p=>{
+/* LANGUAGE */
 
-if(p==="granted"){
-notifyEnabled=true;
-alert("Notifications Enabled");
-setInterval(checkBreaking,180000);
-}else{
-alert("Permission denied");
+function setLang(l){
+LANG=l;
+menu.style.display="none";
+load("india");
 }
 
-});
-
-}
-
-function checkBreaking(){
-
-if(!notifyEnabled) return;
-
-fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
-.then(r=>r.json())
-.then(d=>{
-if(d.articles && d.articles[0]){
-let t=d.articles[0].title;
-if(t!==lastTitle){
-lastTitle=t;
-new Notification("Breaking News",{body:t});
-}
-}
-});
-
-}
-
-function setLang(l){LANG=l;menu.style.display="none";load("india");}
+/* START */
 
 load("india");
 
 </script>
-
 </body>
 </html>
