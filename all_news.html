@@ -499,10 +499,10 @@ news.innerHTML='<div class="inlineLoader"><div class="spinner"></div></div>';
   function load(q){
 showLoader();
 
-fetch(`https://api.allorigins.win/raw?url=https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
+fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&country=in&max=20&apikey=9c7b4c0f9e3b8e2c7a0f7d0d`)
 .then(r=>r.json())
 .then(d=>{
-ALL=d.articles||[];
+ALL = d.articles || [];
 render(ALL);
 });
 }
@@ -588,7 +588,7 @@ function checkBreaking(){
 
 if(!notifyEnabled) return;
 
-fetch(`https://api.allorigins.win/raw?url=https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
+fetch(`https://gnews.io/api/v4/top-headlines?country=in&apikey=9c7b4c0f9e3b8e2c7a0f7d0d`)
 .then(r=>r.json())
 .then(d=>{
 if(d.articles && d.articles[0]){
