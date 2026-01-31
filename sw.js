@@ -2,8 +2,8 @@ self.addEventListener("install", e => {
   e.waitUntil(
     caches.open("apni-duniya").then(cache => {
       return cache.addAll([
-        "/",
-        "/index.html"
+        "/Apni-Family-/",
+        "/Apni-Family-/index.html"
       ]);
     })
   );
