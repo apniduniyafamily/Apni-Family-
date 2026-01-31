@@ -496,8 +496,17 @@ btn.classList.add("active");load(q);
 function showLoader(){
 news.innerHTML='<div class="inlineLoader"><div class="spinner"></div></div>';
 }
+  function load(q){
+showLoader();
 
-fetch(`https://cors.isomorphic-git.org/https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
+fetch(`https://api.allorigins.win/raw?url=https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
+.then(r=>r.json())
+.then(d=>{
+ALL=d.articles||[];
+render(ALL);
+});
+}
+
 
 function render(arr){
 let saved=JSON.parse(localStorage.getItem("bookmarks")||"[]");
@@ -579,7 +588,7 @@ function checkBreaking(){
 
 if(!notifyEnabled) return;
 
-fetch(`https://cors.isomorphic-git.org/https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
+fetch(`https://api.allorigins.win/raw?url=https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
 .then(r=>r.json())
 .then(d=>{
 if(d.articles && d.articles[0]){
