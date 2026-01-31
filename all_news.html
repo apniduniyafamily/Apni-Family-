@@ -497,11 +497,7 @@ function showLoader(){
 news.innerHTML='<div class="inlineLoader"><div class="spinner"></div></div>';
 }
 
-function load(q){
-showLoader();
-fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
-.then(r=>r.json()).then(d=>{ALL=d.articles||[];render(ALL)});
-}
+fetch(`https://cors.isomorphic-git.org/https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${LANG}&pageSize=30&sortBy=publishedAt&apiKey=${API}`)
 
 function render(arr){
 let saved=JSON.parse(localStorage.getItem("bookmarks")||"[]");
@@ -583,7 +579,7 @@ function checkBreaking(){
 
 if(!notifyEnabled) return;
 
-fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
+fetch(`https://cors.isomorphic-git.org/https://newsapi.org/v2/top-headlines?country=in&apiKey=${API}`)
 .then(r=>r.json())
 .then(d=>{
 if(d.articles && d.articles[0]){
