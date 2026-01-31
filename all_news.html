@@ -508,6 +508,516 @@ render(ALL);
 }
 
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apni Duniya</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --primary: #dc2626;
+  --primary-dark: #b91c1c;
+  --primary-light: #f87171;
+  --accent: #ea580c;
+  --bg: #fff7ed;
+  --card-bg: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #fed7aa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  padding-bottom: 70px;
+  color: var(--text);
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  padding: 12px 10px;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+}
+
+.icons i {
+  font-size: 20px;
+  margin-left: 18px;
+  color: white;
+  transition: transform 0.2s;
+}
+
+.icons i:hover {
+  transform: scale(1.1);
+}
+
+/* SEARCH */
+.searchWrap {
+  display: none;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 8px 14px;
+  border: 2px solid var(--primary-light);
+}
+
+.searchWrap input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+  color: var(--text);
+  font-size: 15px;
+}
+
+/* MENU */
+.menu {
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.2);
+  display: none;
+  z-index: 99;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.menu div {
+  padding: 14px 22px;
+  font-size: 14px;
+  border-bottom: 1px solid #fee2e2;
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.menu div:hover {
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7aa 100%);
+  color: var(--primary-dark);
+  padding-left: 28px;
+}
+
+.menu div:last-child {
+  border-bottom: none;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* CATEGORY */
+.categories {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  overflow-x: auto;
+  background: var(--card-bg);
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+}
+
+.categories button {
+  border: none;
+  padding: 8px 18px;
+  border-radius: 25px;
+  background: #fee2e2;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.categories button:hover {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+.categories .active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+  border-color: var(--primary);
+}
+
+/* FILTER - LEFT-RIGHT LAYOUT */
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 15px;
+  background: var(--card-bg);
+  border-bottom: 2px solid var(--border);
+}
+
+.filters select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: white;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* NEWS */
+.news {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(220, 38, 38, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-bottom: 3px solid var(--primary);
+}
+
+.card h3 {
+  margin: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.card p {
+  margin: 0 12px 12px;
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.meta {
+  margin: 0 12px;
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.readmore {
+  margin: 8px 12px 14px;
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s;
+  padding: 4px 0;
+}
+
+.readmore:hover {
+  color: var(--accent);
+  transform: translateX(5px);
+}
+
+.actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.actions i {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  transition: all 0.3s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions i:hover {
+  background: white;
+  transform: scale(1.1);
+  color: var(--primary);
+}
+
+.actions i.fa-bookmark {
+  color: var(--primary);
+}
+
+/* INLINE LOADER */
+.inlineLoader {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #fee2e2;
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* BOTTOM NAV */
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -6px 25px rgba(220, 38, 38, 0.15);
+  border-top: 2px solid var(--border);
+  z-index: 100;
+}
+
+.bottom div {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-light);
+  transition: all 0.3s;
+  padding: 8px 0;
+  border-radius: 12px;
+  width: 60px;
+}
+
+.bottom div:hover {
+  background: #fee2e2;
+  transform: translateY(-3px);
+}
+
+.bottom .active {
+  color: var(--primary);
+  font-weight: 700;
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7aa 50%);
+}
+
+.bottom i {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 4px;
+  transition: all 0.3s;
+}
+
+.bottom .active i {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+.bookmarkHeader {
+  grid-column: 1 / -1;
+  font-weight: 700;
+  padding: 15px 10px;
+  font-size: 22px;
+  color: var(--primary);
+  text-align: center;
+  border-bottom: 3px solid var(--border);
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7aa 100%);
+  border-radius: 12px;
+}
+
+/* SCROLLBAR */
+.categories::-webkit-scrollbar {
+  height: 6px;
+}
+
+.categories::-webkit-scrollbar-track {
+  background: #fee2e2;
+  border-radius: 10px;
+}
+
+.categories::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .news {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .card h3 {
+    font-size: 14px;
+  }
+  
+  .bottom div {
+    width: 50px;
+    font-size: 11px;
+  }
+  
+  .bottom i {
+    font-size: 20px;
+  }
+}
+
+/* Mobile pe bhi left-right hi rahega */
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+  
+  .filters select {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Very small screens pe vertical ho jaye */
+@media (max-width: 350px) {
+  .filters {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+</style></head>
+
+<body>
+
+<header>
+<div class="top">
+<span>Apni Duniya</span>
+<div class="icons">
+<i class="fa fa-search" onclick="toggleSearch()"></i>
+<i class="fa fa-bars" onclick="toggleMenu()"></i>
+</div>
+</div>
+
+<div class="searchWrap" id="searchWrap">
+<input id="search" placeholder="Search news..." onkeyup="filter()">
+</div>
+</header>
+
+<div class="menu" id="menu">
+<div onclick="setLang('en')">English</div>
+<div onclick="setLang('hi')">Hindi</div>
+<div onclick="showBookmarks()">Bookmarks (<span id="bmCount">0</span>)</div>
+<div onclick="clearBookmarks()">Clear Bookmarks</div>
+</div>
+
+<div class="categories">
+<button class="active" onclick="cat(this,'india')">All</button>
+<button onclick="cat(this,'education exam')">Education</button>
+<button onclick="cat(this,'sarkari yojana')">Sarkari</button>
+<button onclick="cat(this,'sports')">Sports</button>
+<button onclick="cat(this,'technology')">Tech</button>
+</div>
+
+<div class="filters">
+<select id="state" onchange="loadDistricts()"><option>Select State</option></select>
+<select id="district" onchange="district.value&&load(district.value)"><option>Select District</option></select>
+</div>
+
+<div id="news" class="news"></div>
+
+<div class="bottom">
+<div class="active" onclick="nav(this);load('india')"><i class="fa fa-house"></i>Home</div>
+<div onclick="nav(this);load('india')"><i class="fa fa-flag"></i>India</div>
+<div onclick="nav(this);load('world')"><i class="fa fa-globe"></i>World</div>
+<div onclick="enableNotify()"><i class="fa fa-bell"></i>Notify</div>
+<div onclick="toggleSearch()"><i class="fa fa-search"></i>Search</div>
+</div>
+
+<script>
+
+const API="c13cd834e0b241e2b533196ee397deab";
+let ALL=[],STATES={},LANG="en";
+let notifyEnabled=false,lastTitle="";
+
+fetch("india.json").then(r=>r.json()).then(d=>{
+STATES=d;
+Object.keys(d).forEach(s=>state.innerHTML+=`<option>${s}</option>`);
+});
+
+function toggleSearch(){searchWrap.style.display=searchWrap.style.display?"":"block";search.focus();}
+function toggleMenu(){menu.style.display=menu.style.display=="block"?"none":"block";}
+function nav(e){document.querySelectorAll(".bottom div").forEach(x=>x.classList.remove("active"));e.classList.add("active");}
+
+function cat(btn,q){
+document.querySelectorAll(".categories button").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");load(q);
+}
+
+function showLoader(){
+news.innerHTML='<div class="inlineLoader"><div class="spinner"></div></div>';
+}
+  function load(q){
+showLoader();
+
+fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&country=in&max=20&apikey=9c7b4c0f9e3b8e2c7a0f7d0d`)
+.then(r=>r.json())
+.then(d=>{
+ALL = d.articles || [];
+render(ALL);
+});
+}
+
+
 function render(arr){
 let saved=JSON.parse(localStorage.getItem("bookmarks")||"[]");
 bmCount.innerText=saved.length;
@@ -530,6 +1040,86 @@ news.innerHTML+=`
 });
 }
 
+function toggleBookmark(el,n){
+let b=JSON.parse(localStorage.getItem("bookmarks")||"[]");
+let i=b.findIndex(x=>x.url==n.url);
+if(i>-1){b.splice(i,1);el.style.color="#666";}
+else{b.push(n);el.style.color="#000";}
+localStorage.setItem("bookmarks",JSON.stringify(b));
+bmCount.innerText=b.length;
+}
+
+function showBookmarks(){
+let b=JSON.parse(localStorage.getItem("bookmarks")||"[]");
+news.innerHTML='<div class="bookmarkHeader">Saved Bookmarks</div>';
+render(b);menu.style.display="none";
+}
+
+function clearBookmarks(){
+localStorage.removeItem("bookmarks");
+bmCount.innerText=0;
+news.innerHTML="";
+menu.style.display="none";
+}
+
+function filter(){render(ALL.filter(n=>(n.title||"").toLowerCase().includes(search.value.toLowerCase())));}
+
+function loadDistricts(){
+district.innerHTML="<option>Select District</option>";
+(STATES[state.value]||[]).forEach(x=>district.innerHTML+=`<option>${x}</option>`);
+}
+
+function share(u){navigator.share?navigator.share({url:u}):prompt("Copy",u);}
+
+/* NOTIFICATION SYSTEM */
+
+function enableNotify(){
+
+if(!("Notification" in window)){
+alert("Notification not supported");
+return;
+}
+
+Notification.requestPermission().then(p=>{
+
+if(p==="granted"){
+notifyEnabled=true;
+alert("Notifications Enabled");
+setInterval(checkBreaking,180000);
+}else{
+alert("Permission denied");
+}
+
+});
+
+}
+
+function checkBreaking(){
+
+if(!notifyEnabled) return;
+
+fetch(`https://gnews.io/api/v4/top-headlines?country=in&apikey=9c7b4c0f9e3b8e2c7a0f7d0d`)
+.then(r=>r.json())
+.then(d=>{
+if(d.articles && d.articles[0]){
+let t=d.articles[0].title;
+if(t!==lastTitle){
+lastTitle=t;
+new Notification("Breaking News",{body:t});
+}
+}
+});
+
+}
+
+function setLang(l){LANG=l;menu.style.display="none";load("india");}
+
+load("india");
+
+</script>
+
+</body>
+</html>
 function toggleBookmark(el,n){
 let b=JSON.parse(localStorage.getItem("bookmarks")||"[]");
 let i=b.findIndex(x=>x.url==n.url);
